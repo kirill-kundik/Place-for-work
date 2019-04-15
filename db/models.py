@@ -153,7 +153,3 @@ messages = Table(
     Column('from', Integer, ForeignKey('company.id', ondelete='CASCADE', onupdate='CASCADE'),
            nullable=False)
 )
-
-
-class RecordNotFound(Exception):
-    """Requested record in database was not found"""
