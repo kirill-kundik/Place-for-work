@@ -3,8 +3,3 @@
 # aiohttp / aiopg / aiohttp-jinja2 / etc
 
 -e .
-
-# For testing
-pytest
-pytest-aiohttp
-flake8
