@@ -4,10 +4,6 @@ from db import models
 __all__ = models.__all__
 
 
-class RecordNotFound(Exception):
-    """Requested record in database was not found"""
-
-
 async def init_pg(app):
     conf = app['config']['postgres']
     engine = await aiopg.sa.create_engine(

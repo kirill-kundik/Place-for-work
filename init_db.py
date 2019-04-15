@@ -57,14 +57,14 @@ def create_tables(engine=test_engine):
     meta = MetaData()
     meta.create_all(bind=engine,
                     tables=[status, company, phones, address, category, working_type, vacancy, employer, resume,
-                            resume_experience, response, messages])
+                            resume_experience, response, messages, news])
 
 
 def drop_tables(engine=test_engine):
     meta = MetaData()
     meta.drop_all(bind=engine,
                   tables=[status, company, phones, address, category, working_type, vacancy, employer, resume,
-                          resume_experience, response, messages])
+                          resume_experience, response, messages, news])
 
 
 def sample_data(engine=test_engine):

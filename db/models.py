@@ -6,7 +6,7 @@ from sqlalchemy import (
 )
 
 __all__ = ['company', 'category', 'status', 'phones', 'address', 'working_type', 'vacancy', 'response',
-           'resume_experience', 'resume', 'employer', 'messages']
+           'resume_experience', 'resume', 'employer', 'messages', 'news']
 
 meta = MetaData()
 
@@ -151,5 +151,18 @@ messages = Table(
     Column('to', Integer, ForeignKey('employer.id', ondelete='CASCADE', onupdate='CASCADE'),
            nullable=False),
     Column('from', Integer, ForeignKey('company.id', ondelete='CASCADE', onupdate='CASCADE'),
+           nullable=False)
+)
+
+news = Table(
+    'news', meta,
+
+    Column('id', Integer, primary_key=True),
+    Column('title', String(255), nullable=False),
+    Column('text', Text, nullable=False),
+    Column('date', Date, nullable=False, default=datetime.today),
+    Column('views', Integer, nullable=False, default=0),
+
+    Column('category_fk', Integer, ForeignKey('category.id', ondelete='RESTRICT', onupdate='CASCADE'),
            nullable=False)
 )
