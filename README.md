@@ -1,2 +1,0 @@
-# course-workplace
-course-workplace
