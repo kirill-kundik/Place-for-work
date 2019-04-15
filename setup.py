@@ -26,9 +26,9 @@ install_requires = ['aiohttp',
                     'Jinja2']
 
 
-setup(name='aiohttpdemo-polls',
+setup(name='course-work',
       version=read_version(),
-      description='Polls project example from aiohttp',
+      description='Project is a course work by student Kundik Kyrylo',
       platforms=['POSIX'],
       packages=find_packages(),
       package_data={
