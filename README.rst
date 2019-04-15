@@ -32,6 +32,10 @@ or::
     $ docker run --rm -it -p 5432:5432 postgres:10
 
 
+Install all needed requirements with pip_::
+
+    $ pip install -r requirements-dev.txt
+
 On this step database will be created and some sample data will be inserted::
 
     $ python init_db.py
@@ -52,6 +56,7 @@ Open browser::
 Requirements
 ============
 * Python_
+* pip_
 * aiohttp_
 * aiopg_
 * aiohttp_jinja2_
@@ -67,3 +72,4 @@ Requirements
 .. _sqlalchemy: https://www.sqlalchemy.org
 .. _Postgres: https://www.postgresql.org
 .. _Docker: https://www.docker.com
+.. _pip: https://pip.pypa.io/en/stable/installing/
