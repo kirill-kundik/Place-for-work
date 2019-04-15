@@ -25,7 +25,7 @@ or::
 
 **Windows**::
 
-    pg_ctl -D "C:\Program Files\PostgreSQL\9.6\data" start
+    > pg_ctl -D "C:\Program Files\PostgreSQL\9.6\data" start
 
 **In docker**::
 
