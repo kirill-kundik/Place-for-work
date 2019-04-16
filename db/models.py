@@ -23,6 +23,8 @@ company = Table(
     Column('id', Integer, primary_key=True),
     Column('name', String(255), nullable=False),
     Column('email', String(255), nullable=False),
+    Column('pass_hash', String(255), nullable=False),
+
     Column('description', Text),
     Column('image_url', String(255)),
     Column('employers_cnt', Integer),
@@ -59,6 +61,8 @@ category = Table(
 
     Column('id', Integer, primary_key=True),
     Column('name', String(100), nullable=False),
+    Column('image_url', String(255)),
+
     Column('description', Text)
 )
 
@@ -94,6 +98,8 @@ employer = Table(
     Column('last_name', String(200), nullable=False),
     Column('email', String(255), nullable=False),
     Column('phone', String(20), nullable=False),
+    Column('pass_hash', String(255), nullable=False),
+    Column('image_url', String(255)),
 
     Column('tg_link', String(200)),
     Column('fb_link', String(200)),
@@ -162,6 +168,7 @@ news = Table(
     Column('text', Text, nullable=False),
     Column('date', Date, nullable=False, default=datetime.today),
     Column('views', Integer, nullable=False, default=0),
+    Column('image_url', String(255)),
 
     Column('category_fk', Integer, ForeignKey('category.id', ondelete='RESTRICT', onupdate='CASCADE'),
            nullable=False)
