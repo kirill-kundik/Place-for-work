@@ -1,14 +1,13 @@
-# routes.py
+# controllers.py
 import pathlib
 
-from .views import index, poll, results, vote
+from .views import poll, results, vote
 
 
 PROJECT_ROOT = pathlib.Path(__file__).parent
 
 
 def setup_routes(app):
-    app.router.add_get('/', index)
     app.router.add_get('/poll/{question_id}', poll, name='poll')
     app.router.add_get('/poll/{question_id}/results',
                        results, name='results')

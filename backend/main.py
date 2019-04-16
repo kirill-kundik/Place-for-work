@@ -4,7 +4,10 @@ import sys
 import aiohttp_jinja2
 import jinja2
 from aiohttp import web
+from backend.controllers.index import IndexRouter
+from backend.controllers.login import LoginRouter
 
+from backend.security.init_security import init_security
 from db.db import close_pg, init_pg
 from backend.middlewares import setup_middlewares
 from backend.routes import setup_routes
@@ -23,10 +26,17 @@ async def init_app(argv=None):
 
     # create db connection on startup, shutdown on exit
     app.on_startup.append(init_pg)
+    app.on_startup.append(init_security)
     app.on_cleanup.append(close_pg)
 
-    # setup views and routes
+    # setup views and controllers
     setup_routes(app)
+
+    index_routes = IndexRouter()
+    index_routes.configure(app)
+
+    login_routes = LoginRouter()
+    login_routes.configure(app)
 
     setup_middlewares(app)
 
