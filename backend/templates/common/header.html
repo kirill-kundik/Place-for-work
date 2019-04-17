@@ -6,19 +6,26 @@
             <img src="{{ url('static', filename='images/logo.svg') }}" alt="logo" class="header-logo">
         </div>
         <div class="column buttons">
-            <a id="sign_in" class="sign-in-button">ВХОД</a>
-            <div id="sign_up" class="sign-up-button">РЕГИСТРАЦИЯ
-                <div class="sign-up-window" id="sign_up_window">
-                    <span>СОИСКАТЕЛЮ</span>
-                    <input placeholder="Имя" style="display: inline">
-                    <input placeholder="Фамилия" style="display: inline">
-                    <input placeholder="Ваш E-Mail" style="display: block">
-                    <input placeholder="Пароль">
-                    <input placeholder="Повторите Пароль">
-                    <a>СОЗДАТЬ АККАУНТ</a>
-                    <a>Работадателю</a>
+
+            {% if username is defined %}
+                <a>{{ username }}</a>
+            {% else %}
+
+                <a id="sign_in" class="sign-in-button">ВХОД</a>
+                <div id="sign_up" class="sign-up-button">РЕГИСТРАЦИЯ
+                    <div class="sign-up-window" id="sign_up_window">
+                        <span>СОИСКАТЕЛЮ</span>
+                        <input placeholder="Имя" style="display: inline">
+                        <input placeholder="Фамилия" style="display: inline">
+                        <input placeholder="Ваш E-Mail" style="display: block">
+                        <input placeholder="Пароль">
+                        <input placeholder="Повторите Пароль">
+                        <a>СОЗДАТЬ АККАУНТ</a>
+                        <a>Работадателю</a>
+                    </div>
                 </div>
-            </div>
+
+            {% endif %}
         </div>
         <div class="column profiler">
             <i class="fas fa-user-circle" style="color: #a9baf4"></i>

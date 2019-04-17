@@ -10,6 +10,12 @@ from backend.security.db_auth import DBAuthorizationPolicy
 async def init_security(app):
     redis_pool = await create_pool((app['config']['redis']['host'], app['config']['redis']['port']))
 
+    async def close_redis(app):
+        redis_pool.close()
+        await redis_pool.wait_closed()
+
+    app.on_cleanup.append(close_redis)
+
     setup_session(app, RedisStorage(redis_pool))
     setup_security(app,
                    SessionIdentityPolicy(),

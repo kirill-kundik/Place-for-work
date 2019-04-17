@@ -16,7 +16,7 @@ class LoginRouter:
         return res
 
     async def login(self, request):
-        response = web.HTTPFound('/security')
+        response = web.HTTPFound('/')
         form = await request.post()
         login = form.get('email')
         password = form.get('password')
@@ -32,15 +32,7 @@ class LoginRouter:
         await check_authorized(request)
         response = web.HTTPFound('/')
         await forget(request, response)
-        return response
-
-    async def admin_page(self, request):
-        await check_permission(request, 'admin')
-        context = {
-            'message': 'this is admin page'
-        }
-        response = aiohttp_jinja2.render_template('pages/login.html', request, context)
-        return response
+        raise response
 
     # async def protected_page(self, request):
     #     await check_authorized(request)
@@ -55,6 +47,6 @@ class LoginRouter:
         router.add_route('GET', '/login', self.index, name='login')
         router.add_route('POST', '/login', self.login, name='login')
         router.add_route('GET', '/logout', self.logout, name='logout')
-        router.add_route('GET', '/admin', self.admin_page, name='admin')
+
         # router.add_route('GET', '/protected', self.protected_page,
         #                  name='protected')
