@@ -30,17 +30,13 @@ async def create_employer(conn, employer_dict):
     )
     res = await check.first()
     if not res:
-        employer_dict.update({
-            'image_url': None,
-            'tg_link': None,
-            'fb_link': None,
-            'skype_link': None,
-            'city': None,
-            'date_of_birth': None
-        })
-        result = await conn.execute(models.employer.insert(), [employer_dict])
+        stmt = models.employer.insert().values(email=employer_dict['email'], pass_hash=employer_dict['pass_hash'],
+                                               first_name=employer_dict['first_name'],
+                                               last_name=employer_dict['last_name'],
+                                               phone=employer_dict['phone'])
+        result = await conn.execute(stmt)
         uid = await result.first()
-        return uid
+        return uid[0]
     raise DuplicateRecordException
 
 
@@ -50,12 +46,12 @@ async def create_company(conn, company_dict):
     )
     res = await check.first()
     if not res:
-        result = await conn.execute(models.company.insert(), [{'email': company_dict['email'],
-                                                               'pass_hash': company_dict['pass_hash'], 'name':
-                                                                   company_dict['name']
-                                                               }])
+        stmt = models.company.insert().values(email=company_dict['email'], pass_hash=company_dict['pass_hash'],
+                                              name=company_dict['name'])
+        result = await conn.execute(stmt)
         uid = await result.first()
-        return uid
+        print(uid[0])
+        return uid[0]
     raise DuplicateRecordException
 
 # TODO there will be db methods
