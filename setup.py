@@ -23,7 +23,7 @@ install_requires = ['aiohttp',
                     'aiohttp-jinja2',
                     'trafaret-config',
                     'SQLAlchemy',
-                    'Jinja2', 'aiohttp_security', 'passlib', 'aiohttp_session', 'aioredis']
+                    'Jinja2', 'aiohttp_security', 'passlib', 'aiohttp_session', 'aioredis', 'trafaret']
 
 
 setup(name='course-work',

@@ -30,7 +30,7 @@ class LoginRouter:
 
     async def logout(self, request):
         await check_authorized(request)
-        response = web.HTTPFound('/security')
+        response = web.HTTPFound('/')
         await forget(request, response)
         return response
 
@@ -42,19 +42,19 @@ class LoginRouter:
         response = aiohttp_jinja2.render_template('pages/login.html', request, context)
         return response
 
-    async def protected_page(self, request):
-        await check_authorized(request)
-        context = {
-            'message': 'you are authorized'
-        }
-        response = aiohttp_jinja2.render_template('pages/login.html', request, context)
-        return response
+    # async def protected_page(self, request):
+    #     await check_authorized(request)
+    #     context = {
+    #         'message': 'you are authorized'
+    #     }
+    #     response = aiohttp_jinja2.render_template('pages/login.html', request, context)
+    #     return response
 
     def configure(self, app):
         router = app.router
-        router.add_route('GET', '/security', self.index, name='security')
+        router.add_route('GET', '/login', self.index, name='login')
         router.add_route('POST', '/login', self.login, name='login')
         router.add_route('GET', '/logout', self.logout, name='logout')
         router.add_route('GET', '/admin', self.admin_page, name='admin')
-        router.add_route('GET', '/protected', self.protected_page,
-                         name='protected')
+        # router.add_route('GET', '/protected', self.protected_page,
+        #                  name='protected')

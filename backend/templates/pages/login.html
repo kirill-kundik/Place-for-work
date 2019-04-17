@@ -1,6 +1,7 @@
-<!doctype html>
-<head></head>
-<body>
+{% extends "common/layout.html" %}
+
+{% block content %}
+
 <p>{{ message }}</p>
 <form action="/login" method="post">
     Login:
@@ -10,4 +11,5 @@
     <input type="submit" value="Login">
 </form>
 <a href="/logout">Logout</a>
-</body>
+
+{% endblock %}
