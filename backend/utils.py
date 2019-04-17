@@ -1,7 +1,6 @@
 # utils.py
 import trafaret as T
 
-
 TRAFARET = T.Dict({
     T.Key('postgres'):
         T.Dict({
@@ -12,6 +11,11 @@ TRAFARET = T.Dict({
             'port': T.Int(),
             'minsize': T.Int(),
             'maxsize': T.Int(),
+        }),
+    T.Key('redis'):
+        T.Dict({
+            'host': T.String(),
+            'port': T.Int()
         }),
     T.Key('host'): T.IP,
     T.Key('port'): T.Int(),

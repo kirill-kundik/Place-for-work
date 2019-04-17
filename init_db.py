@@ -57,18 +57,22 @@ def create_tables(engine=test_engine):
     meta = MetaData()
     meta.create_all(bind=engine,
                     tables=[status, company, phones, address, category, working_type, vacancy, employer, resume,
-                            resume_experience, response, messages, news])
+                            resume_experience, response, messages, news, admin])
 
 
 def drop_tables(engine=test_engine):
     meta = MetaData()
     meta.drop_all(bind=engine,
                   tables=[status, company, phones, address, category, working_type, vacancy, employer, resume,
-                          resume_experience, response, messages, news])
+                          resume_experience, response, messages, news, admin])
 
 
 def sample_data(engine=test_engine):
     conn = engine.connect()
+    conn.execute(admin.insert(), [
+        {'email': 'admin@admin.com',
+         'pass_hash': '$5$rounds=535000$hYkOykAwtwdNpZbd$N04R0fNDHWtpkGiGcIRVeg4ARkcwbhJCFDQYcgPnBOC'}
+    ])
     # TODO insert basic info while initialize db
     # conn.execute(question.insert(), [
     #     {'question_text': 'What\'s new?',
