@@ -2,7 +2,7 @@
     <div class="row">
         <div class="column">
         </div>
-        <div class="column logo-row">
+        <div class="column logo-row" id="logo">
             <img src="{{ url('static', filename='images/logo.svg') }}" alt="logo" class="header-logo">
         </div>
         <div class="column buttons">
@@ -22,11 +22,11 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Введіть ваш мейл</label>
                             <input type="email" class="form-control" id="exampleInputEmail1"
-                                   aria-describedby="emailHelp" placeholder="Enter email">
+                                   aria-describedby="emailHelp" required placeholder="Enter email">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Введіть ваш пароль</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1"
+                            <input type="password" required class="form-control" id="exampleInputPassword1"
                                    placeholder="Password">
                         </div>
                         <select name="type" style="width: 100%;font-size: 18px;margin-bottom: 20px; margin-top: 20px; height: 15px">
@@ -36,26 +36,7 @@
                         <button type="submit" class="btn sign-up-button">УВІЙТИ</button>
                     </form>
                 </div>
-                <div id="sign_up" class="sign-up-button">РЕЄСТРАЦІЯ</div>
-                <div class="sign-in-window" id="sign_up_window">
-                    <i class="fas fa-times" id="close_sign_up" style="float: right; font-size: 24px"></i>
-                    <h4>
-                        Реєстрація
-                    </h4>
-                    <form method="post" action="/login">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Введіть ваш мейл</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                   aria-describedby="emailHelp" placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Введіть ваш пароль</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1"
-                                   placeholder="Password">
-                        </div>
-                        <button type="submit" class="btn sign-up-button">УВІЙТИ</button>
-                    </form>
-                </div>
+                <a href="/register" id="sign_up" class="sign-up-button">РЕЄСТРАЦІЯ</a>
 
             {% endif %}
         </div>

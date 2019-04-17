@@ -32,9 +32,9 @@ company = Table(
     Column('employers_cnt', Integer),
     Column('est_year', Integer),
     Column('site_url', String(4096)),
-    Column('main_category', String(255), nullable=False),
+    Column('main_category', String(255)),
 
-    Column('status_fk', Integer, ForeignKey('status.id', ondelete='RESTRICT', onupdate='CASCADE'), nullable=False),
+    Column('status_fk', Integer, ForeignKey('status.id', ondelete='RESTRICT', onupdate='CASCADE')),
 )
 
 phones = Table(

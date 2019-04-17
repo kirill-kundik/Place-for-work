@@ -1,5 +1,6 @@
 import aiopg.sa
 from db import models
+from db.exceptions import DuplicateRecordException
 
 __all__ = models.__all__
 
@@ -21,6 +22,41 @@ async def init_pg(app):
 async def close_pg(app):
     app['db'].close()
     await app['db'].wait_closed()
+
+
+async def create_employer(conn, employer_dict):
+    check = await conn.execute(
+        models.employer.select().where(models.employer.c.email == employer_dict['email'])
+    )
+    res = await check.first()
+    if not res:
+        employer_dict.update({
+            'image_url': None,
+            'tg_link': None,
+            'fb_link': None,
+            'skype_link': None,
+            'city': None,
+            'date_of_birth': None
+        })
+        result = await conn.execute(models.employer.insert(), [employer_dict])
+        uid = await result.first()
+        return uid
+    raise DuplicateRecordException
+
+
+async def create_company(conn, company_dict):
+    check = await conn.execute(
+        models.company.select().where(models.company.c.email == company_dict['email'])
+    )
+    res = await check.first()
+    if not res:
+        result = await conn.execute(models.company.insert(), [{'email': company_dict['email'],
+                                                               'pass_hash': company_dict['pass_hash'], 'name':
+                                                                   company_dict['name']
+                                                               }])
+        uid = await result.first()
+        return uid
+    raise DuplicateRecordException
 
 # TODO there will be db methods
 # async def get_question(conn, question_id):

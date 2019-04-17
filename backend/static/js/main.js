@@ -1,23 +1,13 @@
 $(function () {
 
+    $('#logo').click(function () {
+        location.href = 'http://' + location.host
+    });
+
     $('.more-button').hover(function () {
         $(this).find('i').addClass('hover');
     }, function () {
         $(this).find('i').removeClass('hover');
-    });
-
-    $('#sign_up').click(function () {
-        $(this).toggleClass('active');
-        if ($(this).hasClass('active')) {
-
-            if ($('#sign_in').hasClass('active'))
-                $('#close_sign_in').click();
-
-            $('#sign_up_window').show();
-
-
-        } else
-            $('#sign_up_window').hide();
     });
 
     $('#sign_in').click(function () {
