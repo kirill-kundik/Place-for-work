@@ -9,6 +9,7 @@ class IndexRouter:
         async with request.app['db'].acquire() as conn:
             username = await authorized_userid(request)
             if username:
+
                 return {'title': 'Place for Work',
                         'username': username}
             # cursor = await conn.execute(db.question.select())

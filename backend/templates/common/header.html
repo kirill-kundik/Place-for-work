@@ -9,20 +9,52 @@
 
             {% if username is defined %}
                 <a>{{ username }}</a>
+                <a href="/logout" style="margin: 0 25px;" class="sign-in-button">ВИЙТИ</a>
             {% else %}
 
-                <a id="sign_in" class="sign-in-button">ВХОД</a>
-                <div id="sign_up" class="sign-up-button">РЕГИСТРАЦИЯ
-                    <div class="sign-up-window" id="sign_up_window">
-                        <span>СОИСКАТЕЛЮ</span>
-                        <input placeholder="Имя" style="display: inline">
-                        <input placeholder="Фамилия" style="display: inline">
-                        <input placeholder="Ваш E-Mail" style="display: block">
-                        <input placeholder="Пароль">
-                        <input placeholder="Повторите Пароль">
-                        <a>СОЗДАТЬ АККАУНТ</a>
-                        <a>Работадателю</a>
-                    </div>
+                <div id="sign_in" class="sign-in-button">УВІЙТИ</div>
+                <div class="sign-in-window" id="sign_in_window">
+                    <i class="fas fa-times" id="close_sign_in" style="float: right; font-size: 24px"></i>
+                    <h4>
+                        Вхід
+                    </h4>
+                    <form method="post" action="/login">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Введіть ваш мейл</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                   aria-describedby="emailHelp" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Введіть ваш пароль</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1"
+                                   placeholder="Password">
+                        </div>
+                        <select name="type" style="width: 100%;font-size: 18px;margin-bottom: 20px; margin-top: 20px; height: 15px">
+                            <option value="employer">Я шукаю роботу</option>
+                            <option value="company">Я представник компанії</option>
+                        </select>
+                        <button type="submit" class="btn sign-up-button">УВІЙТИ</button>
+                    </form>
+                </div>
+                <div id="sign_up" class="sign-up-button">РЕЄСТРАЦІЯ</div>
+                <div class="sign-in-window" id="sign_up_window">
+                    <i class="fas fa-times" id="close_sign_up" style="float: right; font-size: 24px"></i>
+                    <h4>
+                        Реєстрація
+                    </h4>
+                    <form method="post" action="/login">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Введіть ваш мейл</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                   aria-describedby="emailHelp" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Введіть ваш пароль</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1"
+                                   placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn sign-up-button">УВІЙТИ</button>
+                    </form>
                 </div>
 
             {% endif %}

@@ -20,8 +20,9 @@ class LoginRouter:
         form = await request.post()
         login = form.get('email')
         password = form.get('password')
+        login_type = form.get('type')
         db_engine = request.app['db']
-        if await check_credentials(db_engine, login, password, 'admin'):
+        if await check_credentials(db_engine, login, password, login_type):
             await remember(request, response, login)
             raise response
 

@@ -3,6 +3,13 @@
     --second-color: #708CEC;
 }
 
+* {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 15px;
+}
+
 html, body {
     overflow-x: hidden;
     background-color: #F7F7F7;
@@ -12,10 +19,6 @@ body {
     width: 100%;
     background-color: #F7F7F7;
     margin: 0 auto;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
-    font-size: 12px;
-    line-height: 15px;
 }
 
 header {
@@ -74,13 +77,53 @@ header .row .column .sign-up-button.active {
     background-color: #4E62A5;
 }
 
-#sign_up_window {
+#sign_in_window, #sign_up_window {
+    color: var(--second-color);
     display: none;
     background-color: white;
     position: absolute;
     top: 10%;
-    right: 0;
+    right: 30px;
     z-index: 100;
+    min-width: 350px;
+    width: 350px;
+    max-width: 350px;
+
+    padding: 30px 40px;
+}
+
+#sign_in_window h4 {
+    font-weight: bold;
+    font-size: 22px;
+    padding-bottom: 10px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid lightgray;
+}
+
+#sign_in_window section {
+    width: 100% !important;
+    font-size: 16px;
+    height: 15px;
+    margin-bottom: 20px;
+}
+
+#sign_in_window label {
+    font-size: 18px;
+    font-weight: 400;
+
+    margin-bottom: 10px;
+}
+
+#sign_in_window input {
+    font-size: 14px !important;
+    font-weight: 300;
+    margin-bottom: 25px;
+    height: 40px;
+}
+
+#sign_in_window button {
+    margin-left: 0;
+    width: 100%;
 }
 
 header .row .column .sign-up-button {
