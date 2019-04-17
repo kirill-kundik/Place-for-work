@@ -1,0 +1,80 @@
+{% extends 'common/layout.html' %}
+
+{% block content %}
+
+    <section class="register">
+
+        <div class="container">
+
+            <div class="button-handler">
+                <button class="button active">
+                    Я шукаю нових пригод!
+                </button>
+                <button class="button">
+                    Я представник компанії
+                </button>
+            </div>
+            {% if flush is defined %}
+                <div class="alert alert-danger" role="alert">
+                    {{ flush }}
+                </div>
+            {% endif %}
+            <div class="form-handler active">
+                <form method="post" action="/register">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Введіть ваш мейл</label>
+                        <input name="email" type="email" class="form-control" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" required placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Введіть ваш пароль</label>
+                        <input name="password" type="password" required class="form-control" id="exampleInputPassword1"
+                               placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputFirstName">Введіть ваше ім'я</label>
+                        <input name="first_name" type="text" required class="form-control" id="inputFirstName"
+                               placeholder="Ім'я">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputLastName">Введіть вашу фамілію</label>
+                        <input name="last_name" type="text" required class="form-control" id="inputLastName"
+                               placeholder="Фамілія">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPhone">Введіть ваш телефон</label>
+                        <input name="phone" type="tel" required class="form-control" id="inputPhone"
+                               placeholder="Телефон">
+                    </div>
+                    <input readonly type="text" name="type" value="employer" style="display:none;">
+
+                    <button type="submit" class="btn sign-up-button">ЗАРЕЄСТРУВАТИСЯ</button>
+                </form>
+            </div>
+
+            <div class="form-handler">
+                <form method="post" action="/register">
+                    <div class="form-group">
+                        <label for="companyInputEmail">Введіть мейл компанії</label>
+                        <input name="email" type="email" class="form-control" id="companyInputEmail"
+                               aria-describedby="emailHelp" required placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="companyInputPass">Введіть пароль</label>
+                        <input name="password" type="password" required class="form-control" id="companyInputPass"
+                               placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName">Введіть назву компанії</label>
+                        <input name="name" type="text" required class="form-control" id="inputName"
+                               placeholder="Назва">
+                    </div>
+                    <input readonly type="text" name="type" value="company" style="display:none;">
+                    <button type="submit" class="btn sign-up-button">ЗАРЕЄСТРУВАТИСЯ</button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,18 +1,20 @@
-# middlewares.py
 import aiohttp_jinja2
 from aiohttp import web
 
 
 async def handle_404(request):
-    return aiohttp_jinja2.render_template('404.html', request, {})
+    return aiohttp_jinja2.render_template('errors/404.html', request, {})
 
 
 async def handle_500(request):
-    return aiohttp_jinja2.render_template('500.html', request, {})
+    return aiohttp_jinja2.render_template('errors/500.html', request, {})
+
+
+async def handle_401(request):
+    return aiohttp_jinja2.render_template('errors/401.html', request, {})
 
 
 def create_error_middleware(overrides):
-
     @web.middleware
     async def error_middleware(request, handler):
 
@@ -38,6 +40,7 @@ def create_error_middleware(overrides):
 def setup_middlewares(app):
     error_middleware = create_error_middleware({
         404: handle_404,
-        500: handle_500
+        # 500: handle_500,
+        401: handle_401
     })
     app.middlewares.append(error_middleware)

@@ -6,7 +6,7 @@ from sqlalchemy import (
 )
 
 __all__ = ['company', 'category', 'status', 'phones', 'address', 'working_type', 'vacancy', 'response',
-           'resume_experience', 'resume', 'employer', 'messages', 'news']
+           'resume_experience', 'resume', 'employer', 'messages', 'news', 'admin']
 
 meta = MetaData()
 
@@ -21,18 +21,20 @@ company = Table(
     'company', meta,
 
     Column('id', Integer, primary_key=True),
-    Column('name', String(255), nullable=False),
     Column('email', String(255), nullable=False),
     Column('pass_hash', String(255), nullable=False),
+
+    Column('name', String(255), nullable=False),
+    Column('disabled', Boolean, nullable=False, default=False),
 
     Column('description', Text),
     Column('image_url', String(255)),
     Column('employers_cnt', Integer),
     Column('est_year', Integer),
     Column('site_url', String(4096)),
-    Column('main_category', String(255), nullable=False),
+    Column('main_category', String(255)),
 
-    Column('status_fk', Integer, ForeignKey('status.id', ondelete='RESTRICT', onupdate='CASCADE'), nullable=False),
+    Column('status_fk', Integer, ForeignKey('status.id', ondelete='RESTRICT', onupdate='CASCADE')),
 )
 
 phones = Table(
@@ -94,11 +96,14 @@ employer = Table(
     'employer', meta,
 
     Column('id', Integer, primary_key=True),
+    Column('email', String(255), nullable=False),
+    Column('pass_hash', String(255), nullable=False),
+
     Column('first_name', String(200), nullable=False),
     Column('last_name', String(200), nullable=False),
-    Column('email', String(255), nullable=False),
     Column('phone', String(20), nullable=False),
-    Column('pass_hash', String(255), nullable=False),
+    Column('disabled', Boolean, nullable=False, default=False),
+
     Column('image_url', String(255)),
 
     Column('tg_link', String(200)),
@@ -172,4 +177,13 @@ news = Table(
 
     Column('category_fk', Integer, ForeignKey('category.id', ondelete='RESTRICT', onupdate='CASCADE'),
            nullable=False)
+)
+
+admin = Table(
+    'admin', meta,
+
+    Column('id', Integer, primary_key=True),
+    Column('email', String(255), nullable=True),
+    Column('pass_hash', String(255), nullable=False)
+
 )
