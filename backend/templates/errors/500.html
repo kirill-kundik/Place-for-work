@@ -1,0 +1,16 @@
+{% extends "common/layout.html" %}
+
+{% set title = "500 - Internal Server Error" %}
+
+{% block content %}
+
+    <div class="container" style="margin-top: 25px; margin-bottom: 25px">
+        <h1>
+            Ooops! Серверу погано ;(
+        </h1>
+        <form action="/">
+            <input type="submit" class="btn btn-primary" value="Перейти на начальну сторінку"/>
+        </form>
+    </div>
+
+{% endblock %}

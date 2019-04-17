@@ -70,7 +70,7 @@ async def check_credentials(db_engine, username, password, permission):
                             sa.not_(db.company.c.disabled))
             query = db.company.select().where(where)
 
-        else:
+        elif permission == 'employer':
             where = sa.and_(db.employer.c.email == username,
                             sa.not_(db.employer.c.disabled))
             query = db.employer.select().where(where)

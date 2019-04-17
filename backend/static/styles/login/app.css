@@ -1,0 +1,128 @@
+section.register {
+    margin: 70px 0;
+}
+
+section.register .button-handler {
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    width: 100%;
+    padding: 0 10%;
+}
+
+section.register .button-handler .button {
+    border: 1px solid var(--dark-color);
+    color: var(--dark-color);
+    border-radius: 2px;
+    padding: 15px 20px;
+    line-height: 20px;
+    background-color: white;
+    width: 250px;
+    min-width: 150px;
+}
+
+section.register .button-handler .button.active {
+    background-color: var(--dark-color);
+    color: white;
+}
+
+section.register .button-handler .button:hover {
+}
+
+section.register .button-handler .button:not(.active):hover {
+    border-color: white;
+    background-color: var(--second-color);
+    color: white;
+    cursor: pointer;
+}
+
+section.register .form-handler {
+    padding: 0 10%;
+    margin-top: 30px;
+
+    display: none;
+    width: 100%;
+
+    color: var(--dark-color);
+
+}
+
+section.register .form-handler.active {
+    display: block;
+}
+
+section.register .form-handler label {
+    font-size: 18px;
+    font-weight: 400;
+
+    margin-bottom: 10px;
+}
+
+section.register .form-handler input {
+    font-size: 14px !important;
+    font-weight: 300;
+    margin-bottom: 25px;
+    height: 40px;
+}
+
+.sign-up-button {
+    margin: 0 auto;
+    display: block;
+    background-color: var(--second-color);
+    padding: 15px 20px;
+    color: var(--main-color);
+    /*margin-right: 80px;*/
+    /*margin-left: 30px;*/
+    border-radius: 2px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 15px;
+    -webkit-transition: background-color .2s ease-in-out;
+    -moz-transition: background-color .2s ease-in-out;
+    -o-transition: background-color .2s ease-in-out;
+    transition: background-color .2s ease-in-out;
+}
+
+.sign-up-button:hover {
+    color: var(--main-color);
+    background-color: #a9baf4;
+}
+
+section.login .form-handler {
+    padding: 0 30%;
+    margin-top: 30px;
+
+    width: 100%;
+
+    color: var(--dark-color);
+
+}
+
+section.login .form-handler label {
+    font-size: 18px;
+    font-weight: 400;
+
+    margin-bottom: 10px;
+}
+
+section.login .form-handler input {
+    font-size: 14px !important;
+    font-weight: 300;
+    margin-bottom: 25px;
+    height: 40px;
+}
+
+section.login .form-handler button {
+    margin: 0 auto;
+    width: 40%;
+    font-size: 16px;
+}
+
+section.login .form-handler h1 {
+    font-weight: bold;
+    padding-bottom: 10px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid lightgray;
+}
