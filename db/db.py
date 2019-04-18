@@ -1,6 +1,6 @@
 import aiopg.sa
 from db import models
-from db.exceptions import DuplicateRecordException
+from db.exceptions import *
 
 __all__ = models.__all__
 
@@ -53,6 +53,26 @@ async def create_company(conn, company_dict):
         print(uid[0])
         return uid[0]
     raise DuplicateRecordException
+
+
+async def get_employer(conn, email):
+    check = await conn.execute(
+        models.employer.select().where(models.employer.c.email == email)
+    )
+    res = await check.fetchone()
+    if not res:
+        raise UserDoesNotExistsException
+    return res
+
+
+async def get_company(conn, email):
+    check = await conn.execute(
+        models.company.select().where(models.company.c.email == email)
+    )
+    res = await check.fetchone()
+    if not res:
+        raise UserDoesNotExistsException
+    return res
 
 # TODO there will be db methods
 # async def get_question(conn, question_id):

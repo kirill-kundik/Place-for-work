@@ -1,5 +1,5 @@
 import aiohttp_jinja2
-from aiohttp_security import authorized_userid
+from aiohttp_security import authorized_userid, permits
 
 
 class IndexRouter:
@@ -9,9 +9,10 @@ class IndexRouter:
         async with request.app['db'].acquire() as conn:
             username = await authorized_userid(request)
             if username:
-
+                is_employer = await permits(request, 'employer')
                 return {'title': 'Place for Work',
-                        'username': username}
+                        'username': username,
+                        'profile_link': ('employer' if is_employer else 'company')}
             # cursor = await conn.execute(db.question.select())
             # records = await cursor.fetchall()
             # questions = [dict(q) for q in records]
