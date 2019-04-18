@@ -55,6 +55,25 @@ async def create_company(conn, company_dict):
     raise DuplicateRecordException
 
 
+async def create_news(conn, news_dict):
+    stmt = models.news.insert().values(title=news_dict['title'], text=news_dict['text'], date=news_dict['date'],
+                                       image_url=news_dict['image_url'], category_fk=news_dict['category_fk'])
+    await conn.execute(stmt)
+
+
+async def create_category(conn, cat_dict):
+    stmt = models.category.insert().values(name=cat_dict['name'], image_url=cat_dict['image_url'],
+                                           description=cat_dict['description'])
+    await conn.execute(stmt)
+
+
+async def get_categories(conn):
+    stmt = models.category.select()
+    res = await conn.execute(stmt)
+    result = await res.fetchall()
+    return result
+
+
 async def get_employer(conn, email):
     check = await conn.execute(
         models.employer.select().where(models.employer.c.email == email)
