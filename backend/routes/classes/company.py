@@ -11,7 +11,8 @@ class CompanyRouter:
         context = {
             'username': username,
             'title': 'Company page',
-            'profile_link': 'company'
+            'profile_link': 'company',
+            'employer': False
         }
 
         async with request.app['db'].acquire() as conn:

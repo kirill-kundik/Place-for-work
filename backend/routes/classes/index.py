@@ -26,6 +26,7 @@ class IndexRouter:
                 return {'title': 'Place for Work',
                         'username': username,
                         'profile_link': ('employer' if is_employer else 'company'),
+                        'employer': (True if is_employer else False),
                         'news': news}
             # cursor = await conn.execute(db.question.select())
             # records = await cursor.fetchall()

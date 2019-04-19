@@ -11,7 +11,8 @@ class EmployerRouter:
         context = {
             'username': username,
             'title': 'Profile page',
-            'profile_link': 'employer'
+            'profile_link': 'employer',
+            'employer': True
         }
 
         async with request.app['db'].acquire() as conn:
