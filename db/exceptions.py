@@ -8,3 +8,7 @@ class RecordNotFound(DatabaseException):
 
 class DuplicateRecordException(DatabaseException):
     """Duplicate pkey while inserting data"""
+
+
+class UserDoesNotExistsException(DatabaseException):
+    """User does not exists in the database"""

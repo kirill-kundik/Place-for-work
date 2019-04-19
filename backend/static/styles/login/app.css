@@ -22,7 +22,7 @@ section.register .button-handler .button {
 }
 
 section.register .button-handler .button.active {
-    background-color: var(--dark-color);
+    background-color: var(--second-color);
     color: white;
 }
 
@@ -31,7 +31,7 @@ section.register .button-handler .button:hover {
 
 section.register .button-handler .button:not(.active):hover {
     border-color: white;
-    background-color: var(--second-color);
+    background-color: var(--dark-color);
     color: white;
     cursor: pointer;
 }
@@ -43,7 +43,7 @@ section.register .form-handler {
     display: none;
     width: 100%;
 
-    color: var(--dark-color);
+    color: var(--second-color);
 
 }
 

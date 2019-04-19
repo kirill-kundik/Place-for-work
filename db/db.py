@@ -1,6 +1,6 @@
 import aiopg.sa
 from db import models
-from db.exceptions import DuplicateRecordException
+from db.exceptions import *
 
 __all__ = models.__all__
 
@@ -54,6 +54,93 @@ async def create_company(conn, company_dict):
         return uid[0]
     raise DuplicateRecordException
 
+
+async def create_news(conn, news_dict):
+    stmt = models.news.insert().values(title=news_dict['title'], text=news_dict['text'], date=news_dict['date'],
+                                       image_url=news_dict['image_url'], category_fk=news_dict['category_fk'])
+    await conn.execute(stmt)
+
+
+async def create_category(conn, cat_dict):
+    stmt = models.category.insert().values(name=cat_dict['name'], image_url=cat_dict['image_url'],
+                                           description=cat_dict['description'])
+    await conn.execute(stmt)
+
+
+async def get_categories(conn):
+    stmt = models.category.select()
+    res = await conn.execute(stmt)
+    result = await res.fetchall()
+    return result
+
+
+async def get_category_by_id(conn, cat_id):
+    stmt = models.category.select().where(models.category.c.id == cat_id)
+    res = await conn.execute(stmt)
+    result = await res.fetchone()
+    if not result:
+        raise RecordNotFound
+    return result
+
+
+async def get_employer(conn, email):
+    check = await conn.execute(
+        models.employer.select().where(models.employer.c.email == email)
+    )
+    res = await check.fetchone()
+    if not res:
+        raise UserDoesNotExistsException
+    return res
+
+
+async def get_main_news(conn):
+    stmt = models.news.select().order_by(models.news.c.views.desc()).limit(8)
+    res = await conn.execute(stmt)
+    result = await res.fetchall()
+    return result
+
+
+async def get_news(conn):
+    stmt = models.news.select().order_by(models.news.c.date.desc())
+    res = await conn.execute(stmt)
+    result = await res.fetchall()
+    return result
+
+
+async def get_news_by_id(conn, news_id):
+    result = await conn.execute(
+        models.news.update()
+            .returning(*models.news.c)
+            .where(models.news.c.id == news_id)
+            .values(views=models.news.c.views + 1)
+    )
+    record = await result.fetchone()
+    if not record:
+        raise RecordNotFound
+    return record
+
+
+async def get_news_by_category(conn, cat_id, news_id):
+    print(cat_id, news_id)
+    stmt = models.news.select() \
+        .where(models.news.c.category_fk == cat_id) \
+        .where(models.news.c.id != news_id) \
+        .order_by(models.news.c.views.desc()) \
+        .limit(4)
+    res = await conn.execute(stmt)
+    result = await res.fetchall()
+    return result
+
+
+async def get_company(conn, email):
+    check = await conn.execute(
+        models.company.select().where(models.company.c.email == email)
+    )
+    res = await check.fetchone()
+    if not res:
+        raise UserDoesNotExistsException
+    return res
+
 # TODO there will be db methods
 # async def get_question(conn, question_id):
 #     result = await conn.execute(
@@ -69,8 +156,8 @@ async def create_company(conn, company_dict):
 #             .order_by(choice.c.id))
 #     choice_records = await result.fetchall()
 #     return question_record, choice_records
-# 
-# 
+#
+#
 # async def vote(conn, question_id, choice_id):
 #     result = await conn.execute(
 #         choice.update()

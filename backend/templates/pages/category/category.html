@@ -1,0 +1,32 @@
+{% extends 'common/layout.html' %}
+
+{% block content %}
+
+    <main>
+        <div class="main-header">
+            <span class="portal-news float-left" style="font-size: 16px; color: #6D7989;">ВСІ КАТЕГОРІЇ</span>
+            <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 70%"></div>
+            <span class="all-news float-right" id="all_news"><a href="/vacancy" style="text-decoration: none; color: var(--second-color)">ВСІ ВАКАНСІЇ</a></span>
+            <span class="all-news float-right" id="all_news"><a href="/news" style="text-decoration: none; color: var(--second-color)">ВСІ НОВИНИ</a></span>
+        </div>
+        <div class="row justify-content-space-between">
+            {% for category in categories %}
+                <div class="column">
+                    <div class="wrapper">
+                        <div class="img-holder">
+                            <img src="{{ category.image_url }}">
+                        </div>
+                        <div class="news-title">{{ category.name }}</div>
+                        <div class="news-description">{{ category.description }}
+                        </div>
+                        <a class="more-button" href="/category/{{ category.id }}">
+                            <span style="margin-right: 10px">Дивитися</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+{% endblock %}

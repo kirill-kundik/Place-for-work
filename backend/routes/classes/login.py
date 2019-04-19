@@ -1,6 +1,6 @@
 import aiohttp_jinja2
 from aiohttp import web
-from aiohttp_security import authorized_userid, remember, check_authorized, forget, check_permission
+from aiohttp_security import authorized_userid, remember, check_authorized, forget
 from backend.security.db_auth import check_credentials
 from db.exceptions import DatabaseException
 from passlib.hash import sha256_crypt
@@ -17,16 +17,22 @@ class LoginRouter:
             context = {'title': 'Login Page'}
             if 'invalid' in request.rel_url.query:
                 context.update({'flush': 'Invalid credentials'})
-            response = aiohttp_jinja2.render_template('pages/login.html', request, context)
+            response = aiohttp_jinja2.render_template('pages/auth/login.html', request, context)
         return response
 
     async def login(self, request):
-        response = web.HTTPFound('/')
         form = await request.post()
         login = form.get('email')
         password = form.get('password')
         login_type = form.get('type')
         db_engine = request.app['db']
+        if login_type == 'employer':
+            redirect_url = '/employer'
+        elif login_type == 'company':
+            redirect_url = '/company'
+        else:
+            redirect_url = '/'
+        response = web.HTTPFound(redirect_url)
         if await check_credentials(db_engine, login, password, login_type):
             await remember(request, response, login)
             raise response
@@ -41,7 +47,7 @@ class LoginRouter:
             context = {'title': 'Login Page'}
             if 'message' in request.rel_url.query:
                 context.update({'flush': request.rel_url.query['message']})
-            response = aiohttp_jinja2.render_template('pages/register.html', request, context)
+            response = aiohttp_jinja2.render_template('pages/auth/register.html', request, context)
         return response
 
     async def register(self, request):
