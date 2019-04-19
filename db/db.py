@@ -74,6 +74,15 @@ async def get_categories(conn):
     return result
 
 
+async def get_category_by_id(conn, cat_id):
+    stmt = models.category.select().where(models.category.c.id == cat_id)
+    res = await conn.execute(stmt)
+    result = await res.fetchone()
+    if not result:
+        raise RecordNotFound
+    return result
+
+
 async def get_employer(conn, email):
     check = await conn.execute(
         models.employer.select().where(models.employer.c.email == email)
@@ -82,6 +91,43 @@ async def get_employer(conn, email):
     if not res:
         raise UserDoesNotExistsException
     return res
+
+
+async def get_main_news(conn):
+    stmt = models.news.select().order_by(models.news.c.views.desc()).limit(8)
+    res = await conn.execute(stmt)
+    result = await res.fetchall()
+    return result
+
+
+async def get_news(conn):
+    stmt = models.news.select()
+    res = await conn.execute(stmt)
+    result = await res.fetchall()
+    return result
+
+
+async def get_news_by_id(conn, news_id):
+    result = await conn.execute(
+        models.news.update()
+            .returning(*models.news.c)
+            .where(models.news.c.id == news_id)
+            .values(views=models.news.c.views + 1)
+    )
+    record = await result.fetchone()
+    if not record:
+        raise RecordNotFound
+    return record
+
+
+async def get_news_by_category(conn, cat_id, news_id):
+    stmt = models.news.select() \
+        .where(models.news.c.category_fk == cat_id) \
+        .where(models.news.c.id != news_id) \
+        .limit(4)
+    res = await conn.execute(stmt)
+    result = await res.fetchall()
+    return result
 
 
 async def get_company(conn, email):
@@ -108,8 +154,8 @@ async def get_company(conn, email):
 #             .order_by(choice.c.id))
 #     choice_records = await result.fetchall()
 #     return question_record, choice_records
-# 
-# 
+#
+#
 # async def vote(conn, question_id, choice_id):
 #     result = await conn.execute(
 #         choice.update()

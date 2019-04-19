@@ -2,184 +2,185 @@
 
 {% block content %}
 
-<div class="search-tab">
-    <div class="logo">
-        <img src="{{ url('static', filename='images/Desktop%202.png') }}" class="desktop-image">
-        <img src="{{ url('static', filename='images/image%206.png') }}" class="stepler-image">
-        <img src="{{ url('static', filename='images/image%207.png') }}" class="nozhnitsy-image">
-        <img src="{{ url('static', filename='images/image%208.png') }}" class="glasses-image">
-        <img src="{{ url('static', filename='images/image%209.png') }}" class="phone-image">
-        <img src="{{ url('static', filename='images/Image%2010.png') }}" class="plant-image">
-        <img src="{{ url('static', filename='images/Image%2011.png') }}" class="stick-image">
-        <img src="{{ url('static', filename='images/Image%2013.png') }}" class="skrepki-image">
-        <img src="{{ url('static', filename='images/Path%20857.png') }}" class="black-circle-image">
-        <div class="text-holder">
-            <span class="main-text">Лучшее место твоей работы</span>
-            <span class="text">Простой и эффективный способ поиска вакансий</span>
-            <div class="search-bar">
-                <div class="inputs-wrapper">
-                    <input placeholder="Введите ключевые слов (например: дизайнер)" class="search-input"/>
-                </div>
-                <a id="search_button">НАЙТИ РАБОТУ</a>
-            </div>
-        </div>
-    </div>
-</div>
-<main>
-    <div class="main-header">
-        <span class="portal-news float-left" style="font-size: 16px; color: #6D7989;">НОВОСТИ ПОРТАЛА</span>
-        <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 70%"></div>
-        <span class="all-news float-right" id="all_news"><a>ВСЕ НОВОСТИ</a></span>
-    </div>
-    <div class="row justify-content-space-between">
-        <div class="column">
-            <div class="wrapper">
-                <div class="img-holder">
-                    <img src="{{ url('static', filename='images/news-image.png') }}">
-                </div>
-                <div class="date-created">20.07.2018</div>
-                <div class="news-title">Короткое название статьи</div>
-                <div class="news-description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit Lorem ipsum
-                    dolor
-                    sit
-                    amet, consectetuer adipiscing elitLorem ipsum dolor sit amet
-                </div>
-                <div class="more-button">
-                    <span style="margin-right: 10px">Смотреть</span>
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="wrapper">
-                <div class="img-holder">
-                    <img src="{{ url('static', filename='images/news-image-4.png') }}">
-                </div>
-                <div class="date-created">20.07.2018</div>
-                <div class="news-title">Длинное название статьи длинное название статьи</div>
-                <div class="news-description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit Lorem ipsum
-                    dolor
-                    sit amet, consectetuer adipiscing elitLorem ipsum dolor sit amet
-                </div>
-                <div class="more-button">
-                    <span style="margin-right: 10px">Смотреть</span>
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="wrapper">
-                <div class="img-holder">
-                    <img src="{{ url('static', filename='images/news-image-3.png') }}">
-                </div>
-                <div class="date-created">20.07.2018</div>
-                <div class="news-title">Короткое название статьи</div>
-                <div class="news-description">Dolor sit amet, consectetuer adipiscing elit Lorem ipsum dolor sit
-                    amet,
-                    consectetuer adipiscing elitLorem ipsum dolor sit amet r sit amet, consectetuer adipiscing
-                    elitLorem
-                    ipsum dolor sit ame
-                </div>
-                <div class="more-button">
-                    <span style="margin-right: 10px">Смотреть</span>
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="wrapper">
-                <div class="img-holder">
-                    <img src="{{ url('static', filename='images/news-image-2.png') }}">
-                </div>
-                <div class="date-created">20.07.2018</div>
-                <div class="news-title">Длинное название статьи длинное название статьи</div>
-                <div class="news-description">Dolor sit amet, consectetuer adipiscing elit Lorem ipsum dolor sit
-                    amet,
-                    consectetuer adipiscing elitLorem ipsum dolor sit amet r sit amet, consectetuer adipiscing
-                    elitLorem
-                </div>
-                <div class="more-button">
-                    <span style="margin-right: 10px">Смотреть</span>
-                    <i class="fas fa-arrow-right"></i>
+    <div class="search-tab">
+        <div class="logo">
+            <img src="{{ url('static', filename='images/Desktop%202.png') }}" class="desktop-image">
+            <img src="{{ url('static', filename='images/image%206.png') }}" class="stepler-image">
+            <img src="{{ url('static', filename='images/image%207.png') }}" class="nozhnitsy-image">
+            <img src="{{ url('static', filename='images/image%208.png') }}" class="glasses-image">
+            <img src="{{ url('static', filename='images/image%209.png') }}" class="phone-image">
+            <img src="{{ url('static', filename='images/Image%2010.png') }}" class="plant-image">
+            <img src="{{ url('static', filename='images/Image%2011.png') }}" class="stick-image">
+            <img src="{{ url('static', filename='images/Image%2013.png') }}" class="skrepki-image">
+            <img src="{{ url('static', filename='images/Path%20857.png') }}" class="black-circle-image">
+            <div class="text-holder">
+                <span class="main-text">Найкраще місце твоєї роботи</span>
+                <span class="text">Простий і ефективний спосіб пошуку вакансій</span>
+                <div class="search-bar">
+                    <div class="inputs-wrapper">
+                        <input placeholder="Введіть ключові слова (наприклад: дизайнер)" class="search-input"/>
+                    </div>
+                    <a id="search_button">ЗНАЙТИ РОБОТУ</a>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="row justify-content-space-between">
-        <div class="column">
-            <div class="wrapper">
-                <div class="img-holder">
-                    <img src="{{ url('static', filename='images/news-image-5.png') }}">
-                </div>
-                <div class="date-created">20.07.2018</div>
-                <div class="news-title">Короткое название статьи</div>
-                <div class="news-description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit Lorem ipsum
-                    dolor
-                    sit
-                    amet, consectetuer adipiscing elitLorem ipsum dolor sit amet
-                </div>
-                <div class="more-button">
-                    <span style="margin-right: 10px">Смотреть</span>
-                    <i class="fas fa-arrow-right"></i>
+    <main>
+        <div class="main-header">
+            <span class="portal-news float-left" style="font-size: 16px; color: #6D7989;">НОВИНИ ПОРТАЛУ</span>
+            <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 70%"></div>
+            <span class="all-news float-right" id="all_news"><a href="/category" style="text-decoration: none; color: var(--second-color)">ВСІ КАТЕГОРІЇ</a></span>
+            <span class="all-news float-right" id="all_news"><a href="/news" style="text-decoration: none; color: var(--second-color)">ВСІ НОВИНИ</a></span>
+        </div>
+        <div class="row justify-content-space-between">
+            {% for new in news %}
+            <div class="column">
+                <div class="wrapper">
+                    <div class="img-holder">
+                        <img src="{{ new.image_url }}">
+                    </div>
+                    <div class="date-created">{{ new.date }}</div>
+                    <div class="news-title">{{ new.title }}</div>
+                    <div class="news-description">{{ new.text }}
+                    </div>
+                    <div class="date-created">Переглядів: {{ new.views }}</div>
+                    <a class="more-button" href="/news/{{ new.id }}">
+                        <span style="margin-right: 10px">Смотреть</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
+            {% endfor %}
+{#            <div class="column">#}
+{#                <div class="wrapper">#}
+{#                    <div class="img-holder">#}
+{#                        <img src="{{ url('static', filename='images/news-image-4.png') }}">#}
+{#                    </div>#}
+{#                    <div class="date-created">20.07.2018</div>#}
+{#                    <div class="news-title">Длинное название статьи длинное название статьи</div>#}
+{#                    <div class="news-description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit Lorem ipsum#}
+{#                        dolor#}
+{#                        sit amet, consectetuer adipiscing elitLorem ipsum dolor sit amet#}
+{#                    </div>#}
+{#                    <div class="more-button">#}
+{#                        <span style="margin-right: 10px">Смотреть</span>#}
+{#                        <i class="fas fa-arrow-right"></i>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="column">#}
+{#                <div class="wrapper">#}
+{#                    <div class="img-holder">#}
+{#                        <img src="{{ url('static', filename='images/news-image-3.png') }}">#}
+{#                    </div>#}
+{#                    <div class="date-created">20.07.2018</div>#}
+{#                    <div class="news-title">Короткое название статьи</div>#}
+{#                    <div class="news-description">Dolor sit amet, consectetuer adipiscing elit Lorem ipsum dolor sit#}
+{#                        amet,#}
+{#                        consectetuer adipiscing elitLorem ipsum dolor sit amet r sit amet, consectetuer adipiscing#}
+{#                        elitLorem#}
+{#                        ipsum dolor sit ame#}
+{#                    </div>#}
+{#                    <div class="more-button">#}
+{#                        <span style="margin-right: 10px">Смотреть</span>#}
+{#                        <i class="fas fa-arrow-right"></i>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="column">#}
+{#                <div class="wrapper">#}
+{#                    <div class="img-holder">#}
+{#                        <img src="{{ url('static', filename='images/news-image-2.png') }}">#}
+{#                    </div>#}
+{#                    <div class="date-created">20.07.2018</div>#}
+{#                    <div class="news-title">Длинное название статьи длинное название статьи</div>#}
+{#                    <div class="news-description">Dolor sit amet, consectetuer adipiscing elit Lorem ipsum dolor sit#}
+{#                        amet,#}
+{#                        consectetuer adipiscing elitLorem ipsum dolor sit amet r sit amet, consectetuer adipiscing#}
+{#                        elitLorem#}
+{#                    </div>#}
+{#                    <div class="more-button">#}
+{#                        <span style="margin-right: 10px">Смотреть</span>#}
+{#                        <i class="fas fa-arrow-right"></i>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <div class="row justify-content-space-between">#}
+{#            <div class="column">#}
+{#                <div class="wrapper">#}
+{#                    <div class="img-holder">#}
+{#                        <img src="{{ url('static', filename='images/news-image-5.png') }}">#}
+{#                    </div>#}
+{#                    <div class="date-created">20.07.2018</div>#}
+{#                    <div class="news-title">Короткое название статьи</div>#}
+{#                    <div class="news-description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit Lorem ipsum#}
+{#                        dolor#}
+{#                        sit#}
+{#                        amet, consectetuer adipiscing elitLorem ipsum dolor sit amet#}
+{#                    </div>#}
+{#                    <div class="more-button">#}
+{#                        <span style="margin-right: 10px">Смотреть</span>#}
+{#                        <i class="fas fa-arrow-right"></i>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="column">#}
+{#                <div class="wrapper">#}
+{#                    <div class="img-holder">#}
+{#                        <img src="{{ url('static', filename='images/news-image-6.png') }}">#}
+{#                    </div>#}
+{#                    <div class="date-created">20.07.2018</div>#}
+{#                    <div class="news-title">Длинное название статьи длинное название статьи</div>#}
+{#                    <div class="news-description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit Lorem ipsum#}
+{#                        dolor#}
+{#                        sit amet, consectetuer adipiscing elitLorem ipsum dolor sit amet#}
+{#                    </div>#}
+{#                    <div class="more-button">#}
+{#                        <span style="margin-right: 10px">Смотреть</span>#}
+{#                        <i class="fas fa-arrow-right"></i>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="column">#}
+{#                <div class="wrapper">#}
+{#                    <div class="img-holder">#}
+{#                        <img src="{{ url('static', filename='images/news-image-7.png') }}">#}
+{#                    </div>#}
+{#                    <div class="date-created">20.07.2018</div>#}
+{#                    <div class="news-title">Короткое название статьи</div>#}
+{#                    <div class="news-description">Dolor sit amet, consectetuer adipiscing elit Lorem ipsum dolor sit#}
+{#                        amet,#}
+{#                        consectetuer adipiscing elitLorem ipsum dolor sit amet r sit amet, consectetuer adipiscing#}
+{#                        elitLorem#}
+{#                        ipsum dolor sit ame#}
+{#                    </div>#}
+{#                    <div class="more-button">#}
+{#                        <span style="margin-right: 10px">Смотреть</span>#}
+{#                        <i class="fas fa-arrow-right"></i>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="column">#}
+{#                <div class="wrapper">#}
+{#                    <div class="img-holder">#}
+{#                        <img src="{{ url('static', filename='images/news-image-8.png') }}">#}
+{#                    </div>#}
+{#                    <div class="date-created">20.07.2018</div>#}
+{#                    <div class="news-title">Длинное название статьи длинное название статьи</div>#}
+{#                    <div class="news-description">Dolor sit amet, consectetuer adipiscing elit Lorem ipsum dolor sit#}
+{#                        amet,#}
+{#                        consectetuer adipiscing elitLorem ipsum dolor sit amet r sit amet, consectetuer adipiscing#}
+{#                        elitLorem#}
+{#                    </div>#}
+{#                    <div class="more-button">#}
+{#                        <span style="margin-right: 10px">Смотреть</span>#}
+{#                        <i class="fas fa-arrow-right"></i>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
         </div>
-        <div class="column">
-            <div class="wrapper">
-                <div class="img-holder">
-                    <img src="{{ url('static', filename='images/news-image-6.png') }}">
-                </div>
-                <div class="date-created">20.07.2018</div>
-                <div class="news-title">Длинное название статьи длинное название статьи</div>
-                <div class="news-description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit Lorem ipsum
-                    dolor
-                    sit amet, consectetuer adipiscing elitLorem ipsum dolor sit amet
-                </div>
-                <div class="more-button">
-                    <span style="margin-right: 10px">Смотреть</span>
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="wrapper">
-                <div class="img-holder">
-                    <img src="{{ url('static', filename='images/news-image-7.png') }}">
-                </div>
-                <div class="date-created">20.07.2018</div>
-                <div class="news-title">Короткое название статьи</div>
-                <div class="news-description">Dolor sit amet, consectetuer adipiscing elit Lorem ipsum dolor sit
-                    amet,
-                    consectetuer adipiscing elitLorem ipsum dolor sit amet r sit amet, consectetuer adipiscing
-                    elitLorem
-                    ipsum dolor sit ame
-                </div>
-                <div class="more-button">
-                    <span style="margin-right: 10px">Смотреть</span>
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="wrapper">
-                <div class="img-holder">
-                    <img src="{{ url('static', filename='images/news-image-8.png') }}">
-                </div>
-                <div class="date-created">20.07.2018</div>
-                <div class="news-title">Длинное название статьи длинное название статьи</div>
-                <div class="news-description">Dolor sit amet, consectetuer adipiscing elit Lorem ipsum dolor sit
-                    amet,
-                    consectetuer adipiscing elitLorem ipsum dolor sit amet r sit amet, consectetuer adipiscing
-                    elitLorem
-                </div>
-                <div class="more-button">
-                    <span style="margin-right: 10px">Смотреть</span>
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-</main>
+    </main>
 
 {% endblock %}

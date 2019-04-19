@@ -6,6 +6,7 @@ from backend.routes.classes.company import CompanyRouter
 from backend.routes.classes.employer import EmployerRouter
 from backend.routes.classes.index import IndexRouter
 from backend.routes.classes.login import LoginRouter
+from backend.routes.classes.news import NewsRouter
 
 PROJECT_ROOT = pathlib.Path(__file__).parent.parent
 
@@ -31,6 +32,9 @@ def setup_routes(app):
 
     company_routes = CompanyRouter()
     company_routes.configure(app)
+
+    news_routes = NewsRouter()
+    news_routes.configure(app)
 
 
 def setup_static_routes(app):

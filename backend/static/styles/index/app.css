@@ -290,9 +290,9 @@ main .main-header .all-news:hover {
 main .column {
     display: flex;
     align-items: stretch;
-    width: 280px;
+    width: 300px;
     height: 450px;
-    margin-bottom: 60px;
+    margin: 0 10px 60px;
 }
 
 main .column .wrapper {
@@ -367,7 +367,13 @@ main .column .wrapper .more-button i.hover {
     -ms-transform: translate(15px, 0);
     -o-transform: translate(15px, 0);
     transform: translate(15px, 0);
+    text-decoration: none;
 }
+
+main .column .wrapper .more-button:hover {
+    text-decoration: none;
+}
+
 
 main .row {
     display: flex;
@@ -856,4 +862,38 @@ img {
     justify-content: center;
     flex-wrap: nowrap;
     box-shadow: 0 20px 40px -5px rgba(0, 0, 0, .05);
+}
+
+.news-holder {
+    font-family: "Montserrat Medium", sans-serif;
+    width: 100%;
+    margin: 0 auto;
+    padding: 50px 0;
+}
+
+.news-holder .date-created {
+    font-family: "Montserrat Medium", sans-serif;
+    font-size: 10px;
+    color: #B3B9C0;
+    line-height: 20px;
+    margin-bottom: 2px;
+}
+
+.news-holder h1 {
+    border-bottom: 1px solid lightgray;
+    font-weight: bold;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.news-holder .news-description {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 400;
+    text-align: justify;
+}
+
+.news-holder .img-holder {
+    max-width: 100%;
+    height: auto;
 }

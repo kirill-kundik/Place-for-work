@@ -1,0 +1,58 @@
+{% extends 'common/layout.html' %}
+
+{% block content %}
+
+    <main>
+        <div class="main-header">
+            <span class="portal-news float-left" style="font-size: 16px; color: #6D7989;">НОВИНА ПОРТАЛУ</span>
+            <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 70%"></div>
+            <span class="all-news float-right" id="all_news"><a href="/category"
+                                                                style="text-decoration: none; color: var(--second-color)">ВСІ КАТЕГОРІЇ</a></span>
+            <span class="all-news float-right" id="all_news"><a href="/news"
+                                                                style="text-decoration: none; color: var(--second-color)">ВСІ НОВИНИ</a></span>
+        </div>
+        <div class="news-holder">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="img-holder">
+                        <img src="{{ news.image_url }}">
+                    </div>
+
+                    <div class="date-created">{{ news.date }}</div>
+
+                </div>
+                <div class="col-12 col-md-6">
+                    <h1>{{ news.title }}</h1>
+                    <div class="news-description">{{ news.text }}</div>
+                    <div class="date-created">Переглядів: {{ news.views }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <span class="portal-news float-left"
+                  style="font-size: 16px; color: #6D7989;">ІНШІ НОВИНИ ЦІЄЇ КАТЕГОРІЇ</span>
+            <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 70%"></div>
+        </div>
+        <div class="row justify-content-space-between">
+            {% for new in related_news %}
+                <div class="column">
+                    <div class="wrapper">
+                        <div class="img-holder">
+                            <img src="{{ new.image_url }}">
+                        </div>
+                        <div class="date-created">{{ new.date }}</div>
+                        <div class="news-title">{{ new.title }}</div>
+                        <div class="news-description">{{ new.text }}
+                        </div>
+                        <div class="date-created">Переглядів: {{ new.views }}</div>
+                        <a class="more-button" href="/news/{{ new.id }}">
+                            <span style="margin-right: 10px">Смотреть</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+{% endblock %}
