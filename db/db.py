@@ -101,7 +101,7 @@ async def get_main_news(conn):
 
 
 async def get_news(conn):
-    stmt = models.news.select()
+    stmt = models.news.select().order_by(models.news.c.date.desc())
     res = await conn.execute(stmt)
     result = await res.fetchall()
     return result
@@ -121,9 +121,11 @@ async def get_news_by_id(conn, news_id):
 
 
 async def get_news_by_category(conn, cat_id, news_id):
+    print(cat_id, news_id)
     stmt = models.news.select() \
         .where(models.news.c.category_fk == cat_id) \
         .where(models.news.c.id != news_id) \
+        .order_by(models.news.c.views.desc()) \
         .limit(4)
     res = await conn.execute(stmt)
     result = await res.fetchall()

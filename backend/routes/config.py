@@ -2,6 +2,7 @@
 import pathlib
 
 from backend.routes.classes.admin import AdminRouter
+from backend.routes.classes.category import CategoryRouter
 from backend.routes.classes.company import CompanyRouter
 from backend.routes.classes.employer import EmployerRouter
 from backend.routes.classes.index import IndexRouter
@@ -35,6 +36,9 @@ def setup_routes(app):
 
     news_routes = NewsRouter()
     news_routes.configure(app)
+
+    category_routes = CategoryRouter()
+    category_routes.configure(app)
 
 
 def setup_static_routes(app):
