@@ -1,5 +1,8 @@
 import aiohttp_jinja2
+from aiohttp import web
 from aiohttp_security import check_permission, authorized_userid
+from passlib.handlers.sha2_crypt import sha256_crypt
+
 from db import db
 
 
@@ -23,7 +26,27 @@ class CompanyRouter:
         return response
 
     async def update_company(self, request):
-        pass
+        await check_permission(request, 'company')
+        username = await authorized_userid(request)
+        form = await request.post()
+
+        company_dict = {
+            'email': form.get('email'),
+            'password': sha256_crypt.hash(form.get('password')),
+            'name': form.get('name'),
+            'description': form.get('description'),
+
+            'image_url': form.get('image_url'),
+            'employers_cnt': form.get('employers_cnt'),
+            'est_year': form.get('est_year'),
+            'site_url': form.get('site_url'),
+            'main_category': form.get('main_category'),
+        }
+
+        async with request.app['db'].acquire() as conn:
+            await db.update_company(conn, company_dict, username)
+
+        return web.HTTPFound('/company')
 
     def configure(self, app):
         router = app.router

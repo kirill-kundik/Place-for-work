@@ -109,10 +109,8 @@ async def get_news(conn):
 
 async def get_news_by_id(conn, news_id):
     result = await conn.execute(
-        models.news.update()
-            .returning(*models.news.c)
-            .where(models.news.c.id == news_id)
-            .values(views=models.news.c.views + 1)
+        models.news.update().returning(*models.news.c).where(models.news.c.id == news_id).values(
+            views=models.news.c.views + 1)
     )
     record = await result.fetchone()
     if not record:
@@ -121,7 +119,7 @@ async def get_news_by_id(conn, news_id):
 
 
 async def get_news_by_category(conn, cat_id, news_id):
-    print(cat_id, news_id)
+    # print(cat_id, news_id)
     stmt = models.news.select() \
         .where(models.news.c.category_fk == cat_id) \
         .where(models.news.c.id != news_id) \
@@ -140,6 +138,30 @@ async def get_company(conn, email):
     if not res:
         raise UserDoesNotExistsException
     return res
+
+
+async def update_employer(conn, employer_dict, email):
+    stmt = models.employer \
+        .update() \
+        .where(models.employer.c.email == email) \
+        .values(pass_hash=employer_dict['pass_hash'], first_name=employer_dict['first_name'],
+                last_name=employer_dict['last_name'], phone=employer_dict['phone'],
+                image_url=employer_dict['image_url'], tg_link=employer_dict['tg_link'],
+                fb_link=employer_dict['fb_link'], skype_link=employer_dict['skype_link'], city=employer_dict['city'],
+                date_of_birth=employer_dict['date_of_birth'], email=employer_dict['email'])
+    await conn.execute(stmt)
+
+
+async def update_company(conn, company_dict, email):
+    stmt = models.company \
+        .update() \
+        .where(models.company.c.email == email) \
+        .values(pass_hash=company_dict['pass_hash'], name=company_dict['name'],
+                phone=company_dict['phone'], description=company_dict['description'],
+                image_url=company_dict['image_url'], employers_cnt=company_dict['employers_cnt'],
+                est_year=company_dict['est_year'], site_url=company_dict['site_url'],
+                main_category=company_dict['main_category'])
+    await conn.execute(stmt)
 
 # TODO there will be db methods
 # async def get_question(conn, question_id):
