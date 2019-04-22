@@ -31,8 +31,6 @@ class CompanyRouter:
         form = await request.post()
 
         company_dict = {
-            'email': form.get('email'),
-            'password': sha256_crypt.hash(form.get('password')),
             'name': form.get('name'),
             'description': form.get('description'),
 

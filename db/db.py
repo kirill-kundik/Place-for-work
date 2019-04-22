@@ -144,11 +144,11 @@ async def update_employer(conn, employer_dict, email):
     stmt = models.employer \
         .update() \
         .where(models.employer.c.email == email) \
-        .values(pass_hash=employer_dict['pass_hash'], first_name=employer_dict['first_name'],
+        .values(first_name=employer_dict['first_name'],
                 last_name=employer_dict['last_name'], phone=employer_dict['phone'],
                 image_url=employer_dict['image_url'], tg_link=employer_dict['tg_link'],
                 fb_link=employer_dict['fb_link'], skype_link=employer_dict['skype_link'], city=employer_dict['city'],
-                date_of_birth=employer_dict['date_of_birth'], email=employer_dict['email'])
+                date_of_birth=employer_dict['date_of_birth'])
     await conn.execute(stmt)
 
 
@@ -156,7 +156,7 @@ async def update_company(conn, company_dict, email):
     stmt = models.company \
         .update() \
         .where(models.company.c.email == email) \
-        .values(pass_hash=company_dict['pass_hash'], name=company_dict['name'],
+        .values(name=company_dict['name'],
                 phone=company_dict['phone'], description=company_dict['description'],
                 image_url=company_dict['image_url'], employers_cnt=company_dict['employers_cnt'],
                 est_year=company_dict['est_year'], site_url=company_dict['site_url'],

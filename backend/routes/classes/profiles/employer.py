@@ -1,7 +1,6 @@
 import aiohttp_jinja2
 from aiohttp import web
 from aiohttp_security import check_permission, authorized_userid
-from passlib.handlers.sha2_crypt import sha256_crypt
 
 from db import db
 
@@ -15,7 +14,8 @@ class EmployerRouter:
             'username': username,
             'title': 'Profile page',
             'profile_link': 'employer',
-            'employer': True
+            'employer': True,
+            'resumes': []
         }
 
         async with request.app['db'].acquire() as conn:
@@ -29,20 +29,26 @@ class EmployerRouter:
         await check_permission(request, 'employer')
         username = await authorized_userid(request)
         form = await request.post()
+        print(form)
+
+        image_url = form.get('image_url')
+        tg_link = form.get('tg_link')
+        fb_link = form.get('fb_link')
+        skype_link = form.get('skype_link')
+        city = form.get('city')
+        date_of_birth = form.get('date_of_birth')
 
         employer_update = {
-            'email': form.get('email'),
-            'password': sha256_crypt.hash(form.get('password')),
             'first_name': form.get('first_name'),
             'last_name': form.get('last_name'),
             'phone': form.get('phone'),
 
-            'image_url': form.get('image_url'),
-            'tg_link': form.get('tg_link'),
-            'fb_link': form.get('fb_link'),
-            'skype_link': form.get('skype_link'),
-            'city': form.get('city'),
-            'date_of_birth': form.get('date_of_birth'),
+            'image_url': (image_url if image_url != '' else None),
+            'tg_link': (tg_link if tg_link != '' else None),
+            'fb_link': (fb_link if fb_link != '' else None),
+            'skype_link': (skype_link if skype_link != '' else None),
+            'city': (city if city != '' else None),
+            'date_of_birth': (date_of_birth if date_of_birth != '' else None),
         }
 
         async with request.app['db'].acquire() as conn:
