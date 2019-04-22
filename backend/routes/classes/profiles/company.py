@@ -22,11 +22,11 @@ class CompanyRouter:
         response = aiohttp_jinja2.render_template('pages/profiles/company.html', request, context)
         return response
 
-    async def update_emploter(self, request):
+    async def update_company(self, request):
         pass
 
     def configure(self, app):
         router = app.router
 
         router.add_route('GET', '/company', self.index, name='company')
-        router.add_route('POST', '/company', self.update_emploter, name='company')
+        router.add_route('POST', '/company', self.update_company, name='company')

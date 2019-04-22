@@ -1,10 +1,10 @@
 # routes.py
 import pathlib
 
-from backend.routes.classes.admin import AdminRouter
+from backend.routes.classes.profiles.admin import AdminRouter
 from backend.routes.classes.category import CategoryRouter
-from backend.routes.classes.company import CompanyRouter
-from backend.routes.classes.employer import EmployerRouter
+from backend.routes.classes.profiles.company import CompanyRouter
+from backend.routes.classes.profiles.employer import EmployerRouter
 from backend.routes.classes.index import IndexRouter
 from backend.routes.classes.login import LoginRouter
 from backend.routes.classes.news import NewsRouter
