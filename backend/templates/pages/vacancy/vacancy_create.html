@@ -7,24 +7,62 @@
 {% block content %}
 
     <section class="vacancy-create">
+
+
         <div class="container">
-            <form>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                           placeholder="Enter email">
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.
-                    </small>
+            <h1>СТВОРИТИ НОВУ ВАКАНСІЮ</h1>
+            {% if flush is defined %}
+                <div class="alert alert-danger" role="alert">
+                    {{ flush }}
+                </div>
+            {% endif %}
+            <form action="/vacancy/create" method="post">
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-3 col-form-label">Позиція</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="position" class="form-control" id="inputPassword"
+                               placeholder="Введіть назву позиції для вакансії">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <label for="inputLastName">Опис вакансії</label>
+                    <textarea name="description" class="form-control" id="inputLastName"
+                              placeholder="Введіть детальний опис вакансії/позиції" required rows="10"></textarea>
                 </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                <div class="form-group">
+                    <label for="inputLastName">Обов'язки</label>
+                    <textarea name="requirements" class="form-control" id="inputLastName"
+                              placeholder="Детально опишіть, які обов'язки буде виконувати робітник" required
+                              rows="10"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-3 col-form-label">Заробітна плата</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="salary" class="form-control" id="inputPassword"
+                               placeholder="Введіть приблизну заробітну плату для вашої позиції">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputLastName" class="col-sm-3 col-form-label">Тип занятості</label>
+                    <div class="col-sm-9 select-handler">
+                        <select id="inputLastName" name="working_type" style="display: block; min-width: 300px">
+                            {% for type in types %}
+                                <option value="{{ type.id }}">{{ type.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputLastName" class="col-sm-3 col-form-label">Категорія вакансії</label>
+                    <div class="col-sm-9 select-handler">
+                        <select id="inputLastName" name="category" style="display: block; min-width: 300px">
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="sign-up-button">СТВОРИТИ</button>
             </form>
         </div>
     </section>

@@ -67,6 +67,16 @@ async def create_category(conn, cat_dict):
     await conn.execute(stmt)
 
 
+async def create_vacancy(conn, vacancy_dict, email):
+    stmt = """
+    INSERT INTO vacancy(position, description, requirements, salary, working_type_fk, company_fk, category_fk) 
+    VALUES ('%s', '%s', '%s', '%s', %s, (SELECT id FROM company WHERE email = '%s'), %s) RETURNING id
+    """ % (vacancy_dict['position'], vacancy_dict['description'], vacancy_dict['requirements'], vacancy_dict['salary'],
+           vacancy_dict['working_type_fk'], email, vacancy_dict['category_fk'])
+    res = await conn.execute(stmt)
+    return await res.fetchone()
+
+
 async def get_categories(conn):
     stmt = models.category.select()
     res = await conn.execute(stmt)
@@ -140,6 +150,69 @@ async def get_company(conn, email):
     return res
 
 
+async def get_statuses(conn):
+    stmt = models.status.select()
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
+async def get_working_types(conn):
+    stmt = models.working_type.select()
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
+async def get_status_name(conn, status_id):
+    stmt = models.status.select().where(models.status.c.id == status_id)
+    res = await conn.execute(stmt)
+    result = await res.fetchone()
+    if not result:
+        raise RecordNotFound
+    return result
+
+
+async def get_vacancy(conn, v_id):
+    stmt = """
+    SELECT v.position, v.description, v.requirements, v.salary, c2.name AS company_name, c2.id AS company_id,
+    wt.name AS work_type, c.name AS category_name, c.id AS category_id 
+    FROM vacancy v 
+    INNER JOIN category c on v.category_fk = c.id 
+    INNER JOIN company c2 on v.company_fk = c2.id
+    INNER JOIN working_type wt on v.working_type_fk = wt.id
+    WHERE v.id = %s
+    """ % v_id
+    res = await conn.execute(stmt)
+    return await res.fetchone()
+
+
+async def get_vacancies_by_cat_id(conn, cat_id):
+    stmt = """
+    SELECT v.position, v.description, v.requirements, v.salary, c2.name AS company_name, c2.id AS company_id,
+    wt.name AS work_type, c.name AS category_name, c.id AS category_id 
+    FROM vacancy v 
+    INNER JOIN category c on v.category_fk = c.id 
+    INNER JOIN company c2 on v.company_fk = c2.id
+    INNER JOIN working_type wt on v.working_type_fk = wt.id
+    WHERE c.id = %s
+    """ % cat_id
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
+async def get_vacancies_by_comp_id(conn, comp_id):
+    stmt = """
+    SELECT v.position, v.description, v.requirements, v.salary, c2.name AS company_name, c2.id AS company_id,
+    wt.name AS work_type, c.name AS category_name, c.id AS category_id 
+    FROM vacancy v 
+    INNER JOIN category c on v.category_fk = c.id 
+    INNER JOIN company c2 on v.company_fk = c2.id
+    INNER JOIN working_type wt on v.working_type_fk = wt.id
+    WHERE c2.id = %s
+    """ % comp_id
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
 async def update_employer(conn, employer_dict, email):
     stmt = models.employer \
         .update() \
@@ -162,21 +235,6 @@ async def update_company(conn, company_dict, email):
                 est_year=company_dict['est_year'], site_url=company_dict['site_url'],
                 main_category=company_dict['main_category'], status_fk=company_dict['status_fk'])
     await conn.execute(stmt)
-
-
-async def get_status_name(conn, status_id):
-    stmt = models.status.select().where(models.status.c.id == status_id)
-    res = await conn.execute(stmt)
-    result = await res.fetchone()
-    if not result:
-        raise RecordNotFound
-    return result
-
-
-async def get_statuses(conn):
-    stmt = models.status.select()
-    res = await conn.execute(stmt)
-    return await res.fetchall()
 
 # TODO there will be db methods
 # async def get_question(conn, question_id):
