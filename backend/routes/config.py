@@ -19,26 +19,32 @@ def setup_routes(app):
     # app.router.add_post('/poll/{question_id}/vote', vote, name='vote')
     setup_static_routes(app)
 
-    index_routes = IndexRouter()
-    index_routes.configure(app)
+    routes = [AdminRouter, CategoryRouter, CompanyRouter, EmployerRouter, IndexRouter, LoginRouter, NewsRouter]
 
-    login_routes = LoginRouter()
-    login_routes.configure(app)
-
-    admin_routes = AdminRouter()
-    admin_routes.configure(app)
-
-    employer_routes = EmployerRouter()
-    employer_routes.configure(app)
-
-    company_routes = CompanyRouter()
-    company_routes.configure(app)
-
-    news_routes = NewsRouter()
-    news_routes.configure(app)
-
-    category_routes = CategoryRouter()
-    category_routes.configure(app)
+    for route in routes:
+        r = route()
+        r.configure(app)
+    #
+    # index_routes = IndexRouter()
+    # index_routes.configure(app)
+    #
+    # login_routes = LoginRouter()
+    # login_routes.configure(app)
+    #
+    # admin_routes = AdminRouter()
+    # admin_routes.configure(app)
+    #
+    # employer_routes = EmployerRouter()
+    # employer_routes.configure(app)
+    #
+    # company_routes = CompanyRouter()
+    # company_routes.configure(app)
+    #
+    # news_routes = NewsRouter()
+    # news_routes.configure(app)
+    #
+    # category_routes = CategoryRouter()
+    # category_routes.configure(app)
 
 
 def setup_static_routes(app):
