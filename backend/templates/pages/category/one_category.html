@@ -40,7 +40,7 @@
                         <div class="news-title">{{ vacancy.position }}</div>
                         <div class="news-description">{{ vacancy.description }}
                         </div>
-                        <div class="date-created">Переглядів: {{ vacancy.salary }} $</div>
+                        <a href="/company/{{ vacancy.company_id }}">{{ vacancy.company_name }}</a>
                         <a class="more-button" href="/vacancy/{{ vacancy.id }}">
                             <span style="margin-right: 10px">Дивитися</span>
                             <i class="fas fa-arrow-right"></i>

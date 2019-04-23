@@ -41,6 +41,11 @@
                 <div class="row">
                     <div class="col-12 col-md-4">
                         <img src="
+
+
+
+
+
                                 {% if image_url is defined and image_url != None %}{{ image_url }}{% else %}{{ url('static', filename='images/utils/profile.png') }}{% endif %}"
                              alt="profile_pic">
                         <h1>{{ name }}</h1>
@@ -56,7 +61,8 @@
                         <p>Рік заснування:
                             {% if est_year != None %}{{ est_year }}{% else %}<i>не зазначено</i>{% endif %}
                         </p>
-                        <p>Посилання на {% if site_url != None %}<a style="font-size: 16px" target="_blank" href="{{ site_url }}">сайт</a>{% else %}сайт
+                        <p>Посилання на {% if site_url != None %}
+                            <a style="font-size: 16px" target="_blank" href="{{ site_url }}">сайт</a>{% else %}сайт
                             <i>не зазначено</i>{% endif %}</p>
                         <p>Основна категорія роботи компанії:
                             {% if main_category != None %}{{ main_category }}{% else %}<i>не зазначено</i>{% endif %}
@@ -79,7 +85,8 @@
                     <div class="form-group">
                         <label for="inputLastName">Введіть опис вашої компанії</label>
                         <textarea name="description" class="form-control" id="inputLastName"
-                                  placeholder="Опис компанії" rows="10">{% if description != None %}{{ description }}{% endif %}</textarea>
+                                  placeholder="Опис компанії" rows="10">{% if description != None %}
+                            {{ description }}{% endif %}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="inputLastName">Введіть посилання на зображення профілю компанії</label>
@@ -131,9 +138,21 @@
                 <h1>ПЕРЕГЛЯД ВАШИХ ВАКАНСІЙ</h1>
                 {% if vacancies|length == 0 %}
                     <p>Ви ще не додали жодної вакансії :(</p>
-                    <a href="/vacancy/create" id="resume_create" class="sign-up-button">СТВОРИТИ ВАКАНСІЮ</a>
                 {% else %}
+                    {% for vacancy in  vacancies %}
+                        <div class="vacancy-block">
+                            <h2>{{ vacancy.position }}</h2>
+                            <p>{{ vacancy.description }}</p>
+                            <p>{{ vacancy.requirements }}</p>
+                            <p>{{ vacancy.salary }}</p>
+                            <p>{{ vacancy.working_type }}</p>
+                            <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a>
+                            <a href="/vacancy/{{ vacancy.id }}">View this vacancy</a>
+                        </div>
+                    {% endfor %}
                 {% endif %}
+                <a href="/vacancy/create" id="resume_create" class="sign-up-button">СТВОРИТИ ВАКАНСІЮ</a>
+
             </div>
 
         </div>

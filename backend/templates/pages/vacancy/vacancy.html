@@ -1,0 +1,38 @@
+{% extends 'common/layout.html' %}
+
+{% block content %}
+
+    <main>
+        <div class="main-header">
+            <span class="portal-news float-left" style="font-size: 16px; color: #6D7989;">ВСІ ВАКАНСІЇ</span>
+            <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 70%"></div>
+            <span class="all-news float-right" id="all_news"><a href="/category"
+                                                                style="text-decoration: none; color: var(--second-color)">ВСІ КАТЕГОРІЇ</a></span>
+            <span class="all-news float-right" id="all_news"><a href="/news"
+                                                                style="text-decoration: none; color: var(--second-color)">ВСІ НОВИНИ</a></span>
+        </div>
+        <div class="row justify-content-space-between">
+            {% for vacancy in vacancies %}
+                <div class="column">
+                    <div class="wrapper">
+                        <div class="news-title">{{ vacancy.position }}</div>
+                        <div class="news-description">{{ vacancy.description }}
+                        </div>
+                        <div class="news-description">{{ vacancy.requirements }}
+                        </div>
+                        <div class="date-created">{{ vacancy.working_type }}
+                        </div>
+                        <div class="date-created">{{ vacancy.salary }}</div>
+                        <a href="/company/{{ vacancy.company_id }}">{{ vacancy.company_name }}</a>
+                        <a class="more-button" href="/vacancy/{{ vacancy.id }}">
+                            <span style="margin-right: 10px">Дивитися</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+{% endblock %}

@@ -6,8 +6,41 @@ from db import db
 
 class VacancyRouter:
 
+    @aiohttp_jinja2.template('pages/vacancy/vacancy.html')
     async def index(self, request):
-        pass
+        username = await authorized_userid(request)
+        context = {}
+        if username:
+            is_employer = await permits(request, 'employer')
+            context = {
+                'username': username,
+                'profile_link': ('employer' if is_employer else 'company'),
+                'employer': is_employer
+            }
+        async with request.app['db'].acquire() as conn:
+            res = await db.get_vacancies(conn)
+            vacancies = []
+
+            for r in res:
+                vacancies.append(
+                    {
+                        'position': r[1],
+                        'description': (r[2][:150] + '...'),
+                        'requirements': (r[3][:150] + '...'),
+                        'working_type': r[7],
+                        'salary': (r[4] if r[4] is not None else 'не зазначено'),
+                        'company_id': r[6],
+                        'company_name': r[5],
+                        'id': r[0],
+                        'category_id': r[9],
+                        'category_name': r[8]
+                    }
+                )
+            context.update({
+                'title': 'Vacancies',
+                'vacancies': vacancies
+            })
+        return context
 
     async def create(self, request):
         await check_permission(request, 'company')
@@ -83,3 +116,4 @@ class VacancyRouter:
         router.add_route('GET', '/vacancy/create', self.create_page, name='create_vacancy')
         router.add_route('POST', '/vacancy/create', self.create, name='create_vacancy')
         router.add_route('GET', '/vacancy/{id}', self.one_page, name='one_vacancy_page')
+        router.add_route('GET', '/vacancy', self.index, name='vacancies')

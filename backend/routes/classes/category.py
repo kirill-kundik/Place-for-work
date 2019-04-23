@@ -52,6 +52,19 @@ class CategoryRouter:
                     is_employer = await permits(request, 'employer')
                     res_cat = await db.get_category_by_id(conn, category_id)
                     rel_news = await db.get_news_by_category(conn, res_cat['id'], 0)
+                    rel_vac = await db.get_vacancies_by_cat_id(conn, res_cat['id'], 4)
+                    related_vac = []
+                    for vac in rel_vac:
+                        related_vac.append(
+                            {
+                                'position': vac[1],
+                                'description': vac[2],
+                                'company_id': vac[6],
+                                'company_name': vac[5],
+                                'id': vac[0]
+                            }
+                        )
+
                     for new in rel_news:
                         related_news.append(
                             {'id': new[0],
@@ -65,11 +78,23 @@ class CategoryRouter:
                             'username': username,
                             'profile_link': ('employer' if is_employer else 'company'),
                             'category': res_cat,
-                            'related_news': related_news}
+                            'related_news': related_news,
+                            'vacancies': related_vac}
 
                 res_cat = await db.get_category_by_id(conn, category_id)
                 rel_news = await db.get_news_by_category(conn, res_cat['id'], 0)
-                print(rel_news)
+                rel_vac = await db.get_vacancies_by_cat_id(conn, res_cat['id'], 4)
+                related_vac = []
+                for vac in rel_vac:
+                    related_vac.append(
+                        {
+                            'position': vac[1],
+                            'description': vac[2],
+                            'company_id': vac[6],
+                            'company_name': vac[5],
+                            'id': vac[0]
+                        }
+                    )
                 for new in rel_news:
                     related_news.append(
                         {'id': new[0],
@@ -81,7 +106,8 @@ class CategoryRouter:
                     )
                 return {'title': 'News',
                         'category': res_cat,
-                        'related_news': related_news}
+                        'related_news': related_news,
+                        'vacancies': related_vac}
         except DatabaseException:
             raise web.HTTPNotFound()
 

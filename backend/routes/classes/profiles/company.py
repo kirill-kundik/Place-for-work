@@ -20,6 +20,7 @@ class CompanyRouter:
 
         async with request.app['db'].acquire() as conn:
             res = await db.get_company(conn, username)
+            company_id = res['id']
             context.update(res)
             try:
                 res = await db.get_status_name(conn, res['status_fk'])
@@ -34,8 +35,22 @@ class CompanyRouter:
             res = await db.get_statuses(conn)
             statuses = [{'id': r[0], 'name': r[1]} for r in res]
 
+            res = await db.get_vacancies_by_comp_id(conn, company_id)
+            company_vac = []
+            for r in res:
+                company_vac.append({
+                    'position': r[1],
+                    'description': r[2],
+                    'requirements': r[3],
+                    'salary': (r[4] if r[4] is not None else 'не зазначено'),
+                    'working_type': r[7],
+                    'category_id': r[9],
+                    'category_name': r[8],
+                    'id': r[0]
+                })
             context.update({
-                'statuses': statuses
+                'statuses': statuses,
+                'vacancies': company_vac
             })
 
         response = aiohttp_jinja2.render_template('pages/profiles/company.html', request, context)
