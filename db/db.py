@@ -157,11 +157,26 @@ async def update_company(conn, company_dict, email):
         .update() \
         .where(models.company.c.email == email) \
         .values(name=company_dict['name'],
-                phone=company_dict['phone'], description=company_dict['description'],
+                description=company_dict['description'],
                 image_url=company_dict['image_url'], employers_cnt=company_dict['employers_cnt'],
                 est_year=company_dict['est_year'], site_url=company_dict['site_url'],
-                main_category=company_dict['main_category'])
+                main_category=company_dict['main_category'], status_fk=company_dict['status_fk'])
     await conn.execute(stmt)
+
+
+async def get_status_name(conn, status_id):
+    stmt = models.status.select().where(models.status.c.id == status_id)
+    res = await conn.execute(stmt)
+    result = await res.fetchone()
+    if not result:
+        raise RecordNotFound
+    return result
+
+
+async def get_statuses(conn):
+    stmt = models.status.select()
+    res = await conn.execute(stmt)
+    return await res.fetchall()
 
 # TODO there will be db methods
 # async def get_question(conn, question_id):

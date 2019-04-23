@@ -147,8 +147,8 @@ header .row .column .sign-up-button {
     background-color: var(--second-color);
     padding: 15px 20px;
     color: var(--main-color);
-    margin-right: 80px;
-    margin-left: 30px;
+    margin-right: 20px;
+    margin-left: 20px;
     border-radius: 2px;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;

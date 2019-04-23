@@ -73,6 +73,11 @@ def sample_data(engine=test_engine):
         {'email': 'admin@admin.com',
          'pass_hash': '$5$rounds=535000$hYkOykAwtwdNpZbd$N04R0fNDHWtpkGiGcIRVeg4ARkcwbhJCFDQYcgPnBOC'}
     ])
+    conn.execute(status.insert(), [
+        {'name': 'Активно шукаємо нових співробітників'},
+        {'name': 'Шукаємо нових співробітників'},
+        {'name': 'Поки що немає відкритих вакансій'}
+    ])
     # TODO insert basic info while initialize db
     # conn.execute(question.insert(), [
     #     {'question_text': 'What\'s new?',
