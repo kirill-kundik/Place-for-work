@@ -150,3 +150,4 @@ class VacancyRouter:
         router.add_route('POST', '/vacancy/create', self.create, name='create_vacancy')
         router.add_route('GET', '/vacancy/{id}', self.one_page, name='one_vacancy_page')
         router.add_route('GET', '/vacancy', self.index, name='vacancies')
+        # TODO responses

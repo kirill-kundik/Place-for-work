@@ -1,4 +1,4 @@
-class VacancyResponse:
+class VacancyResponseRouter:
     async def index(self, request):
         pass
 

@@ -5,6 +5,7 @@ from db import db
 
 
 class ResumeRouter:
+    @aiohttp_jinja2.template('pages/resume/one_resume.html')
     async def index(self, request):
         pass
 
@@ -52,3 +53,4 @@ class ResumeRouter:
         router.add_route('POST', '/resume/create', self.create, name='create_resume')
         router.add_route('POST', '/resume/update', self.update, name='update_resume')
         router.add_route('GET', '/resume/{id}', self.index, name='one_resume')
+        # TODO responses
