@@ -90,6 +90,11 @@ async def create_resume(conn, resume_dict, email):
     return await res.fetchone()
 
 
+async def create_resume_experience(conn, exp_dict):
+    stmt = models.resume_experience.insert().values(**exp_dict)
+    await conn.execute(stmt)
+
+
 async def get_categories(conn):
     stmt = models.category.select()
     res = await conn.execute(stmt)
@@ -263,10 +268,25 @@ async def get_vacancies(conn, limit=None):
 async def get_employer_resumes(conn, e_id):
     stmt = """
     SELECT id, perks, hobbies, category_fk AS category_id, 
-    (SELECT name FROM category WHERE category.id = category_fk) 
+    (SELECT name FROM category WHERE category.id = category_fk) AS category_name 
     FROM resume
     WHERE employer_fk = %s
     """ % e_id
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
+async def get_resume(conn, r_id):
+    stmt = """
+    SELECT id, perks, hobbies, category_fk AS category_id, 
+    (SELECT name FROM category WHERE category.id = category_fk) AS category_name FROM resume WHERE id = %s
+    """ % (r_id,)
+    res = await conn.execute(stmt)
+    return await res.fetchone()
+
+
+async def get_resume_experience(conn, r_id):
+    stmt = models.resume_experience.select().where(models.resume_experience.c.resume_fk == r_id)
     res = await conn.execute(stmt)
     return await res.fetchall()
 
