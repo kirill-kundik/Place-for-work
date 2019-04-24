@@ -1,6 +1,8 @@
 import aiohttp_jinja2
 from aiohttp import web
 from aiohttp_security import check_permission, authorized_userid, permits
+
+from backend.elastic import index
 from db import db
 
 
@@ -65,6 +67,12 @@ class VacancyRouter:
                 'working_type_fk': working_type,
                 'category_fk': category
             }, username)
+            index(request.app['es'], {
+                'id': v_id,
+                'position': position,
+                'description': description,
+                'requirements': requirements
+            })
             return web.HTTPFound(f'/vacancy/{v_id[0]}')
 
     @aiohttp_jinja2.template('pages/vacancy/vacancy_create.html')

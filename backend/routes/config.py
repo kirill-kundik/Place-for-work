@@ -8,7 +8,7 @@ from backend.routes.classes.profiles.employer import EmployerRouter
 from backend.routes.classes.index import IndexRouter
 from backend.routes.classes.login import LoginRouter
 from backend.routes.classes.news import NewsRouter
-from backend.routes.classes.vacancy import VacancyRouter
+from backend.routes.classes.vacancy_resume.vacancy import VacancyRouter
 
 PROJECT_ROOT = pathlib.Path(__file__).parent.parent
 

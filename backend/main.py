@@ -4,6 +4,8 @@ import sys
 import aiohttp_jinja2
 import jinja2
 from aiohttp import web
+from elasticsearch import Elasticsearch
+
 from backend.security.init_security import init_security
 from db.db import close_pg, init_pg
 from backend.routes.middlewares import setup_middlewares
@@ -29,6 +31,9 @@ async def init_app(argv=None):
     setup_routes(app)
 
     setup_middlewares(app)
+
+    es = Elasticsearch()
+    app['es'] = es
 
     return app
 
