@@ -84,6 +84,8 @@ vacancy = Table(
     Column('requirements', Text, nullable=False),
     Column('salary', String(50)),
 
+    Column('date', Date, nullable=False, default=datetime.today),
+
     Column('working_type_fk', Integer, ForeignKey('working_type.id', ondelete='RESTRICT', onupdate='CASCADE'),
            nullable=False),
     Column('company_fk', Integer, ForeignKey('company.id', ondelete='CASCADE', onupdate='CASCADE'),

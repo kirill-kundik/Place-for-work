@@ -32,6 +32,10 @@ $(function () {
     $('#close_sign_up').click(function () {
         $('#sign_up_window').hide();
         $('#sign_up').removeClass('active')
+    });
+
+    $('#search_button').click(function () {
+        location.href = 'http://' + location.host + '/search?keywords=' + encodeURIComponent($('#search_input').val());
     })
 
 });
