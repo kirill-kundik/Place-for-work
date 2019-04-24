@@ -146,7 +146,7 @@ response = Table(
     'response', meta,
 
     Column('id', Integer, primary_key=True),
-    Column('employer_fk', ForeignKey('employer.id', ondelete='CASCADE'), nullable=False),
+    Column('resume_fk', ForeignKey('resume.id', ondelete='CASCADE'), nullable=False),
     Column('company_fk', ForeignKey('company.id', ondelete='CASCADE'), nullable=False),
 
     Column('entry_msg', Text, nullable=False),

@@ -60,3 +60,14 @@
     text-decoration: none;
 }
 
+#resume_container .resume-container > .title, span {
+    font-size: 16px;
+    font-family: "Montserrat Semi-Bold", sans-serif;
+}
+
+#resume_container .resume-container > p {
+    font-size: 13px;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 0;
+}

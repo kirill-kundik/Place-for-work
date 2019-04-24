@@ -39,7 +39,8 @@
         </div>
         <div class="" id="resume_container">
             <h1 style="margin-bottom: 20px">{% if keywords != None %}ПОШУК ЗА КЛЮЧОВИМИ СЛОВАМИ:
-                <i><b style="font-size: 30px; font-weight: bold">{{ keywords }}</b></i> {% else %}ВИ НІЧОГО НЕ ВВЕЛИ :({% endif %}</h1>
+                <i><b style="font-size: 30px; font-weight: bold">{{ keywords }}</b></i> {% else %}ВИ НІЧОГО НЕ ВВЕЛИ
+                :({% endif %}</h1>
             {% if keywords == None %}
                 <a href="/vacancy" id="resume_create" class="sign-up-button">ПЕРЕГЛЯНУТИ ВСІ ВАКАНСІЇ</a>
             {% endif %}
@@ -60,4 +61,14 @@
         </div>
     </main>
 
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).on('keypress', function (e) {
+            if (e.which === 13) {
+                $('#search_button').click();
+            }
+        });
+    </script>
 {% endblock %}

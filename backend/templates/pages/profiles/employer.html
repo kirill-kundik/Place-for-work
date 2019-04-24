@@ -43,6 +43,11 @@
                         <img src="
 
 
+
+
+
+
+
                                 {% if image_url is defined and image_url != None %}{{ image_url }}{% else %}{{ url('static', filename='images/utils/profile.png') }}{% endif %}"
                              alt="profile_pic">
                         <h1>{{ first_name }} {{ last_name }}</h1>
@@ -129,9 +134,22 @@
                 <h1>ПЕРЕГЛЯД ВАШИХ РЕЗЮМЕ</h1>
                 {% if resumes|length == 0 %}
                     <p>Ви ще не додали жодного резюме :(</p>
-                    <a href="/resume/create" id="resume_create" class="sign-up-button">СТВОРИТИ РЕЗЮМЕ</a>
                 {% else %}
+                    {% for resume in resumes %}
+                        <div class="resume-container" style="color: black">
+                            <span>Категорія: </span><a style="font-size: 16px" href="/category/{{ resume.category_id }}">{{ resume.category_name }}</a><br>
+                            <p class="title">Навички, що ви зазначили в резюме:</p>
+                            <p>{{ resume.perks }}</p>
+                            <p class="title">Хобі, що ви зазначили:</p>
+                            <p style="margin-bottom: 20px">{{ resume.hobbies }}</p>
+                            <a style="margin-top: 20px" class="more-button" href="/resume/{{ resume.id }}">
+                                <span style="margin-right: 10px">Передивитичя резюме</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    {% endfor %}
                 {% endif %}
+                <a href="/resume/create" id="resume_create" class="sign-up-button">СТВОРИТИ РЕЗЮМЕ</a>
             </div>
 
         </div>
