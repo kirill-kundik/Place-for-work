@@ -69,8 +69,11 @@ async def create_category(conn, cat_dict):
 
 async def create_vacancy(conn, vacancy_dict, email):
     stmt = """
-    INSERT INTO vacancy(position, description, requirements, salary, working_type_fk, company_fk, category_fk) 
-    VALUES ('%s', '%s', '%s', '%s', %s, (SELECT id FROM company WHERE email = '%s'), %s) RETURNING id
+    INSERT INTO vacancy(position, description, requirements, salary, working_type_fk, company_fk, category_fk, date) 
+    VALUES ('%s', '%s', '%s', '%s', %s, (SELECT id FROM company WHERE email = '%s'), %s, NOW()) 
+    RETURNING id, category_fk, (SELECT name FROM category WHERE id = category_fk), 
+    (SELECT name FROM working_type WHERE id = working_type_fk), (SELECT name FROM company WHERE id = company_fk),
+     company_fk
     """ % (vacancy_dict['position'], vacancy_dict['description'], vacancy_dict['requirements'], vacancy_dict['salary'],
            vacancy_dict['working_type_fk'], email, vacancy_dict['category_fk'])
     res = await conn.execute(stmt)

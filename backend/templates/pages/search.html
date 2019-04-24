@@ -1,0 +1,63 @@
+{% extends 'common/layout.html' %}
+
+{% block content %}
+
+    <main>
+        <div class="search-tab">
+            <div class="logo">
+                <img src="{{ url('static', filename='images/Desktop%202.png') }}" class="desktop-image">
+                <img src="{{ url('static', filename='images/image%206.png') }}" class="stepler-image">
+                <img src="{{ url('static', filename='images/image%207.png') }}" class="nozhnitsy-image">
+                <img src="{{ url('static', filename='images/image%208.png') }}" class="glasses-image">
+                <img src="{{ url('static', filename='images/image%209.png') }}" class="phone-image">
+                <img src="{{ url('static', filename='images/Image%2010.png') }}" class="plant-image">
+                <img src="{{ url('static', filename='images/Image%2011.png') }}" class="stick-image">
+                <img src="{{ url('static', filename='images/Image%2013.png') }}" class="skrepki-image">
+                <img src="{{ url('static', filename='images/Path%20857.png') }}" class="black-circle-image">
+                <div class="text-holder">
+                    <span class="main-text">Найкраще місце твоєї роботи</span>
+                    <span class="text">Простий і ефективний спосіб пошуку вакансій</span>
+                    <div class="search-bar">
+                        <div class="inputs-wrapper">
+                            <input placeholder="Введіть ключові слова (наприклад: дизайнер)"
+                                   {% if keywords != None %}value="{{ keywords }}"{% endif %} class="search-input"
+                                   id="search_input"/>
+                        </div>
+                        <a id="search_button">ЗНАЙТИ РОБОТУ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-header" style="margin-bottom: 35px">
+            <span class="portal-news float-left"
+                  style="font-size: 16px; color: #6D7989;">ВАКАНСІЇ ЗА ПОШУКОМ</span>
+            <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 70%"></div>
+            <span class="all-news float-right" id="all_news"><a href="/vacancy"
+                                                                style="text-decoration: none; color: var(--second-color)">ВСІ ВАКАНСІЇ</a></span>
+            <span class="all-news float-right" id="all_news"><a href="/category"
+                                                                style="text-decoration: none; color: var(--second-color)">ВСІ КАТЕГОРІЇ</a></span>
+        </div>
+        <div class="" id="resume_container">
+            <h1 style="margin-bottom: 20px">{% if keywords != None %}ПОШУК ЗА КЛЮЧОВИМИ СЛОВАМИ:
+                <i><b style="font-size: 30px; font-weight: bold">{{ keywords }}</b></i> {% else %}ВИ НІЧОГО НЕ ВВЕЛИ :({% endif %}</h1>
+            {% if keywords == None %}
+                <a href="/vacancy" id="resume_create" class="sign-up-button">ПЕРЕГЛЯНУТИ ВСІ ВАКАНСІЇ</a>
+            {% endif %}
+            {% for vacancy in vacancies %}
+                <div class="vacancy-block">
+                    <a class="link" href="/vacancy/{{ vacancy.id }}">{{ vacancy.position }}</a>
+                    <p class="title">Опис вакансії:</p>
+                    <p class="text">{{ vacancy.description }}</p>
+                    <p class="title">Опис обов'язків:</p>
+                    <p class="text">{{ vacancy.requirements }}</p>
+                    <p class="small-title">З/П: {{ vacancy.salary }}</p>
+                    <p class="small-title">Тип занятості: {{ vacancy.working_type }}</p>
+                    Категорія: <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a><br><br>
+                    Компанія: <a href="/companies/{{ vacancy.company_id }}">{{ vacancy.company_name }}</a>
+                </div>
+            {% endfor %}
+
+        </div>
+    </main>
+
+{% endblock %}
