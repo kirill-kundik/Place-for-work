@@ -8,6 +8,45 @@ from db.exceptions import DatabaseException
 
 class CompanyRouter:
 
+    async def all_companies_view(self, request):
+        pass
+
+    @aiohttp_jinja2.template('pages/companies/one_company.html')
+    async def one_company_view(self, request):
+        c_id = request.match_info['id']
+        context = {}
+        async with request.app['db'].acquire() as conn:
+            company = await db.get_company_by_id(conn, c_id)
+            context.update(company)
+            res = await db.get_vacancies_by_comp_id(conn, c_id, 4)
+            vacancies = []
+
+            for r in res:
+                vacancies.append(
+                    {
+                        'position': r[1],
+                        'description': (r[2][:150] + '...'),
+                        'requirements': (r[3][:150] + '...'),
+                        'working_type': r[7],
+                        'salary': (r[4] if r[4] is not None else 'не зазначено'),
+                        'company_id': r[6],
+                        'company_name': r[5],
+                        'id': r[0],
+                        'category_id': r[9],
+                        'category_name': r[8]
+                    }
+                )
+        username = await authorized_userid(request)
+        if username:
+            context.update({
+                'username': username,
+                'profile_link': 'company',
+                'employer': False
+            })
+        context.update({'title': company['name'],
+                        'vacancies': vacancies})
+        return context
+
     async def index(self, request):
         await check_permission(request, 'company')
         username = await authorized_userid(request)
@@ -91,3 +130,5 @@ class CompanyRouter:
 
         router.add_route('GET', '/company', self.index, name='company')
         router.add_route('POST', '/company', self.update_company, name='company')
+        router.add_route('GET', '/companies/{id}', self.one_company_view, name='one_company')
+        router.add_route('GET', '/companies', self.all_companies_view, name='all_companies')

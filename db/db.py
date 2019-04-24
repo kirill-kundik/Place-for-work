@@ -153,6 +153,16 @@ async def get_company(conn, email):
     return res
 
 
+async def get_company_by_id(conn, c_id):
+    check = await conn.execute(
+        models.company.select().where(models.company.c.id == c_id)
+    )
+    res = await check.fetchone()
+    if not res:
+        raise UserDoesNotExistsException
+    return res
+
+
 async def get_statuses(conn):
     stmt = models.status.select()
     res = await conn.execute(stmt)

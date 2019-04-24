@@ -1,0 +1,62 @@
+{% extends 'common/layout.html' %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url('static',filename='styles/companies/companies.css') }}">
+{% endblock %}
+
+{% block content %}
+
+    <section class="one-company">
+        <div class="container" id="profile_previewing">
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <img src="{% if image_url is defined and image_url != None %}
+                    {{ image_url }}{% else %}{{ url('static', filename='images/utils/profile.png') }}{% endif %}"
+                         alt="profile_pic">
+                    <h1>{{ name }}</h1>
+                </div>
+                <div class="col-12 col-md-8">
+                    <h2>Контактні дані компанії:</h2>
+                    <p>Email: {{ email }}</p>
+                    <p>Опис компанії:
+                        {% if description != None %}{{ description }}{% else %}<i>не зазначено</i>{% endif %}</p>
+                    <p>Кількість співробітників:
+                        {% if employers_cnt != None %}{{ employers_cnt }}{% else %}<i>не зазначено</i>{% endif %}
+                    </p>
+                    <p>Рік заснування:
+                        {% if est_year != None %}{{ est_year }}{% else %}<i>не зазначено</i>{% endif %}
+                    </p>
+                    <p>Посилання на {% if site_url != None %}
+                        <a style="font-size: 16px" target="_blank" href="{{ site_url }}">сайт</a>{% else %}сайт
+                        <i>не зазначено</i>{% endif %}</p>
+                    <p>Основна категорія роботи компанії:
+                        {% if main_category != None %}{{ main_category }}{% else %}<i>не зазначено</i>{% endif %}
+                    </p>
+                    <p>Поточний статус компанії:
+                        {% if status_name is defined and status_name != None %}<i>{{ status_name }}</i>{% else %}
+                            <i>не зазначено</i>{% endif %}</p>
+                </div>
+            </div>
+            <div class="main-header" style="margin-bottom: 20px; margin-top: 50px">
+            <span class="portal-news float-left"
+                  style="font-size: 16px; color: #6D7989;">ВАКАНСІЇ КОМПАНІЇ</span>
+                <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 100%; padding-top: 7px"></div>
+            </div>
+            <div class="" id="resume_container">
+                {% for vacancy in vacancies %}
+                    <div class="vacancy-block">
+                        <a class="link" href="/vacancy/{{ vacancy.id }}">{{ vacancy.position }}</a>
+                        <p class="title">Опис вакансії:</p>
+                        <p class="text">{{ vacancy.description }}</p>
+                        <p class="title">Опис обов'язків:</p>
+                        <p class="text">{{ vacancy.requirements }}</p>
+                        <p class="small-title">З/П: {{ vacancy.salary }}</p>
+                        <p class="small-title">Тип занятості: {{ vacancy.working_type }}</p>
+                        Категорія: <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
