@@ -1,17 +1,30 @@
 import aiohttp_jinja2
 from aiohttp import web
+from aiohttp_security import authorized_userid, permits
+
+
+async def define_context(request):
+    username = await authorized_userid(request)
+    is_employer = await permits(request, 'employer')
+    context = {
+        'username': username,
+        'title': 'Create vacancy',
+        'profile_link': ('employer' if is_employer else 'company'),
+        'employer': is_employer
+    }
+    return context
 
 
 async def handle_404(request):
-    return aiohttp_jinja2.render_template('errors/404.html', request, {})
+    return aiohttp_jinja2.render_template('errors/404.html', request, await define_context(request))
 
 
 async def handle_500(request):
-    return aiohttp_jinja2.render_template('errors/500.html', request, {})
+    return aiohttp_jinja2.render_template('errors/500.html', request, await define_context(request))
 
 
 async def handle_401(request):
-    return aiohttp_jinja2.render_template('errors/401.html', request, {})
+    return aiohttp_jinja2.render_template('errors/401.html', request, await define_context(request))
 
 
 def create_error_middleware(overrides):

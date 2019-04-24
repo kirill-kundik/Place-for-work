@@ -82,7 +82,7 @@ vacancy = Table(
     Column('position', String(100), nullable=False),
     Column('description', Text, nullable=False),
     Column('requirements', Text, nullable=False),
-    Column('salary', Float),
+    Column('salary', String(50)),
 
     Column('working_type_fk', Integer, ForeignKey('working_type.id', ondelete='RESTRICT', onupdate='CASCADE'),
            nullable=False),

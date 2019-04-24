@@ -13,6 +13,9 @@
         <link rel="stylesheet" type="text/css" href="{{ url('static', filename='styles/index/app.css') }}">
         <link rel="icon" href="{{ url('static', filename='favicon.png') }}">
     {% endblock %}
+
+    {% block styles %}
+    {% endblock %}
 </head>
 <body>
 
@@ -30,7 +33,11 @@
 
 
 <script src="{{ url('static', filename='js/main.js') }}"></script>
-<script src="{{ url('static', filename='js/loginb.js') }}"></script>
+
+{% block scripts %}
+{% endblock %}
+
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
 </body>
 </html>
