@@ -9,6 +9,11 @@
 
             {% if username is defined %}
                 <a href="/{{ profile_link }}">{{ username }}</a>
+                {% if employer %}
+                    <a href="/resume/create" id="sign_up" class="sign-up-button">СТВОРИТИ РЕЗЮМЕ</a>
+                {% else %}
+                    <a href="/vacancy/create" id="sign_up" class="sign-up-button">СТВОРИТИ ВАКАНСІЮ</a>
+                {% endif %}
                 <a href="/logout" style="margin: 0 25px;" class="sign-in-button">ВИЙТИ</a>
             {% else %}
 

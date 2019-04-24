@@ -67,6 +67,16 @@ async def create_category(conn, cat_dict):
     await conn.execute(stmt)
 
 
+async def create_vacancy(conn, vacancy_dict, email):
+    stmt = """
+    INSERT INTO vacancy(position, description, requirements, salary, working_type_fk, company_fk, category_fk) 
+    VALUES ('%s', '%s', '%s', '%s', %s, (SELECT id FROM company WHERE email = '%s'), %s) RETURNING id
+    """ % (vacancy_dict['position'], vacancy_dict['description'], vacancy_dict['requirements'], vacancy_dict['salary'],
+           vacancy_dict['working_type_fk'], email, vacancy_dict['category_fk'])
+    res = await conn.execute(stmt)
+    return await res.fetchone()
+
+
 async def get_categories(conn):
     stmt = models.category.select()
     res = await conn.execute(stmt)
@@ -109,10 +119,8 @@ async def get_news(conn):
 
 async def get_news_by_id(conn, news_id):
     result = await conn.execute(
-        models.news.update()
-            .returning(*models.news.c)
-            .where(models.news.c.id == news_id)
-            .values(views=models.news.c.views + 1)
+        models.news.update().returning(*models.news.c).where(models.news.c.id == news_id).values(
+            views=models.news.c.views + 1)
     )
     record = await result.fetchone()
     if not record:
@@ -121,7 +129,7 @@ async def get_news_by_id(conn, news_id):
 
 
 async def get_news_by_category(conn, cat_id, news_id):
-    print(cat_id, news_id)
+    # print(cat_id, news_id)
     stmt = models.news.select() \
         .where(models.news.c.category_fk == cat_id) \
         .where(models.news.c.id != news_id) \
@@ -140,6 +148,112 @@ async def get_company(conn, email):
     if not res:
         raise UserDoesNotExistsException
     return res
+
+
+async def get_statuses(conn):
+    stmt = models.status.select()
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
+async def get_working_types(conn):
+    stmt = models.working_type.select()
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
+async def get_status_name(conn, status_id):
+    stmt = models.status.select().where(models.status.c.id == status_id)
+    res = await conn.execute(stmt)
+    result = await res.fetchone()
+    if not result:
+        raise RecordNotFound
+    return result
+
+
+async def get_vacancy(conn, v_id):
+    stmt = """
+    SELECT v.position, v.description, v.requirements, v.salary, c2.name AS company_name, c2.id AS company_id,
+    wt.name AS work_type, c.name AS category_name, c.id AS category_id 
+    FROM vacancy v 
+    INNER JOIN category c on v.category_fk = c.id 
+    INNER JOIN company c2 on v.company_fk = c2.id
+    INNER JOIN working_type wt on v.working_type_fk = wt.id
+    WHERE v.id = %s
+    """ % v_id
+    res = await conn.execute(stmt)
+    return await res.fetchone()
+
+
+async def get_vacancies_by_cat_id(conn, cat_id, limit=None):
+    stmt = """
+    SELECT v.id, v.position, v.description, v.requirements, v.salary, c2.name AS company_name, c2.id AS company_id,
+    wt.name AS work_type, c.name AS category_name, c.id AS category_id 
+    FROM vacancy v 
+    INNER JOIN category c on v.category_fk = c.id 
+    INNER JOIN company c2 on v.company_fk = c2.id
+    INNER JOIN working_type wt on v.working_type_fk = wt.id
+    WHERE c.id = %s
+    """ % cat_id
+    if limit:
+        stmt + f" LIMIT {limit}"
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
+async def get_vacancies_by_comp_id(conn, comp_id, limit=None):
+    stmt = """
+    SELECT v.id, v.position, v.description, v.requirements, v.salary, c2.name AS company_name, c2.id AS company_id,
+    wt.name AS work_type, c.name AS category_name, c.id AS category_id 
+    FROM vacancy v 
+    INNER JOIN category c on v.category_fk = c.id 
+    INNER JOIN company c2 on v.company_fk = c2.id
+    INNER JOIN working_type wt on v.working_type_fk = wt.id
+    WHERE c2.id = %s
+    """ % comp_id
+    if limit:
+        stmt + f" LIMIT {limit}"
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
+async def get_vacancies(conn, limit=None):
+    stmt = """
+    SELECT v.id, v.position, v.description, v.requirements, v.salary, c2.name AS company_name, c2.id AS company_id,
+    wt.name AS work_type, c.name AS category_name, c.id AS category_id 
+    FROM vacancy v 
+    INNER JOIN category c on v.category_fk = c.id 
+    INNER JOIN company c2 on v.company_fk = c2.id
+    INNER JOIN working_type wt on v.working_type_fk = wt.id
+    """
+    if limit:
+        stmt = stmt + f' LIMIT {limit}'
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
+async def update_employer(conn, employer_dict, email):
+    stmt = models.employer \
+        .update() \
+        .where(models.employer.c.email == email) \
+        .values(first_name=employer_dict['first_name'],
+                last_name=employer_dict['last_name'], phone=employer_dict['phone'],
+                image_url=employer_dict['image_url'], tg_link=employer_dict['tg_link'],
+                fb_link=employer_dict['fb_link'], skype_link=employer_dict['skype_link'], city=employer_dict['city'],
+                date_of_birth=employer_dict['date_of_birth'])
+    await conn.execute(stmt)
+
+
+async def update_company(conn, company_dict, email):
+    stmt = models.company \
+        .update() \
+        .where(models.company.c.email == email) \
+        .values(name=company_dict['name'],
+                description=company_dict['description'],
+                image_url=company_dict['image_url'], employers_cnt=company_dict['employers_cnt'],
+                est_year=company_dict['est_year'], site_url=company_dict['site_url'],
+                main_category=company_dict['main_category'], status_fk=company_dict['status_fk'])
+    await conn.execute(stmt)
 
 # TODO there will be db methods
 # async def get_question(conn, question_id):

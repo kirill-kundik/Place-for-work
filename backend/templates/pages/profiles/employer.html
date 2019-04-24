@@ -1,13 +1,144 @@
 {% extends 'common/layout.html' %}
 
+{% block styles %}
+
+    <link rel="stylesheet" href="{{ url('static', filename='styles/profiles/app.css') }}">
+
+{% endblock %}
+
 {% block content %}
 
-    <div class="container">
+    <section class="register">
 
-        <h1>
-            First name: {{ first_name }}, Last name: {{ last_name }}
-        </h1>
+        <div class="container">
+            {% if flush is defined %}
+                <div class="alert alert-danger" role="alert">
+                    {{ flush }}
+                </div>
+            {% endif %}
+            {% if not disabled %}
+                <div class="alert alert-info" role="alert">
+                    Your account is active!
+                </div>
+            {% else %}
+                <div class="alert alert-danger" role="alert">
+                    YOUR ACCOUNT HAS BEEN DISABLED, PLEASE CONTACT OUR SUPPORT TEAM
+                </div>
+            {% endif %}
+            <div class="button-handler">
+                <button class="button active" id="profile_preview">
+                    Перегляд профілю
+                </button>
+                <button class="button" id="profile_edit">
+                    Редагування профілю
+                </button>
+                <button class="button" id="resume_preview">
+                    Ваші резюме
+                </button>
+            </div>
 
-    </div>
+            <div class="form-handler active" id="profile_previewing">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <img src="
 
+
+                                {% if image_url is defined and image_url != None %}{{ image_url }}{% else %}{{ url('static', filename='images/utils/profile.png') }}{% endif %}"
+                             alt="profile_pic">
+                        <h1>{{ first_name }} {{ last_name }}</h1>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <h2>Ваші контактні дані:</h2>
+                        <p>Номер телефону: {{ phone }}</p>
+                        <p>Місто: {% if city != None %}{{ city }}{% else %}<i>не зазначено</i>{% endif %}</p>
+                        <p>Email: {{ email }}</p>
+                        <p>Дата народження:
+                            {% if date_of_birth != None %}{{ date_of_birth }}{% else %}<i>не зазначено</i>{% endif %}
+                        </p>
+                        <p>Посилання на телеграм:
+                            {% if tg_link != None %}{{ tg_link }}{% else %}<i>не зазначено</i>{% endif %}</p>
+                        <p>Посилання на фейсбук:
+                            {% if fb_link != None %}{{ fb_link }}{% else %}<i>не зазначено</i>{% endif %}</p>
+                        <p>Скайп: {% if skype_link != None %}{{ skype_link }}{% else %}<i>не зазначено</i>{% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-handler" id="profile_editing">
+                <form method="post" action="/employer">
+                    <div class="form-group">
+                        <label for="inputFirstName">Введіть ваше нове ім'я</label>
+                        <input name="first_name" type="text" value="{{ first_name }}" required class="form-control"
+                               id="inputFirstName"
+                               placeholder="Ім'я">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputLastName">Введіть вашу нову фамілію</label>
+                        <input name="last_name" type="text" value="{{ last_name }}" required class="form-control"
+                               id="inputLastName"
+                               placeholder="Фамілія">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPhone">Введіть ваш новий номер телефону</label>
+                        <input name="phone" type="tel" value="{{ phone }}" required class="form-control" id="inputPhone"
+                               placeholder="Телефон">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputLastName">Введіть посилання на ваше зображення</label>
+                        <input name="image_url" {% if image_url != None %}value="{{ image_url }}"{% endif %} type="text"
+                               class="form-control" id="inputLastName"
+                               placeholder="Ваше зображення">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputLastName">Введіть вашу нове посилання на телеграм</label>
+                        <input name="tg_link" {% if tg_link != None %}value="{{ tg_link }}"{% endif %} type="text"
+                               class="form-control" id="inputLastName"
+                               placeholder="Телеграм">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputLastName">Введіть вашу нове посилання на фейсбук</label>
+                        <input name="fb_link" {% if fb_link != None %}value="{{ fb_link }}"{% endif %} type="text"
+                               class="form-control" id="inputLastName"
+                               placeholder="Фейсбук">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputLastName">Введіть вашу нове посилання на скайп</label>
+                        <input name="skype_link" {% if skype_link != None %}value="{{ skype_link }}"{% endif %}
+                               type="text" class="form-control" id="inputLastName"
+                               placeholder="Скайп">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputLastName">Введіть вашу нове місто</label>
+                        <input name="city" {% if city != None %}value="{{ city }}"{% endif %} type="text"
+                               class="form-control" id="inputLastName"
+                               placeholder="Місто">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputLastName">Введіть вашу нову дату народження</label>
+                        <input name="date_of_birth" {% if date_of_birth != None %}value="{{ date_of_birth }}"{% endif %}
+                               type="date" class="form-control" id="inputLastName"
+                               placeholder="Дата народження">
+                    </div>
+
+                    <button type="submit" class="btn sign-up-button">ЗБЕРЕГТИ</button>
+                </form>
+            </div>
+
+            <div class="form-handler" id="resume_container">
+                <h1>ПЕРЕГЛЯД ВАШИХ РЕЗЮМЕ</h1>
+                {% if resumes|length == 0 %}
+                    <p>Ви ще не додали жодного резюме :(</p>
+                    <a href="/resume/create" id="resume_create" class="sign-up-button">СТВОРИТИ РЕЗЮМЕ</a>
+                {% else %}
+                {% endif %}
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url('static', filename='js/profile.js') }}"></script>
 {% endblock %}

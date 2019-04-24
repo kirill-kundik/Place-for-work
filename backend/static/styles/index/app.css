@@ -147,8 +147,8 @@ header .row .column .sign-up-button {
     background-color: var(--second-color);
     padding: 15px 20px;
     color: var(--main-color);
-    margin-right: 80px;
-    margin-left: 30px;
+    margin-right: 20px;
+    margin-left: 20px;
     border-radius: 2px;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
@@ -286,6 +286,12 @@ main .main-header .all-news:hover {
     background-color: #A9BAF4;
     color: white !important;
 }
+
+main .main-header .all-news:hover > a {
+    cursor: pointer;
+    color: white !important;
+}
+
 
 main .column {
     display: flex;
@@ -896,4 +902,48 @@ img {
 .news-holder .img-holder {
     max-width: 100%;
     height: auto;
+}
+
+#resume_container .vacancy-block:hover {
+    background-color: #eeeeee;
+    -webkit-transition: background-color 500ms linear;
+    -ms-transition: background-color 500ms linear;
+    transition: background-color 500ms linear;
+}
+
+
+#resume_container .vacancy-block {
+    padding: 10px 20px;
+    margin-bottom: 30px;
+    max-height: 350px;
+    background-color: transparent;
+    -webkit-transition: background-color 500ms linear;
+    -ms-transition: background-color 500ms linear;
+    transition: background-color 500ms linear;
+}
+#resume_container .vacancy-block .link {
+    font-size: 22px;
+}
+
+#resume_container .vacancy-block > p {
+    text-align: left;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+
+#resume_container .vacancy-block > p.title {
+    font-size: 14px;
+    color: var(--second-color);
+}
+
+#resume_container .vacancy-block > p.text {
+    font-size: 15px;
+    color: black;
+    margin-top: 5px;
+}
+
+#resume_container .vacancy-block > p.small-title {
+    font-size: 12px;
+    color: darkgrey;
+    margin-bottom: 10px;
 }

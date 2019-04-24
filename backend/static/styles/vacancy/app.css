@@ -1,0 +1,47 @@
+section.vacancy-create .container h1 {
+    color: var(--second-color);
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+section.vacancy-create .container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+section.vacancy-create .container form > .form-group > label {
+    font-size: 20px !important;
+    padding-right: 0;
+}
+
+section.vacancy-create .container form > .form-group {
+    margin-bottom: 25px;
+}
+
+section.vacancy-create .container form > .form-group > .select-handler {
+    justify-items: flex-end;
+}
+
+section.vacancy-create .container form > .form-group.row > .col-sm-9  {
+    align-self: center;
+    padding-right: 0 !important;
+}
+
+section.vacancy-create .container form > .form-group.row > .col-sm-9 > input {
+    height: 35px;
+    width: 98%;
+}
+
+section.vacancy-create .container form > .form-group > textarea {
+    resize: none;
+    margin-top: 15px;
+}
+
+section.vacancy-create .container form .sign-up-button {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    width: 30%;
+    font-size: 22px;
+}
