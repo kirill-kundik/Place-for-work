@@ -187,7 +187,7 @@ async def get_status_name(conn, status_id):
 async def get_vacancy(conn, v_id):
     stmt = """
     SELECT v.position, v.description, v.requirements, v.salary, c2.name AS company_name, c2.id AS company_id,
-    wt.name AS work_type, c.name AS category_name, c.id AS category_id 
+    wt.name AS working_type, c.name AS category_name, c.id AS category_id 
     FROM vacancy v 
     INNER JOIN category c on v.category_fk = c.id 
     INNER JOIN company c2 on v.company_fk = c2.id
