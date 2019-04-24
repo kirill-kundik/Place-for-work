@@ -1,6 +1,6 @@
 import aiohttp_jinja2
 from aiohttp import web
-from aiohttp_security import check_permission, authorized_userid
+from aiohttp_security import check_permission, authorized_userid, permits
 
 from db import db
 from db.exceptions import DatabaseException
@@ -8,15 +8,45 @@ from db.exceptions import DatabaseException
 
 class CompanyRouter:
 
+    @aiohttp_jinja2.template('pages/companies/all_companies.html')
     async def all_companies_view(self, request):
-        pass
+        async with request.app['db'].acquire() as conn:
+            res = await db.get_companies(conn)
+            companies = []
+            for r in res:
+                companies.append({
+                    'id': r[0],
+                    'name': r[3],
+                    'description': r[5],
+                    'image_url': r[6],
+                    'est_year': r[8],
+                    'site_url': r[9],
+                    'main_category': r[10]
+                })
+            context = {
+                'title': 'Companies',
+                'companies': companies
+            }
+
+        username = await authorized_userid(request)
+        if username:
+            is_employer = await permits(request, 'employer')
+            context.update({
+                'username': username,
+                'profile_link': ('employer' if is_employer else 'company'),
+                'employer': is_employer,
+            })
+        return context
 
     @aiohttp_jinja2.template('pages/companies/one_company.html')
     async def one_company_view(self, request):
         c_id = request.match_info['id']
         context = {}
         async with request.app['db'].acquire() as conn:
-            company = await db.get_company_by_id(conn, c_id)
+            try:
+                company = await db.get_company_by_id(conn, c_id)
+            except DatabaseException:
+                raise web.HTTPNotFound
             context.update(company)
             res = await db.get_vacancies_by_comp_id(conn, c_id, 4)
             vacancies = []
@@ -38,10 +68,11 @@ class CompanyRouter:
                 )
         username = await authorized_userid(request)
         if username:
+            is_employer = await permits(request, 'employer')
             context.update({
                 'username': username,
-                'profile_link': 'company',
-                'employer': False
+                'profile_link': ('employer' if is_employer else 'company'),
+                'employer': is_employer,
             })
         context.update({'title': company['name'],
                         'vacancies': vacancies})

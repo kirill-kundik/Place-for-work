@@ -163,6 +163,11 @@ async def get_company_by_id(conn, c_id):
     return res
 
 
+async def get_companies(conn):
+    res = await conn.execute(models.company.select())
+    return await res.fetchall()
+
+
 async def get_statuses(conn):
     stmt = models.status.select()
     res = await conn.execute(stmt)

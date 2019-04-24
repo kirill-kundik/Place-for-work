@@ -32,3 +32,7 @@ section.one-company {
     font-size: 18px;
     padding-left: 15px;
 }
+
+#companies_container .row .column .wrapper{
+    min-width: 280px;
+}
