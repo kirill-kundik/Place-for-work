@@ -69,12 +69,30 @@ async def create_category(conn, cat_dict):
 
 async def create_vacancy(conn, vacancy_dict, email):
     stmt = """
-    INSERT INTO vacancy(position, description, requirements, salary, working_type_fk, company_fk, category_fk) 
-    VALUES ('%s', '%s', '%s', '%s', %s, (SELECT id FROM company WHERE email = '%s'), %s) RETURNING id
+    INSERT INTO vacancy(position, description, requirements, salary, working_type_fk, company_fk, category_fk, date) 
+    VALUES ('%s', '%s', '%s', '%s', %s, (SELECT id FROM company WHERE email = '%s'), %s, NOW()) 
+    RETURNING id, category_fk, (SELECT name FROM category WHERE id = category_fk), 
+    (SELECT name FROM working_type WHERE id = working_type_fk), (SELECT name FROM company WHERE id = company_fk),
+     company_fk
     """ % (vacancy_dict['position'], vacancy_dict['description'], vacancy_dict['requirements'], vacancy_dict['salary'],
            vacancy_dict['working_type_fk'], email, vacancy_dict['category_fk'])
     res = await conn.execute(stmt)
     return await res.fetchone()
+
+
+async def create_resume(conn, resume_dict, email):
+    stmt = """
+    INSERT INTO resume(perks, hobbies, category_fk, employer_fk) 
+    VALUES ('%s', '%s', %s, (SELECT id FROM employer WHERE email = '%s'))
+    RETURNING id
+    """ % (resume_dict['perks'], resume_dict['hobbies'], resume_dict['category_fk'], email)
+    res = await conn.execute(stmt)
+    return await res.fetchone()
+
+
+async def create_resume_experience(conn, exp_dict):
+    stmt = models.resume_experience.insert().values(**exp_dict)
+    await conn.execute(stmt)
 
 
 async def get_categories(conn):
@@ -150,6 +168,21 @@ async def get_company(conn, email):
     return res
 
 
+async def get_company_by_id(conn, c_id):
+    check = await conn.execute(
+        models.company.select().where(models.company.c.id == c_id)
+    )
+    res = await check.fetchone()
+    if not res:
+        raise UserDoesNotExistsException
+    return res
+
+
+async def get_companies(conn):
+    res = await conn.execute(models.company.select())
+    return await res.fetchall()
+
+
 async def get_statuses(conn):
     stmt = models.status.select()
     res = await conn.execute(stmt)
@@ -174,7 +207,7 @@ async def get_status_name(conn, status_id):
 async def get_vacancy(conn, v_id):
     stmt = """
     SELECT v.position, v.description, v.requirements, v.salary, c2.name AS company_name, c2.id AS company_id,
-    wt.name AS work_type, c.name AS category_name, c.id AS category_id 
+    wt.name AS working_type, c.name AS category_name, c.id AS category_id 
     FROM vacancy v 
     INNER JOIN category c on v.category_fk = c.id 
     INNER JOIN company c2 on v.company_fk = c2.id
@@ -232,6 +265,32 @@ async def get_vacancies(conn, limit=None):
     return await res.fetchall()
 
 
+async def get_employer_resumes(conn, e_id):
+    stmt = """
+    SELECT id, perks, hobbies, category_fk AS category_id, 
+    (SELECT name FROM category WHERE category.id = category_fk) AS category_name 
+    FROM resume
+    WHERE employer_fk = %s
+    """ % e_id
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
+async def get_resume(conn, r_id):
+    stmt = """
+    SELECT id, perks, hobbies, category_fk AS category_id, 
+    (SELECT name FROM category WHERE category.id = category_fk) AS category_name FROM resume WHERE id = %s
+    """ % (r_id,)
+    res = await conn.execute(stmt)
+    return await res.fetchone()
+
+
+async def get_resume_experience(conn, r_id):
+    stmt = models.resume_experience.select().where(models.resume_experience.c.resume_fk == r_id)
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
 async def update_employer(conn, employer_dict, email):
     stmt = models.employer \
         .update() \
@@ -255,31 +314,53 @@ async def update_company(conn, company_dict, email):
                 main_category=company_dict['main_category'], status_fk=company_dict['status_fk'])
     await conn.execute(stmt)
 
-# TODO there will be db methods
-# async def get_question(conn, question_id):
-#     result = await conn.execute(
-#         question.select()
-#             .where(question.c.id == question_id))
-#     question_record = await result.first()
-#     if not question_record:
-#         msg = "Question with id: {} does not exists"
-#         raise RecordNotFound(msg.format(question_id))
-#     result = await conn.execute(
-#         choice.select()
-#             .where(choice.c.question_id == question_id)
-#             .order_by(choice.c.id))
-#     choice_records = await result.fetchall()
-#     return question_record, choice_records
-#
-#
-# async def vote(conn, question_id, choice_id):
-#     result = await conn.execute(
-#         choice.update()
-#             .returning(*choice.c)
-#             .where(choice.c.question_id == question_id)
-#             .where(choice.c.id == choice_id)
-#             .values(votes=choice.c.votes + 1))
-#     record = await result.fetchone()
-#     if not record:
-#         msg = "Question with id: {} or choice id: {} does not exists"
-#         raise RecordNotFound(msg.format(question_id, choice_id))
+
+async def check_employer_resume(conn, email, id):
+    stmt = """
+    SELECT id FROM resume WHERE employer_fk = (SELECT id FROM employer WHERE employer.email = '%s') AND id = %s
+    """ % (email, id)
+    res = await conn.execute(stmt)
+    ids = await res.fetchone()
+    if not ids:
+        return False
+    return True
+
+
+async def check_employer_response(conn, email, r_id):
+    stmt = """
+    SELECT id 
+    FROM response 
+    WHERE id = %s AND resume_fk IN (
+    SELECT id FROM resume WHERE employer_fk = (SELECT id FROM employer WHERE email = '%s'))
+    """ % (r_id, email)
+    res = await conn.execute(stmt)
+    result = await res.fetchone()
+    if result:
+        return True
+    return False
+
+
+async def check_company_response(conn, email, r_id):
+    stmt = """
+    SELECT id FROM response WHERE company_fk = (SELECT id FROM company WHERE email = '%s') AND id = %s
+    """ % (email, r_id)
+    res = await conn.execute(stmt)
+    result = await res.fetchone()
+    if result:
+        return True
+    return False
+
+
+async def check_company_resume(conn, email, r_id):
+    stmt = """
+    SELECT id 
+    FROM resume 
+    WHERE id IN (SELECT resume_fk 
+                 FROM response WHERE company_fk = (SELECT id FROM company WHERE email = '%s'))
+    AND id = %s
+    """ % (email, r_id)
+    res = await conn.execute(stmt)
+    result = await res.fetchone()
+    if result:
+        return True
+    return False

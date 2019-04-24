@@ -1,0 +1,46 @@
+{% extends 'common/layout.html' %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url('static', filename='styles/resume/app.css') }}">
+{% endblock %}
+
+{% block content %}
+    <section class="resume-create">
+        <div class="container">
+            <h1>СТВОРИТИ НОВЕ РЕЗЮМЕ</h1>
+            {% if flush is defined %}
+                <div class="alert alert-danger" role="alert">
+                    {{ flush }}
+                </div>
+            {% endif %}
+            <form action="/resume/create" method="post">
+                <div class="form-group">
+                    <label for="inputLastName">Опишіть ваші навички</label>
+                    <textarea name="perks" class="form-control" id="inputLastName"
+                              placeholder="Введіть детальний опис навичок" required rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="inputLastName">Опишіть ваші навички хобі</label>
+                    <textarea name="hobbies" class="form-control" id="inputLastName"
+                              placeholder="Детально опишіть, які хобі пов'язані з спеціальністю ви маєте"
+                              rows="10"></textarea>
+                </div>
+                <div class="form-group row">
+                    <label for="inputLastName" class="col-sm-3 col-form-label">Категорія резюме</label>
+                    <div class="col-sm-9 select-handler">
+                        <select id="inputLastName" name="category" style="display: block; min-width: 300px">
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="sign-up-button">СТВОРИТИ</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url('static', filename='js/resume.js') }}"></script>
+{% endblock %}

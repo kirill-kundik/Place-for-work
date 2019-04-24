@@ -84,6 +84,8 @@ vacancy = Table(
     Column('requirements', Text, nullable=False),
     Column('salary', String(50)),
 
+    Column('date', Date, nullable=False, default=datetime.today),
+
     Column('working_type_fk', Integer, ForeignKey('working_type.id', ondelete='RESTRICT', onupdate='CASCADE'),
            nullable=False),
     Column('company_fk', Integer, ForeignKey('company.id', ondelete='CASCADE', onupdate='CASCADE'),
@@ -144,7 +146,7 @@ response = Table(
     'response', meta,
 
     Column('id', Integer, primary_key=True),
-    Column('employer_fk', ForeignKey('employer.id', ondelete='CASCADE'), nullable=False),
+    Column('resume_fk', ForeignKey('resume.id', ondelete='CASCADE'), nullable=False),
     Column('company_fk', ForeignKey('company.id', ondelete='CASCADE'), nullable=False),
 
     Column('entry_msg', Text, nullable=False),

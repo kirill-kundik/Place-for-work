@@ -1,6 +1,8 @@
 import aiohttp_jinja2
 from aiohttp import web
 from aiohttp_security import check_permission, authorized_userid, permits
+
+from backend.elastic import index
 from db import db
 
 
@@ -65,6 +67,18 @@ class VacancyRouter:
                 'working_type_fk': working_type,
                 'category_fk': category
             }, username)
+            await index(request.app['es'], {
+                'id': v_id[0],
+                'position': position,
+                'description': description,
+                'requirements': requirements,
+                'salary': (salary if salary != '' else None),
+                'category_id': v_id[1],
+                'category_name': v_id[2],
+                'working_type': v_id[3],
+                'company_name': v_id[4],
+                'company_id': v_id[5]
+            })
             return web.HTTPFound(f'/vacancy/{v_id[0]}')
 
     @aiohttp_jinja2.template('pages/vacancy/vacancy_create.html')
@@ -92,8 +106,25 @@ class VacancyRouter:
         username = await authorized_userid(request)
         async with request.app['db'].acquire() as conn:
             vacancy = await db.get_vacancy(conn, v_id)
-        if not vacancy:
-            raise web.HTTPNotFound
+            if not vacancy:
+                raise web.HTTPNotFound
+            rel_vac = await db.get_vacancies_by_cat_id(conn, vacancy['category_id'], 4)
+            related_vac = []
+            for vac in rel_vac:
+                if int(vac[0]) != int(v_id):
+                    related_vac.append(
+                        {
+                            'position': vac[1],
+                            'description': vac[2],
+                            'requirements': vac[3],
+                            'salary': vac[4],
+                            'working_type': vac[7],
+                            'company_id': vac[6],
+                            'company_name': vac[5],
+                            'id': vac[0]
+                        }
+                    )
+
         if username:
             is_employer = await permits(request, 'employer')
             context = {
@@ -101,12 +132,14 @@ class VacancyRouter:
                 'username': username,
                 'profile_link': ('employer' if is_employer else 'company'),
                 'employer': (True if is_employer else False),
-                'vacancy': vacancy
+                'vacancy': vacancy,
+                'vacancies': related_vac
             }
         else:
             context = {
                 'title': '',
-                'vacancy': vacancy
+                'vacancy': vacancy,
+                'vacancies': related_vac
             }
         return context
 
