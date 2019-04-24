@@ -1,0 +1,32 @@
+{% extends 'common/layout.html' %}
+
+{% block content %}
+
+    <main>
+        <div class="main-header">
+            <span class="portal-news float-left"
+                  style="font-size: 16px; color: #6D7989;">ВАКАНСІЇ ЗА ПОШУКОМ {{ keywords }}</span>
+            <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 70%"></div>
+            <span class="all-news float-right" id="all_news"><a href="/vacancy"
+                                                                style="text-decoration: none; color: var(--second-color)">ВСІ ВАКАНСІЇ</a></span>
+            <span class="all-news float-right" id="all_news"><a href="/category"
+                                                                style="text-decoration: none; color: var(--second-color)">ВСІ КАТЕГОРІЇ</a></span>
+        </div>
+        <div class="" id="resume_container">
+            {% for vacancy in vacancies %}
+                <div class="vacancy-block">
+                    <a class="link" href="/vacancy/{{ vacancy.id }}">{{ vacancy.position }}</a>
+                    <p class="title">Опис вакансії:</p>
+                    <p class="text">{{ vacancy.description }}</p>
+                    <p class="title">Опис обов'язків:</p>
+                    <p class="text">{{ vacancy.requirements }}</p>
+                    <p class="small-title">З/П: {{ vacancy.salary }}</p>
+                    <p class="small-title">Тип занятості: {{ vacancy.working_type }}</p>
+                    Категорія: <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a>
+                </div>
+            {% endfor %}
+
+        </div>
+    </main>
+
+{% endblock %}
