@@ -58,3 +58,13 @@
     </main>
 
 {% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).on('keypress', function (e) {
+            if (e.which === 13) {
+                $('#search_button').click();
+            }
+        });
+    </script>
+{% endblock %}

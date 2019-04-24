@@ -1,0 +1,49 @@
+{% extends 'common/layout.html' %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url('static',filename='styles/companies/companies.css') }}">
+{% endblock %}
+
+{% block content %}
+
+    <main>
+        <div class="main-header">
+            <span class="portal-news float-left" style="font-size: 16px; color: #6D7989;">ВСІ КОМПАНІЇ</span>
+            <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 70%"></div>
+            <span class="all-news float-right" id="all_news"><a href="/vacancy"
+                                                                style="text-decoration: none; color: var(--second-color)">ВСІ ВАКАНСІЇ</a></span>
+            <span class="all-news float-right" id="all_news"><a href="/category"
+                                                                style="text-decoration: none; color: var(--second-color)">ВСІ КАТЕГОРІЇ</a></span>
+        </div>
+        <div class="row justify-content-space-between" id="companies_container">
+            {% for company in companies %}
+                <div class="column">
+                    <div class="wrapper">
+                        <div class="img-holder">
+                            <img src="
+
+                                    {% if company.image_url == None %}{{ url('static',filename='images/utils/profile.png') }}{% else %}{{ company.image_url }}{% endif %}">
+                        </div>
+                        <div class="news-title" style="font-size: 24px">{{ company.name }}</div>
+                        <div class="news-description">Опис компанії:
+                        </div>
+                        <div class="news-description">{% if company.description != None %}{{ company.description }}{% else %}не зазначено{% endif %}
+                        </div>
+                        <div class="news-description">Основний вид діяльності:
+                        </div>
+                        <div class="news-description">{% if company.main_category != None %}{{ company.main_category }}{% else %}не зазначено{% endif %}
+                        </div>
+                        {% if company.site_url != None %}
+                            <a href="{{ company.site_url }}">Сайт компанії</a>
+                        {% endif %}
+                        <a class="more-button" href="/companies/{{ company.id }}">
+                            <span style="margin-right: 10px">Докладніше</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+{% endblock %}
