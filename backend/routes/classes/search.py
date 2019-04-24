@@ -1,9 +1,15 @@
 import aiohttp_jinja2
+from aiohttp import web
 from aiohttp_security import authorized_userid, permits
-from db import db
+
+from backend.elastic import search
 
 
 class SearchRoute:
+
+    async def test_searh(self, request):
+        keywords = request.rel_url.query['q']
+        return web.json_response(await search(request.app['es'], keywords))
 
     @aiohttp_jinja2.template('pages/search.html')
     async def search(self, request):
@@ -23,25 +29,21 @@ class SearchRoute:
             }
         vacancies = []
         if keywords:
-            async with request.app['db'].acquire() as conn:
-                res = await db.get_vacancies(conn)
-
-                for r in res:
-                    vacancies.append(
-                        {
-                            'position': r[1],
-                            'description': (r[2][:150] + '...'),
-                            'requirements': (r[3][:150] + '...'),
-                            'working_type': r[7],
-                            'salary': (r[4] if r[4] is not None else 'не зазначено'),
-                            'company_id': r[6],
-                            'company_name': r[5],
-                            'id': r[0],
-                            'category_id': r[9],
-                            'category_name': r[8]
-                        }
-                    )
-
+            res = await search(request.app['es'], keywords)
+            for r in res:
+                r = r['_source']
+                vacancies.append({
+                    'id': r['id'],
+                    'position': r['position'],
+                    'description': r['description'],
+                    'requirements': r['requirements'],
+                    'salary': r['salary'],
+                    'category_id': r['category_id'],
+                    'category_name': r['category_name'],
+                    'working_type': r['working_type'],
+                    'company_name': r['company_name'],
+                    'company_id': r['company_id'],
+                })
         context.update({
             'title': 'Vacancies',
             'vacancies': vacancies,
@@ -54,3 +56,4 @@ class SearchRoute:
         router = app.router
 
         router.add_route('GET', '/search', self.search, name='search')
+        router.add_route('GET', '/testSearch', self.test_searh, name='test_search')

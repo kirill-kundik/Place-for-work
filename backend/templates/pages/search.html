@@ -52,7 +52,8 @@
                     <p class="text">{{ vacancy.requirements }}</p>
                     <p class="small-title">З/П: {{ vacancy.salary }}</p>
                     <p class="small-title">Тип занятості: {{ vacancy.working_type }}</p>
-                    Категорія: <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a>
+                    Категорія: <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a><br><br>
+                    Компанія: <a href="/companies/{{ vacancy.company_id }}">{{ vacancy.company_name }}</a>
                 </div>
             {% endfor %}
 

@@ -4,7 +4,6 @@ import sys
 import aiohttp_jinja2
 import jinja2
 from aiohttp import web
-from elasticsearch_async import AsyncElasticsearch
 
 from backend.elastic import init_es, close_es
 from backend.security.init_security import init_security

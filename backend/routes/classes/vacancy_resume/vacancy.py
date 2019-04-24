@@ -68,10 +68,16 @@ class VacancyRouter:
                 'category_fk': category
             }, username)
             await index(request.app['es'], {
-                'id': v_id,
+                'id': v_id[0],
                 'position': position,
                 'description': description,
-                'requirements': requirements
+                'requirements': requirements,
+                'salary': (salary if salary != '' else None),
+                'category_id': v_id[1],
+                'category_name': v_id[2],
+                'working_type': v_id[3],
+                'company_name': v_id[4],
+                'company_id': v_id[5]
             })
             return web.HTTPFound(f'/vacancy/{v_id[0]}')
 

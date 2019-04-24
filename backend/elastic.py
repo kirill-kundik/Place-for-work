@@ -14,13 +14,14 @@ async def search(es, keywords):
             }
         }
     }
-    res = await es.search(index='vacancies', doc_type='vacancy', body=body)
+    res = await es.search(index='vacancies', body=body, sort='_score')
     return res['hits']['hits']
 
 
 async def init_es(app):
-    client = AsyncElasticsearch()
-    app['es'] = client
+    es = AsyncElasticsearch()
+    # es.indices.delete(index='vacancies', ignore=[400, 404])
+    app['es'] = es
 
 
 async def close_es(app):
