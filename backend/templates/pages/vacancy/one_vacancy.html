@@ -7,7 +7,37 @@
 {% block content %}
     <section class="one-vacancy">
         <div class="container">
-            <h1>{{ vacancy.position }}</h1>
+            <div class="vacancy-handler">
+                <h1>{{ vacancy.position }}</h1>
+                <p class="title">Опис вакансії:</p>
+                <p class="text">{{ vacancy.description }}</p>
+                <p class="title">Опис обов'язків:</p>
+                <p class="text">{{ vacancy.requirements }}</p>
+                <p class="small-title">З/П: {{ vacancy.salary }}</p>
+                <p class="small-title">Тип занятості: {{ vacancy.working_type }}</p>
+                Категорія: <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a><br><br>
+                Компанія: <a href="/companies/{{ vacancy.company_id }}">{{ vacancy.company_name }}</a>
+            </div>
+            <div class="main-header" style="margin-bottom: 20px">
+            <span class="portal-news float-left"
+                  style="font-size: 16px; color: #6D7989;">ТАКОЖ ШУКАЮТЬ</span>
+                <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 100%; padding-top: 7px"></div>
+            </div>
+            <div class="" id="resume_container">
+                {% for vacancy in vacancies %}
+                    <div class="vacancy-block">
+                        <a class="link" href="/vacancy/{{ vacancy.id }}">{{ vacancy.position }}</a>
+                        <p class="title">Опис вакансії:</p>
+                        <p class="text">{{ vacancy.description }}</p>
+                        <p class="title">Опис обов'язків:</p>
+                        <p class="text">{{ vacancy.requirements }}</p>
+                        <p class="small-title">З/П: {{ vacancy.salary }}</p>
+                        <p class="small-title">Тип занятості: {{ vacancy.working_type }}</p>
+                        {#                    Категорія: <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a>#}
+                    </div>
+                {% endfor %}
+
+            </div>
         </div>
     </section>
 {% endblock %}
