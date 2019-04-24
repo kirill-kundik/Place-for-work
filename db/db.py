@@ -80,6 +80,16 @@ async def create_vacancy(conn, vacancy_dict, email):
     return await res.fetchone()
 
 
+async def create_resume(conn, resume_dict, email):
+    stmt = """
+    INSERT INTO resume(perks, hobbies, category_fk, employer_fk) 
+    VALUES ('%s', '%s', %s, (SELECT id FROM employer WHERE email = '%s'))
+    RETURNING id
+    """ % (resume_dict['perks'], resume_dict['hobbies'], resume_dict['category_fk'], email)
+    res = await conn.execute(stmt)
+    return await res.fetchone()
+
+
 async def get_categories(conn):
     stmt = models.category.select()
     res = await conn.execute(stmt)
@@ -246,6 +256,17 @@ async def get_vacancies(conn, limit=None):
     """
     if limit:
         stmt = stmt + f' LIMIT {limit}'
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
+async def get_employer_resumes(conn, e_id):
+    stmt = """
+    SELECT id, perks, hobbies, category_fk AS category_id, 
+    (SELECT name FROM category WHERE category.id = category_fk) 
+    FROM resume
+    WHERE employer_fk = %s
+    """ % e_id
     res = await conn.execute(stmt)
     return await res.fetchall()
 

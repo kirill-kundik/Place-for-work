@@ -15,12 +15,26 @@ class EmployerRouter:
             'title': 'Profile page',
             'profile_link': 'employer',
             'employer': True,
-            'resumes': []
         }
 
         async with request.app['db'].acquire() as conn:
             res = await db.get_employer(conn, username)
             context.update(res)
+
+            res = await db.get_employer_resumes(conn, res['id'])
+            resumes = []
+            for r in res:
+                resumes.append({
+                    'id': r[0],
+                    'perks': r[1],
+                    'hobbies': r[2],
+                    'category_id': r[3],
+                    'category_name': r[4]
+                })
+
+            context.update({
+                'resumes': resumes
+            })
 
         response = aiohttp_jinja2.render_template('pages/profiles/employer.html', request, context)
         return response
