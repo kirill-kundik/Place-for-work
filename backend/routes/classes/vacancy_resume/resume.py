@@ -109,4 +109,3 @@ class ResumeRouter:
         router.add_route('POST', '/resume/create', self.create, name='create_resume')
         router.add_route('POST', '/resume/update', self.update, name='update_resume')
         router.add_route('GET', '/resume/{id}', self.index, name='one_resume')
-        # TODO responses
