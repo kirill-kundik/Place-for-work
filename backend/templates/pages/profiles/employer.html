@@ -136,14 +136,14 @@
                     <p>Ви ще не додали жодного резюме :(</p>
                 {% else %}
                     {% for resume in resumes %}
-                        <div class="resume-container">
-                            <p>Навички, що ви зазначили в резюме</p>
+                        <div class="resume-container" style="color: black">
+                            <span>Категорія: </span><a style="font-size: 16px" href="/category/{{ resume.category_id }}">{{ resume.category_name }}</a><br>
+                            <p class="title">Навички, що ви зазначили в резюме:</p>
                             <p>{{ resume.perks }}</p>
-                            <p>Хобі, що ви зазначили</p>
-                            <p>{{ resume.hobbies }}</p>
-                            <a href="/category/{{ resume.category_id }}">{{ resume.category_name }}</a>
-                            <a class="more-button" href="/resume/{{ resume.id }}">
-                                <span style="margin-right: 10px">Дивитися</span>
+                            <p class="title">Хобі, що ви зазначили:</p>
+                            <p style="margin-bottom: 20px">{{ resume.hobbies }}</p>
+                            <a style="margin-top: 20px" class="more-button" href="/resume/{{ resume.id }}">
+                                <span style="margin-right: 10px">Передивитичя резюме</span>
                                 <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>

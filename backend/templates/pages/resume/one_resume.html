@@ -9,57 +9,58 @@
         <div class="container">
             <h1>ПЕРЕГЛЯД РЕЗЮМЕ</h1>
             <div class="resume-container">
-                <p>Навички, що ви зазначили в резюме</p>
+                <p class="title">Навички, що зазначені в резюме:</p>
                 <p>{{ resume.perks }}</p>
-                <p>Хобі, що ви зазначили</p>
+                <p class="title">Хобі, що зазначені:</p>
                 <p>{{ resume.hobbies }}</p>
-                <a href="/category/{{ resume.category_id }}">{{ resume.category_name }}</a>
+                Категорія: <a href="/category/{{ resume.category_id }}">{{ resume.category_name }}</a>
             </div>
             <div class="main-header" style="margin-bottom: 20px; margin-top: 50px">
             <span class="portal-news float-left"
                   style="font-size: 16px; color: #6D7989;">ДОСВІД РОБОТИ</span>
                 <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 100%; padding-top: 7px"></div>
             </div>
-            <div class="experience=container">
+            <div class="experience-container">
                 {% for experience in experiences %}
                     <div class="experience-block">
-                        <p>Назва: {{ experience.title }}</p>
-                        <p>Опис:</p>
+                        <p class="title">Назва: {{ experience.title }}</p>
+                        <p class="title">Опис:</p>
                         <p>{{ experience.description }}</p>
-                        <p>Початок роботи: {{ experience.starting_date }}</p>
-                        <p>Кінець роботи:
+                        <p class="title" style="font-size: 16px">Початок роботи: {{ experience.starting_date }}</p>
+                        <p class="title" style="font-size: 16px">Кінець роботи:
                             {% if experience.ending_date != None %}{{ experience.ending_date }}{% else %}<i>не
                                 зазначено</i>{% endif %}</p>
                     </div>
                 {% endfor %}
                 {% if is_employer == True %}
-                    <h1>Enter experience</h1>
-                    <form action="/resume/update" method="post">
+                    <h1 style="margin-top: 30px">Введіть додатково досвід роботи для вашого поточного резюме</h1>
+                    <form action="/resume/update" method="post" style="margin-bottom: 30px">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">News title</label>
+                            <label for="exampleInputEmail1">Позиція на якій ви працювали</label>
                             <input type="text" name="title" required class="form-control" id="exampleInputEmail1"
                                    aria-describedby="emailHelp"
-                                   placeholder="Enter title">
+                                   placeholder="Введіть вашу позицію">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Text</label>
-                            <textarea class="form-control" required name="description" placeholder="Enter Description"
+                            <label for="exampleInputPassword1">Опишіть те, що ви робили</label>
+                            <textarea class="form-control" required name="description"
+                                      placeholder="Уточніть опис вашого досвіду"
                                       style="resize: none"
                                       rows="10" id="exampleInputPassword1"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">News date</label>
+                            <label for="exampleInputPassword1">Дата початку роботи</label>
                             <input type="date" required name="starting_date" class="form-control"
                                    id="exampleInputPassword1"
-                                   placeholder="Enter date">
+                                   placeholder="Зазначте дату початку роботи">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">News date</label>
+                            <label for="exampleInputPassword1">Дата кінця роботи</label>
                             <input type="date" name="ending_date" class="form-control" id="exampleInputPassword1"
-                                   placeholder="Enter date">
+                                   placeholder="Зазначте дату кінця роботи">
                         </div>
                         <input readonly type="text" name="resume_id" value="{{ resume.id }}" style="display:none;">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Зберегти</button>
                     </form>
                 {% endif %}
             </div>
