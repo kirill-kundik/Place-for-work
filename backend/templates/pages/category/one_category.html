@@ -24,32 +24,27 @@
                 </div>
             </div>
         </div>
-        <div class="main-header">
+        <div class="main-header" style="margin-bottom: 20px">
             <span class="portal-news float-left"
                   style="font-size: 16px; color: #6D7989;">ВАКАНСІЇ ЦІЄЇ КАТЕГОРІЇ</span>
             <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 70%"></div>
         </div>
-        <div class="row justify-content-space-between">
+        <div class="" id="resume_container">
             {% for vacancy in vacancies %}
-                <div class="column">
-                    <div class="wrapper">
-{#                        <div class="img-holder">#}
-{#                            <img src="{{ vacancy.image_url }}">#}
-{#                        </div>#}
-{#                        <div class="date-created">{{ vacancy.date }}</div>#}
-                        <div class="news-title">{{ vacancy.position }}</div>
-                        <div class="news-description">{{ vacancy.description }}
-                        </div>
-                        <a href="/company/{{ vacancy.company_id }}">{{ vacancy.company_name }}</a>
-                        <a class="more-button" href="/vacancy/{{ vacancy.id }}">
-                            <span style="margin-right: 10px">Дивитися</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
+                <div class="vacancy-block">
+                    <a class="link" href="/vacancy/{{ vacancy.id }}">{{ vacancy.position }}</a>
+                    <p class="title">Опис вакансії:</p>
+                    <p class="text">{{ vacancy.description }}</p>
+                    <p class="title">Опис обов'язків:</p>
+                    <p class="text">{{ vacancy.requirements }}</p>
+                    <p class="small-title">З/П: {{ vacancy.salary }}</p>
+                    <p class="small-title">Тип занятості: {{ vacancy.working_type }}</p>
+{#                    Категорія: <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a>#}
                 </div>
             {% endfor %}
+
         </div>
-        <div class="main-header">
+        <div class="main-header" style="margin-bottom: 20px">
             <span class="portal-news float-left"
                   style="font-size: 16px; color: #6D7989;">НОВИНИ ЦІЄЇ КАТЕГОРІЇ</span>
             <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 70%"></div>

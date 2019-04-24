@@ -11,27 +11,20 @@
             <span class="all-news float-right" id="all_news"><a href="/news"
                                                                 style="text-decoration: none; color: var(--second-color)">ВСІ НОВИНИ</a></span>
         </div>
-        <div class="row justify-content-space-between">
+        <div class="" id="resume_container">
             {% for vacancy in vacancies %}
-                <div class="column">
-                    <div class="wrapper">
-                        <div class="news-title">{{ vacancy.position }}</div>
-                        <div class="news-description">{{ vacancy.description }}
-                        </div>
-                        <div class="news-description">{{ vacancy.requirements }}
-                        </div>
-                        <div class="date-created">{{ vacancy.working_type }}
-                        </div>
-                        <div class="date-created">{{ vacancy.salary }}</div>
-                        <a href="/company/{{ vacancy.company_id }}">{{ vacancy.company_name }}</a>
-                        <a class="more-button" href="/vacancy/{{ vacancy.id }}">
-                            <span style="margin-right: 10px">Дивитися</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                        <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a>
-                    </div>
+                <div class="vacancy-block">
+                    <a class="link" href="/vacancy/{{ vacancy.id }}">{{ vacancy.position }}</a>
+                    <p class="title">Опис вакансії:</p>
+                    <p class="text">{{ vacancy.description }}</p>
+                    <p class="title">Опис обов'язків:</p>
+                    <p class="text">{{ vacancy.requirements }}</p>
+                    <p class="small-title">З/П: {{ vacancy.salary }}</p>
+                    <p class="small-title">Тип занятості: {{ vacancy.working_type }}</p>
+                    Категорія: <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a>
                 </div>
             {% endfor %}
+
         </div>
     </main>
 

@@ -59,6 +59,9 @@ class CategoryRouter:
                             {
                                 'position': vac[1],
                                 'description': vac[2],
+                                'requirements': vac[3],
+                                'salary': vac[4],
+                                'working_type': vac[7],
                                 'company_id': vac[6],
                                 'company_name': vac[5],
                                 'id': vac[0]
