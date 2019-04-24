@@ -67,7 +67,7 @@ class VacancyRouter:
                 'working_type_fk': working_type,
                 'category_fk': category
             }, username)
-            index(request.app['es'], {
+            await index(request.app['es'], {
                 'id': v_id,
                 'position': position,
                 'description': description,

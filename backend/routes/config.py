@@ -8,6 +8,7 @@ from backend.routes.classes.profiles.employer import EmployerRouter
 from backend.routes.classes.index import IndexRouter
 from backend.routes.classes.login import LoginRouter
 from backend.routes.classes.news import NewsRouter
+from backend.routes.classes.search import SearchRoute
 from backend.routes.classes.vacancy_resume.vacancy import VacancyRouter
 
 PROJECT_ROOT = pathlib.Path(__file__).parent.parent
@@ -21,7 +22,7 @@ def setup_routes(app):
     setup_static_routes(app)
 
     routes = [AdminRouter, CategoryRouter, CompanyRouter, EmployerRouter, IndexRouter, LoginRouter, NewsRouter,
-              VacancyRouter]
+              VacancyRouter, SearchRoute]
 
     for route in routes:
         r = route()
