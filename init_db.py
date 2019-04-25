@@ -6,8 +6,8 @@ from backend.settings import BASE_DIR, get_config
 DSN = "postgresql://{user}:{password}@{host}:{port}/{database}"
 
 ADMIN_DB_URL = DSN.format(
-    user='postgres', password='karpovich', database='postgres',
-    host='localhost', port=5432
+    user='postgres', password='postgres', database='postgres',
+    host='postgres', port=5432
 )
 
 admin_engine = create_engine(ADMIN_DB_URL, isolation_level='AUTOCOMMIT')
@@ -157,9 +157,13 @@ def sample_data(engine=test_engine):
     conn.close()
 
 
-if __name__ == '__main__':
+def init_db():
     setup_db(USER_CONFIG['postgres'])
     create_tables(engine=user_engine)
     sample_data(engine=user_engine)
     # drop_tables()
     # teardown_db(config)
+
+
+if __name__ == '__main__':
+    init_db()

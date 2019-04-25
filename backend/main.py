@@ -11,6 +11,7 @@ from db.db import close_pg, init_pg
 from backend.routes.middlewares import setup_middlewares
 from backend.routes.config import setup_routes
 from backend.settings import get_config
+from init_db import init_db
 
 
 async def init_app(argv=None):
@@ -43,6 +44,9 @@ async def init_app(argv=None):
 
 
 def main(argv):
+
+    init_db()
+
     logging.basicConfig(level=logging.DEBUG)
 
     app = init_app(argv)

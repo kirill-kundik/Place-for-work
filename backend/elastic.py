@@ -19,7 +19,7 @@ async def search(es, keywords):
 
 
 async def init_es(app):
-    es = AsyncElasticsearch()
+    es = AsyncElasticsearch(hosts='es01')
     # es.indices.delete(index='vacancies', ignore=[400, 404])
     app['es'] = es
 
