@@ -45,7 +45,7 @@ async def init_app(argv=None):
 
 def main(argv):
 
-    init_db()
+    init_db() # if needed to initialize db or drop all data
 
     logging.basicConfig(level=logging.DEBUG)
 
