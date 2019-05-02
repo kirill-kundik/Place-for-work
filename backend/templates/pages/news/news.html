@@ -1,15 +1,30 @@
 {% extends 'common/layout.html' %}
 
+{% block styles %}
+
+    <link rel="stylesheet" href="{{ url('static', filename='styles/pagination.css') }}">
+
+{% endblock %}
+
 {% block content %}
 
     <main>
         <div class="main-header">
             <span class="portal-news float-left" style="font-size: 16px; color: #6D7989;">ВСІ НОВИНИ</span>
             <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 70%"></div>
-            <span class="all-news float-right" id="all_news"><a href="/category" style="text-decoration: none; color: var(--second-color)">ВСІ КАТЕГОРІЇ</a></span>
+            <span class="all-news float-right" id="all_news"><a href="/vacancy"
+                                                                style="text-decoration: none; color: var(--second-color)">ВСІ ВАКАНСІЇ</a></span>
+            <span class="all-news float-right" id="all_news"><a href="/category"
+                                                                style="text-decoration: none; color: var(--second-color)">ВСІ КАТЕГОРІЇ</a></span>
         </div>
-        <div class="row justify-content-space-between">
+        <div class="paginationContainer">
+            {% set per_page = 8 %}
             {% for new in news %}
+                {% if loop.index0 % per_page == 0 %}
+                    {% if loop.index0 != 0 %}</div>{% endif %}
+                    <div id="course-page{{ loop.index0 // per_page }}"
+                         class="course-page row justify-content-space-between">
+                {% endif %}
                 <div class="column">
                     <div class="wrapper">
                         <div class="img-holder">
@@ -27,7 +42,15 @@
                     </div>
                 </div>
             {% endfor %}
+            </div>
+        <div class="pagination-holder">
+            <ul id="pagination-courses" class="pagination-sm"></ul>
         </div>
     </main>
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url('static', filename='js/jquery.twbsPagination.min.js') }}"></script>
+    <script src="{{ url('static', filename='js/pagination.js') }}"></script>
 {% endblock %}

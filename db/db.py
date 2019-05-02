@@ -218,7 +218,7 @@ async def get_vacancy(conn, v_id):
     return await res.fetchone()
 
 
-async def get_vacancies_by_cat_id(conn, cat_id, limit=None):
+async def get_vacancies_by_cat_id(conn, cat_id, limit=0):
     stmt = """
     SELECT v.id, v.position, v.description, v.requirements, v.salary, c2.name AS company_name, c2.id AS company_id,
     wt.name AS work_type, c.name AS category_name, c.id AS category_id 
@@ -228,13 +228,13 @@ async def get_vacancies_by_cat_id(conn, cat_id, limit=None):
     INNER JOIN working_type wt on v.working_type_fk = wt.id
     WHERE c.id = %s
     """ % cat_id
-    if limit:
-        stmt + f" LIMIT {limit}"
+    if limit != 0:
+        stmt = stmt + f" LIMIT {limit}"
     res = await conn.execute(stmt)
     return await res.fetchall()
 
 
-async def get_vacancies_by_comp_id(conn, comp_id, limit=None):
+async def get_vacancies_by_comp_id(conn, comp_id, limit=0):
     stmt = """
     SELECT v.id, v.position, v.description, v.requirements, v.salary, c2.name AS company_name, c2.id AS company_id,
     wt.name AS work_type, c.name AS category_name, c.id AS category_id 
@@ -244,13 +244,13 @@ async def get_vacancies_by_comp_id(conn, comp_id, limit=None):
     INNER JOIN working_type wt on v.working_type_fk = wt.id
     WHERE c2.id = %s
     """ % comp_id
-    if limit:
-        stmt + f" LIMIT {limit}"
+    if limit != 0:
+        stmt = stmt + f" LIMIT {limit}"
     res = await conn.execute(stmt)
     return await res.fetchall()
 
 
-async def get_vacancies(conn, limit=None):
+async def get_vacancies(conn, limit=0):
     stmt = """
     SELECT v.id, v.position, v.description, v.requirements, v.salary, c2.name AS company_name, c2.id AS company_id,
     wt.name AS work_type, c.name AS category_name, c.id AS category_id 
@@ -259,7 +259,7 @@ async def get_vacancies(conn, limit=None):
     INNER JOIN company c2 on v.company_fk = c2.id
     INNER JOIN working_type wt on v.working_type_fk = wt.id
     """
-    if limit:
+    if limit != 0:
         stmt = stmt + f' LIMIT {limit}'
     res = await conn.execute(stmt)
     return await res.fetchall()
@@ -315,10 +315,10 @@ async def update_company(conn, company_dict, email):
     await conn.execute(stmt)
 
 
-async def check_employer_resume(conn, email, id):
+async def check_employer_resume(conn, email, uid):
     stmt = """
     SELECT id FROM resume WHERE employer_fk = (SELECT id FROM employer WHERE employer.email = '%s') AND id = %s
-    """ % (email, id)
+    """ % (email, uid)
     res = await conn.execute(stmt)
     ids = await res.fetchone()
     if not ids:
