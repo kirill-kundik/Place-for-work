@@ -1,0 +1,12 @@
+main .course-page.active {
+    display: flex;
+}
+
+main .course-page {
+    display: none;
+}
+
+main .pagination-holder {
+    display: flex;
+    justify-content: center;
+}

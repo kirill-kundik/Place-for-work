@@ -35,9 +35,10 @@ class ResumeRouter:
             for r in res:
                 experiences.append({
                     'title': r[1],
-                    'description': r[2],
-                    'starting_date': r[3],
-                    'ending_date': r[4]
+                    'company_name': r[2],
+                    'description': r[3],
+                    'starting_date': r[4],
+                    'ending_date': r[5]
                 })
 
             context.update({
@@ -63,6 +64,7 @@ class ResumeRouter:
                 'title': form.get('title'),
                 'resume_fk': r_id,
                 'description': form.get('description'),
+                'company_name': form.get('company_name'),
                 'starting_date': form.get('starting_date'),
                 'ending_date': (ending_date if ending_date != '' else None)
             })
@@ -79,6 +81,10 @@ class ResumeRouter:
         category = form.get('category')
 
         async with request.app['db'].acquire() as conn:
+
+            if await db.check_employer_category_resume(conn, username, category):
+                raise web.HTTPFound('/resume/create?message=Ви+вже+створили+резюме+для+цієї+категорії!+Виберіть+іншу!')
+
             r_id = await db.create_resume(conn, {
                 'perks': perks,
                 'hobbies': (hobbies if hobbies != '' else None),
@@ -96,6 +102,10 @@ class ResumeRouter:
             'profile_link': 'employer',
             'employer': True
         }
+        if 'message' in request.rel_url.query:
+            context.update({
+                'flush': request.rel_url.query['message']
+            })
         async with request.app['db'].acquire() as conn:
             context.update({
                 'categories': [{'id': cat[0], 'name': cat[1]} for cat in await db.get_categories(conn)]
