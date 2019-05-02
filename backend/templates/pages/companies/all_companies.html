@@ -2,6 +2,7 @@
 
 {% block styles %}
     <link rel="stylesheet" type="text/css" href="{{ url('static',filename='styles/companies/companies.css') }}">
+    <link rel="stylesheet" href="{{ url('static', filename='styles/pagination.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -15,23 +16,68 @@
             <span class="all-news float-right" id="all_news"><a href="/category"
                                                                 style="text-decoration: none; color: var(--second-color)">ВСІ КАТЕГОРІЇ</a></span>
         </div>
-        <div class="row justify-content-space-between" id="companies_container">
+{#        <div class="row justify-content-space-between" id="companies_container">#}
+        {#            {% for company in companies %}#}
+        {#                <div class="column">#}
+        {#                    <div class="wrapper">#}
+        {#                        <div class="img-holder">#}
+        {#                            <img src="#}
+        {##}
+        {#                                    #}
+        {#                                    {% if company.image_url == None %}{{ url('static',filename='images/utils/profile.png') }}{% else %}{{ company.image_url }}{% endif %}">#}
+        {#                        </div>#}
+        {#                        <div class="news-title" style="font-size: 24px">{{ company.name }}</div>#}
+        {#                        <div class="news-description">Опис компанії:#}
+        {#                        </div>#}
+        {#                        <div class="news-description">#}
+        {#                            {% if company.description != None %}{{ company.description }}{% else %}не#}
+        {#                                зазначено{% endif %}#}
+        {#                        </div>#}
+        {#                        <div class="news-description">Основний вид діяльності:#}
+        {#                        </div>#}
+        {#                        <div class="news-description">#}
+        {#                            {% if company.main_category != None %}{{ company.main_category }}{% else %}не#}
+        {#                                зазначено{% endif %}#}
+        {#                        </div>#}
+        {#                        {% if company.site_url != None %}#}
+        {#                            <a href="{{ company.site_url }}">Сайт компанії</a>#}
+        {#                        {% endif %}#}
+        {#                        <a class="more-button" href="/companies/{{ company.id }}">#}
+        {#                            <span style="margin-right: 10px">Докладніше</span>#}
+        {#                            <i class="fas fa-arrow-right"></i>#}
+        {#                        </a>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            {% endfor %}#}
+        {#        </div>#}
+            <div class="paginationContainer">
+            {% set per_page = 8 %}
             {% for company in companies %}
+                {% if loop.index0 % per_page == 0 %}
+                    {% if loop.index0 != 0 %}</div>{% endif %}
+                    <div id="course-page{{ loop.index0 // per_page }}"
+                         class="course-page row justify-content-space-between">
+                {% endif %}
                 <div class="column">
                     <div class="wrapper">
                         <div class="img-holder">
                             <img src="
+
 
                                     {% if company.image_url == None %}{{ url('static',filename='images/utils/profile.png') }}{% else %}{{ company.image_url }}{% endif %}">
                         </div>
                         <div class="news-title" style="font-size: 24px">{{ company.name }}</div>
                         <div class="news-description">Опис компанії:
                         </div>
-                        <div class="news-description">{% if company.description != None %}{{ company.description }}{% else %}не зазначено{% endif %}
+                        <div class="news-description">
+                            {% if company.description != None %}{{ company.description }}{% else %}не
+                                зазначено{% endif %}
                         </div>
                         <div class="news-description">Основний вид діяльності:
                         </div>
-                        <div class="news-description">{% if company.main_category != None %}{{ company.main_category }}{% else %}не зазначено{% endif %}
+                        <div class="news-description">
+                            {% if company.main_category != None %}{{ company.main_category }}{% else %}не
+                                зазначено{% endif %}
                         </div>
                         {% if company.site_url != None %}
                             <a href="{{ company.site_url }}">Сайт компанії</a>
@@ -43,7 +89,15 @@
                     </div>
                 </div>
             {% endfor %}
+            </div>
+        <div class="pagination-holder">
+            <ul id="pagination-courses" class="pagination-sm"></ul>
         </div>
     </main>
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url('static', filename='js/jquery.twbsPagination.min.js') }}"></script>
+    <script src="{{ url('static', filename='js/pagination.js') }}"></script>
 {% endblock %}

@@ -48,7 +48,7 @@ class CompanyRouter:
             except DatabaseException:
                 raise web.HTTPNotFound
             context.update(company)
-            res = await db.get_vacancies_by_comp_id(conn, c_id, 4)
+            res = await db.get_vacancies_by_comp_id(conn, c_id, limit=4)
             vacancies = []
 
             for r in res:

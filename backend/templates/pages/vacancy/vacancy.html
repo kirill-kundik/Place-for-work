@@ -1,5 +1,11 @@
 {% extends 'common/layout.html' %}
 
+{% block styles %}
+
+    <link rel="stylesheet" href="{{ url('static', filename='styles/pagination.css') }}">
+
+{% endblock %}
+
 {% block content %}
 
     <main>
@@ -11,8 +17,15 @@
             <span class="all-news float-right" id="all_news"><a href="/news"
                                                                 style="text-decoration: none; color: var(--second-color)">ВСІ НОВИНИ</a></span>
         </div>
-        <div class="" id="resume_container">
+        <div class="paginationContainer">
+            {% set per_page = 8 %}
             {% for vacancy in vacancies %}
+                {% if loop.index0 % per_page == 0 %}
+                    {% if loop.index0 != 0 %}</div></div>{% endif %}
+                    <div id="course-page{{ loop.index0 // per_page }}"
+                         class="course-page">
+                    <div id="resume_container" style="width: 100%">
+                {% endif %}
                 <div class="vacancy-block">
                     <a class="link" href="/vacancy/{{ vacancy.id }}">{{ vacancy.position }}</a>
                     <p class="title">Опис вакансії:</p>
@@ -24,8 +37,16 @@
                     Категорія: <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a>
                 </div>
             {% endfor %}
-
+            </div>
+            </div>
+        <div class="pagination-holder">
+            <ul id="pagination-courses" class="pagination-sm"></ul>
         </div>
     </main>
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url('static', filename='js/jquery.twbsPagination.min.js') }}"></script>
+    <script src="{{ url('static', filename='js/pagination.js') }}"></script>
 {% endblock %}
