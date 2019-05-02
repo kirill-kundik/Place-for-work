@@ -134,6 +134,7 @@ resume_experience = Table(
 
     Column('id', Integer, primary_key=True),
     Column('title', String(100), nullable=False),
+    Column('company_name', String(100)),
     Column('description', Text, nullable=False),
     Column('starting_date', Date, nullable=False),
     Column('ending_date', Date),

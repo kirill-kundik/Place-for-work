@@ -364,3 +364,17 @@ async def check_company_resume(conn, email, r_id):
     if result:
         return True
     return False
+
+
+async def check_employer_category_resume(conn, email, c_id):
+    stmt = """
+    SELECT id 
+    FROM resume
+    WHERE category_fk = %s
+    AND employer_fk = (SELECT id FROM employer WHERE email = '%s')
+    """ % (c_id, email)
+    res = await conn.execute(stmt)
+    result = await res.fetchone()
+    if result:
+        return True
+    return False

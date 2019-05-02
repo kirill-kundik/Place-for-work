@@ -23,7 +23,8 @@
             <div class="experience-container">
                 {% for experience in experiences %}
                     <div class="experience-block">
-                        <p class="title">Назва: {{ experience.title }}</p>
+                        <p class="title">Позиція: {{ experience.title }}</p>
+                        <p class="title">Назва компанії: {{ experience.company_name }}</p>
                         <p class="title">Опис:</p>
                         <p>{{ experience.description }}</p>
                         <p class="title" style="font-size: 16px">Початок роботи: {{ experience.starting_date }}</p>
@@ -40,6 +41,12 @@
                             <input type="text" name="title" required class="form-control" id="exampleInputEmail1"
                                    aria-describedby="emailHelp"
                                    placeholder="Введіть вашу позицію">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Компанія в якій ви працювали</label>
+                            <input type="text" name="company_name" required class="form-control" id="exampleInputEmail1"
+                                   aria-describedby="emailHelp"
+                                   placeholder="Введіть назву компанії">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Опишіть те, що ви робили</label>
