@@ -312,6 +312,11 @@ async def get_employer_responses(conn, email):
     return await res.fetchall()
 
 
+async def get_vacancy_responses(conn, v_id):
+    result = await conn.execute(models.response.select().where(models.response.c.vacancy_fk == v_id))
+    return await result.fetchall()
+
+
 async def update_employer(conn, employer_dict, email):
     stmt = models.employer \
         .update() \
@@ -422,6 +427,19 @@ async def check_employer_response_by_id(conn, email, res_id):
     WHERE id = %s
     AND resume_fk IN (SELECT id FROM resume WHERE employer_fk = (SELECT id FROM employer WHERE email = '%s')) 
     """ % (res_id, email)
+    res = await conn.execute(stmt)
+    result = await res.fetchone()
+    if result:
+        return True
+    return False
+
+
+async def check_company_vacancy(conn, email, v_id):
+    stmt = """
+    SELECT id FROM vacancy
+    WHERE id = %s
+    AND company_fk = (SELECT id FROM company WHERE email = '%s')
+    """ % (v_id, email)
     res = await conn.execute(stmt)
     result = await res.fetchone()
     if result:

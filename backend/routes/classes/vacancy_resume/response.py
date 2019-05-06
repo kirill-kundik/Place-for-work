@@ -1,6 +1,7 @@
 from aiohttp import web
 from aiohttp_security import check_permission, authorized_userid
 from db import db
+import aiohttp_jinja2
 
 
 class ResponseRouter:
@@ -8,9 +9,39 @@ class ResponseRouter:
     async def response_status_update(self, request):
         pass
 
-    # TODO
+    @aiohttp_jinja2.template('pages/responses/company_responses.html')
     async def vacancy_responses(self, request):
-        pass
+        await check_permission(request, 'company')
+        username = await authorized_userid(request)
+        v_id = request.match_info['v_id']
+        async with request.app['db'].acquire() as conn:
+            if not await db.check_company_vacancy(conn, username, v_id):
+                raise web.HTTPUnauthorized
+            vacancy = await db.get_vacancy(conn, v_id)
+
+            statuses = []
+            res = await db.get_vacancy_responses(conn, v_id)
+
+            for s in res:
+                statuses.append({
+                    'id': s[0],
+                    'resume_fk': s[1],
+                    'status': s[3],
+                    'entry_msg': s[4],
+                    'interview_date': (s[5] if not s[5] else s[5].replace(microsecond=0).replace(second=0))
+                })
+
+            context = {
+                'username': username,
+                'title': 'Responses page',
+                'profile_link': 'company',
+                'employer': False,
+                'vacancy_name': vacancy['position'],
+                'vacancy_id': v_id,
+                'statuses': statuses
+            }
+
+            return context
 
     async def delete_response(self, request):
         await check_permission(request, 'employer')
