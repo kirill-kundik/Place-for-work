@@ -1,0 +1,12 @@
+#responses-handler h1 {
+    border-bottom: 1px lightgray solid;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+#vacancy_link {
+    font-size: 24px;
+    margin-bottom: 40px;
+    margin-top: 20px;
+    display: block;
+}

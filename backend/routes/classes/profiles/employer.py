@@ -32,8 +32,21 @@ class EmployerRouter:
                     'category_name': r[4]
                 })
 
+            res = await db.get_employer_responses(conn, username)
+            statuses = []
+            for s in res:
+                statuses.append({
+                    'id': s[0],
+                    'resume_fk': s[1],
+                    'vacancy_fk': s[2],
+                    'status': s[3],
+                    'entry_msg': s[4],
+                    'interview_date': (s[5] if not s[5] else s[5].replace(microsecond=0).replace(second=0))
+                })
+
             context.update({
-                'resumes': resumes
+                'resumes': resumes,
+                'statuses': statuses
             })
 
         response = aiohttp_jinja2.render_template('pages/profiles/employer.html', request, context)

@@ -35,20 +35,16 @@
                 <button class="button" id="resume_preview">
                     Ваші резюме
                 </button>
+                <button class="button" id="responses_preview">
+                    Ваші відгуки
+                </button>
             </div>
 
             <div class="form-handler active" id="profile_previewing">
                 <div class="row">
                     <div class="col-12 col-md-4">
-                        <img src="
-
-
-
-
-
-
-
-                                {% if image_url is defined and image_url != None %}{{ image_url }}{% else %}{{ url('static', filename='images/utils/profile.png') }}{% endif %}"
+                        <img src="{% if image_url is defined and image_url != None %}
+{{ image_url }}{% else %}{{ url('static', filename='images/utils/profile.png') }}{% endif %}"
                              alt="profile_pic">
                         <h1>{{ first_name }} {{ last_name }}</h1>
                     </div>
@@ -137,7 +133,8 @@
                 {% else %}
                     {% for resume in resumes %}
                         <div class="resume-container" style="color: black">
-                            <span>Категорія: </span><a style="font-size: 16px" href="/category/{{ resume.category_id }}">{{ resume.category_name }}</a><br>
+                            <span>Категорія: </span><a style="font-size: 16px"
+                                                       href="/category/{{ resume.category_id }}">{{ resume.category_name }}</a><br>
                             <p class="title">Навички, що ви зазначили в резюме:</p>
                             <p>{{ resume.perks }}</p>
                             <p class="title">Хобі, що ви зазначили:</p>
@@ -152,11 +149,47 @@
                 <a href="/resume/create" id="resume_create" class="sign-up-button">СТВОРИТИ РЕЗЮМЕ</a>
             </div>
 
-        </div>
+            <div class="form-handler" id="responses_container">
+                <h1>ПЕРЕГЛЯД ВАШИХ ВІДГУКІВ</h1>
+                {% if statuses|length == 0 %}
+                    <p>Ви ще не відгукнулися на жодну вакансію :(</p>
+                {% else %}
+                    {% for status in statuses %}
+                        {% if status.status == True %}
+                            <div class="alert alert-success" role="alert">
+                            <h4>Вітаємо! Вам призначено інтерв'ю</h4>
+                            {{ status.entry_msg }}<br><br>
+                            Дата: {{ status.interview_date }}<br><br>
+                        {% elif status.status == False %}
+                            <div class="alert alert-danger" role="alert">
+                            <h4>На жаль, ваше резюме не прийнято(</h4>
+                            {{ status.entry_msg }} <br><br>
+                        {% else %}
+                            <div class="alert alert-warning" role="alert">
+                            <h4>Ваше резюме ще розглядається!</h4><br><br>
+                        {% endif %}
+                    <a style="margin-top: 20px" class="more-button" href="/resume/{{ status.resume_fk }}">
+                        <span style="margin-right: 10px">Передивитиcя резюме</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a><br><br>
+                    <a style="margin-top: 20px" class="more-button" href="/vacancy/{{ status.vacancy_fk }}">
+                        <span style="margin-right: 10px">Передивитиcя вакансію</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <form action="/response/delete" method="post">
+                        <input required readonly style="display: none" name="r_id" value="{{ status.id }}">
+                        <button type="submit" class="btn btn-danger" style="display: block; margin-top: 10px">Видалити
+                        </button>
+                    </form>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </div>
     </section>
 
 {% endblock %}
 
 {% block scripts %}
-    <script src="{{ url('static', filename='js/profile.js') }}"></script>
+    <script src="{{ url('static', filename='js/employer.js') }}"></script>
 {% endblock %}
