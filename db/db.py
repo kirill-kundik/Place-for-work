@@ -341,6 +341,13 @@ async def update_company(conn, company_dict, email):
     await conn.execute(stmt)
 
 
+async def update_response(conn, r_id, response):
+    await conn.execute(models.response.update()
+                       .where(models.response.c.id == r_id)
+                       .values(status=response['status'], entry_msg=response['entry_msg'],
+                               interview_date=response['interview_date']))
+
+
 async def check_employer_resume(conn, email, uid):
     stmt = """
     SELECT id FROM resume WHERE employer_fk = (SELECT id FROM employer WHERE employer.email = '%s') AND id = %s

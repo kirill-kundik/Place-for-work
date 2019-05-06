@@ -5,9 +5,25 @@ import aiohttp_jinja2
 
 
 class ResponseRouter:
-    # TODO
+
     async def response_status_update(self, request):
-        pass
+        await check_permission(request, 'company')
+        username = await authorized_userid(request)
+        form = await request.post()
+        v_id = form.get('v_id')
+        async with request.app['db'].acquire() as conn:
+            if not await db.check_company_vacancy(conn, username, v_id):
+                return web.HTTPUnauthorized
+            r_id = form.get('r_id')
+            status = (True if form.get('status') == '1' else False)
+            entry_msg = form.get('msg')
+            interview_date = (None if form.get('interview_date', '') == '' else form.get('interview_date'))
+            await db.update_response(conn, r_id, {
+                'status': status,
+                'entry_msg': entry_msg,
+                'interview_date': interview_date
+            })
+            return web.HTTPFound(f'/response/{v_id}')
 
     @aiohttp_jinja2.template('pages/responses/company_responses.html')
     async def vacancy_responses(self, request):
