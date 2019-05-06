@@ -20,7 +20,25 @@
             </div>
             {% if employer %}
                 {% if made_response == True %}
-                    <h4>Вітаємо! Ви відгукнулися на вакансію! Зачекайте поки представники дадуть відгук!</h4>
+                    {% if status is defined and status.status != None %}
+                        {% if status.status == True %}
+                            <div class="alert alert-success" role="alert">
+                                <h4>Вітаємо! Вам призначено інтерв'ю</h4>
+                                {{ status.entry_msg }}<br>
+                                Дата: {{ status.interview_date }}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger" role="alert">
+                                <h4>На жаль, ваше резюме не прийнято(</h4>
+                                {{ status.entry_msg }}
+                            </div>
+                        {% endif %}
+
+                    {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            <h4>Вітаємо! Ви відгукнулися на вакансію! Зачекайте поки представники дадуть відгук!</h4>
+                        </div>
+                    {% endif %}
                 {% else %}
                     {% if has_resume == True %}
                         <form action="/response/make" method="post" class="">
@@ -28,7 +46,9 @@
                             <button type="submit" class="sign-up-button">Відгукнутися</button>
                         </form>
                     {% else %}
-                        <h4>Щоб відгукнутися, створіть спочатку резюме для цієї категорії</h4>
+                        <div class="alert alert-warning" role="alert">
+                            <h4>Щоб відгукнутися, створіть спочатку резюме для цієї категорії</h4>
+                        </div>
                     {% endif %}
                 {% endif %}
             {% endif %}

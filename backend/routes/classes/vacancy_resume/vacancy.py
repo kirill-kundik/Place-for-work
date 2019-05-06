@@ -130,6 +130,10 @@ class VacancyRouter:
                 has_resume = True
                 if not made_response:
                     has_resume = await db.check_employer_category_resume(conn, username, vacancy['category_id'])
+                else:
+                    status = await db.get_response(conn, username, v_id)
+                    if status and 'interview_date' in status and status['interview_date']:
+                        status['interview_date'] = status['interview_date'].replace(microsecond=0).replace(second=0)
         if username:
             context = {
                 'title': '',
@@ -148,6 +152,8 @@ class VacancyRouter:
                 'vacancy': vacancy,
                 'vacancies': related_vac
             }
+        if status:
+            context.update({'status': status})
         return context
 
     def configure(self, app):

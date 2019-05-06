@@ -291,6 +291,18 @@ async def get_resume_experience(conn, r_id):
     return await res.fetchall()
 
 
+async def get_response(conn, email, vacancy_fk):
+    stmt = """
+    SELECT * FROM response resp
+    WHERE vacancy_fk = %s
+    AND resume_fk = (SELECT id FROM resume r WHERE r.category_fk = 
+    (SELECT category_fk FROM vacancy WHERE id = resp.vacancy_fk) 
+    AND r.employer_fk = (SELECT id FROM employer WHERE email = '%s'))
+    """ % (vacancy_fk, email)
+    res = await conn.execute(stmt)
+    return serialize_row(await res.fetchone())
+
+
 async def update_employer(conn, employer_dict, email):
     stmt = models.employer \
         .update() \
@@ -409,3 +421,7 @@ async def make_response(conn, email, vac_id):
                                                                WHERE email = '%s')), %s)
             """ % (vacancy['category_id'], email, vac_id)
             await conn.execute(stmt)
+
+
+def serialize_row(row):
+    return {column: value for column, value in row.items()}
