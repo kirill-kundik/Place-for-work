@@ -416,6 +416,28 @@ async def check_employer_category_resume(conn, email, c_id):
     return False
 
 
+async def check_employer_response_by_id(conn, email, res_id):
+    stmt = """
+    SELECT id FROM response
+    WHERE id = %s
+    AND resume_fk IN (SELECT id FROM resume WHERE employer_fk = (SELECT id FROM employer WHERE email = '%s')) 
+    """ % (res_id, email)
+    res = await conn.execute(stmt)
+    result = await res.fetchone()
+    if result:
+        return True
+    return False
+
+
+async def delete_response(conn, email, res_id):
+    made_response = await check_employer_response_by_id(conn, email, res_id)
+    if made_response:
+        stmt = """
+        DELETE FROM response WHERE id = %s
+        """ % res_id
+        await conn.execute(stmt)
+
+
 async def make_response(conn, email, vac_id):
     made_response = await check_employer_response(conn, email, vac_id)
     if not made_response:

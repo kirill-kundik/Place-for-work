@@ -12,9 +12,14 @@ class ResponseRouter:
     async def vacancy_responses(self, request):
         pass
 
-    # TODO
     async def delete_response(self, request):
-        pass
+        await check_permission(request, 'employer')
+        username = await authorized_userid(request)
+        form = await request.post()
+        response_id = form.get('r_id')
+        async with request.app['db'].acquire() as conn:
+            await db.delete_response(conn, username, response_id)
+        return web.HTTPFound('/employer')
 
     async def make_response(self, request):
         await check_permission(request, 'employer')

@@ -104,6 +104,7 @@ class VacancyRouter:
     async def one_page(self, request):
         v_id = request.match_info['id']
         username = await authorized_userid(request)
+        status = None
         async with request.app['db'].acquire() as conn:
             vacancy = await db.get_vacancy(conn, v_id)
             if not vacancy:
