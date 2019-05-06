@@ -124,16 +124,23 @@ class VacancyRouter:
                             'id': vac[0]
                         }
                     )
-
-        if username:
             is_employer = await permits(request, 'employer')
+            if is_employer:
+                made_response = await db.check_employer_response(conn, username, v_id)
+                has_resume = True
+                if not made_response:
+                    has_resume = await db.check_employer_category_resume(conn, username, vacancy['category_id'])
+        if username:
             context = {
                 'title': '',
                 'username': username,
                 'profile_link': ('employer' if is_employer else 'company'),
                 'employer': (True if is_employer else False),
                 'vacancy': vacancy,
-                'vacancies': related_vac
+                'vacancies': related_vac,
+                'made_response': (made_response if is_employer else False),
+                'has_resume': (has_resume if is_employer else False),
+                'vacancy_id': v_id
             }
         else:
             context = {

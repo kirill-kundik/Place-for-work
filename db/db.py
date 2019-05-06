@@ -326,13 +326,18 @@ async def check_employer_resume(conn, email, uid):
     return True
 
 
-async def check_employer_response(conn, email, r_id):
+async def check_employer_response(conn, email, vac_id):
     stmt = """
-    SELECT id 
-    FROM response 
-    WHERE id = %s AND resume_fk IN (
-    SELECT id FROM resume WHERE employer_fk = (SELECT id FROM employer WHERE email = '%s'))
-    """ % (r_id, email)
+    SELECT id
+    FROM response
+    WHERE vacancy_fk = %s AND resume_fk IN 
+        (SELECT id 
+        FROM resume 
+        WHERE employer_fk = 
+            (SELECT id 
+            FROM employer 
+            WHERE email = '%s'))
+    """ % (vac_id, email)
     res = await conn.execute(stmt)
     result = await res.fetchone()
     if result:
@@ -342,8 +347,11 @@ async def check_employer_response(conn, email, r_id):
 
 async def check_company_response(conn, email, r_id):
     stmt = """
-    SELECT id FROM response WHERE company_fk = (SELECT id FROM company WHERE email = '%s') AND id = %s
-    """ % (email, r_id)
+    SELECT * 
+    FROM response
+    WHERE id = %s
+    AND vacancy_fk IN (SELECT id FROM vacancy WHERE company_fk = (SELECT id FROM company WHERE email = '%s'))
+    """ % (r_id, email)
     res = await conn.execute(stmt)
     result = await res.fetchone()
     if result:
@@ -356,7 +364,14 @@ async def check_company_resume(conn, email, r_id):
     SELECT id 
     FROM resume 
     WHERE id IN (SELECT resume_fk 
-                 FROM response WHERE company_fk = (SELECT id FROM company WHERE email = '%s'))
+                 FROM response 
+                 WHERE vacancy_fk IN 
+                            (SELECT id 
+                            FROM vacancy 
+                            WHERE company_fk = 
+                                        (SELECT id 
+                                        FROM company 
+                                        WHERE email = '%s')))
     AND id = %s
     """ % (email, r_id)
     res = await conn.execute(stmt)
@@ -378,3 +393,19 @@ async def check_employer_category_resume(conn, email, c_id):
     if result:
         return True
     return False
+
+
+async def make_response(conn, email, vac_id):
+    made_response = await check_employer_response(conn, email, vac_id)
+    if not made_response:
+        vacancy = await get_vacancy(conn, vac_id)
+        if await check_employer_category_resume(conn, email, vacancy['category_id']):
+            stmt = """
+            INSERT INTO response(resume_fk, vacancy_fk) 
+            VALUES ((SELECT id 
+                     FROM resume 
+                     WHERE category_fk = %s AND employer_fk = (SELECT id 
+                                                               FROM employer 
+                                                               WHERE email = '%s')), %s)
+            """ % (vacancy['category_id'], email, vac_id)
+            await conn.execute(stmt)

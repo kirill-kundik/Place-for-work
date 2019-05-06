@@ -18,7 +18,21 @@
                 Категорія: <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a><br><br>
                 Компанія: <a href="/companies/{{ vacancy.company_id }}">{{ vacancy.company_name }}</a>
             </div>
-            <div class="main-header" style="margin-bottom: 20px">
+            {% if employer %}
+                {% if made_response == True %}
+                    <h4>Вітаємо! Ви відгукнулися на вакансію! Зачекайте поки представники дадуть відгук!</h4>
+                {% else %}
+                    {% if has_resume == True %}
+                        <form action="/response/make" method="post" class="">
+                            <input style="display: none" readonly required name="vac_id" value="{{ vacancy_id }}">
+                            <button type="submit" class="sign-up-button">Відгукнутися</button>
+                        </form>
+                    {% else %}
+                        <h4>Щоб відгукнутися, створіть спочатку резюме для цієї категорії</h4>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            <div class="main-header" style="margin-bottom: 20px; margin-top: 20px">
             <span class="portal-news float-left"
                   style="font-size: 16px; color: #6D7989;">ТАКОЖ ШУКАЮТЬ</span>
                 <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 100%; padding-top: 7px"></div>
@@ -38,6 +52,7 @@
                 {% endfor %}
 
             </div>
+
         </div>
     </section>
 {% endblock %}

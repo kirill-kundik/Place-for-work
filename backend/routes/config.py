@@ -9,6 +9,7 @@ from backend.routes.classes.index import IndexRouter
 from backend.routes.classes.login import LoginRouter
 from backend.routes.classes.news import NewsRouter
 from backend.routes.classes.search import SearchRoute
+from backend.routes.classes.vacancy_resume.response import ResponseRouter
 from backend.routes.classes.vacancy_resume.resume import ResumeRouter
 from backend.routes.classes.vacancy_resume.vacancy import VacancyRouter
 
@@ -19,7 +20,7 @@ def setup_routes(app):
     setup_static_routes(app)
 
     routes = [AdminRouter, CategoryRouter, CompanyRouter, EmployerRouter, IndexRouter, LoginRouter, NewsRouter,
-              VacancyRouter, SearchRoute, ResumeRouter]
+              VacancyRouter, SearchRoute, ResumeRouter, ResponseRouter]
 
     for route in routes:
         r = route()
