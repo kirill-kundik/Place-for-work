@@ -18,7 +18,41 @@
                 Категорія: <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a><br><br>
                 Компанія: <a href="/companies/{{ vacancy.company_id }}">{{ vacancy.company_name }}</a>
             </div>
-            <div class="main-header" style="margin-bottom: 20px">
+            {% if employer %}
+                {% if made_response == True %}
+                    {% if status is defined and status.status != None %}
+                        {% if status.status == True %}
+                            <div class="alert alert-success" role="alert">
+                                <h4>Вітаємо! Вам призначено інтерв'ю</h4>
+                                {{ status.entry_msg }}<br>
+                                Дата: {{ status.interview_date }}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger" role="alert">
+                                <h4>На жаль, ваше резюме не прийнято(</h4>
+                                {{ status.entry_msg }}
+                            </div>
+                        {% endif %}
+
+                    {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            <h4>Вітаємо! Ви відгукнулися на вакансію! Зачекайте поки представники дадуть відгук!</h4>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    {% if has_resume == True %}
+                        <form action="/response/make" method="post" class="">
+                            <input style="display: none" readonly required name="vac_id" value="{{ vacancy_id }}">
+                            <button type="submit" class="sign-up-button">Відгукнутися</button>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            <h4>Щоб відгукнутися, створіть спочатку резюме для цієї категорії</h4>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            <div class="main-header" style="margin-bottom: 20px; margin-top: 20px">
             <span class="portal-news float-left"
                   style="font-size: 16px; color: #6D7989;">ТАКОЖ ШУКАЮТЬ</span>
                 <div class="line" style="border-bottom: 1px solid #E9EAEC; width: 100%; padding-top: 7px"></div>
@@ -38,6 +72,7 @@
                 {% endfor %}
 
             </div>
+
         </div>
     </section>
 {% endblock %}

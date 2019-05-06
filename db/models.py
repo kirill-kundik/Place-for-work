@@ -148,9 +148,9 @@ response = Table(
 
     Column('id', Integer, primary_key=True),
     Column('resume_fk', ForeignKey('resume.id', ondelete='CASCADE'), nullable=False),
-    Column('company_fk', ForeignKey('company.id', ondelete='CASCADE'), nullable=False),
-
-    Column('entry_msg', Text, nullable=False),
+    Column('vacancy_fk', ForeignKey('vacancy.id', ondelete='CASCADE'), nullable=False),
+    Column('status', Boolean),
+    Column('entry_msg', Text),
     Column('interview_date', DateTime)
 )
 

@@ -43,6 +43,12 @@
     margin-bottom: 20px;
 }
 
+#responses_container h1 {
+    border-bottom: 1px lightgray solid;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
 #resume_container p {
     text-align: center;
     font-size: 28px;

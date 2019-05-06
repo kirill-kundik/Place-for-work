@@ -1,0 +1,71 @@
+{% extends 'common/layout.html' %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url('static', filename='styles/responses/app.css') }}">
+{% endblock %}
+
+{% block content %}
+
+    <section class="responses-vacancy">
+        <div class="container">
+            <div id="responses-handler">
+                <a href="/vacancy/{{ vacancy_id }}" id="vacancy_link">{{ vacancy_name }}</a>
+                <h1>ПЕРЕГЛЯД ВІДГУКІВ</h1>
+                {% if statuses|length == 0 %}
+                    <p>На жаль, ще немає відгуків для цієї вакансії :(</p>
+                {% else %}
+                    {% for status in statuses %}
+                        <div class="response-handler">
+                        <form action="/response/update" method="post"></form>
+                        {% if status.status == True %}
+                            <div class="alert alert-success" role="alert">
+                            <h4>Ви призначили інтерв'ю</h4>
+                            {{ status.entry_msg }}<br><br>
+                            Дата: {{ status.interview_date }}<br><br>
+                        {% elif status.status == False %}
+                            <div class="alert alert-danger" role="alert">
+                            <h4>Ви не прийняли це резюме</h4>
+                            {{ status.entry_msg }} <br><br>
+                        {% else %}
+                            <div class="alert alert-warning" role="alert">
+                            <h4>Ви ще не розглянули це резюме!</h4><br><br>
+                        {% endif %}
+                    <a style="margin-top: 20px" class="more-button" href="/resume/{{ status.resume_fk }}">
+                        <span style="margin-right: 10px">Передивитиcя резюме</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <form action="/response/update" method="post" style="margin-top: 25px">
+                        <input required readonly style="display: none" name="r_id" value="{{ status.id }}">
+                        <input required readonly style="display: none" name="v_id" value="{{ vacancy_id }}">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Виберіть статус відгука</label>
+                            <select class="form-control" name="status" required id="exampleFormControlSelect1">
+                                <option value="1">Прийнято</option>
+                                <option value="2">Не прийнято</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Введіть коментар</label>
+                            <textarea name="msg" class="form-control" id="exampleFormControlTextarea1" rows="3" required
+                                      style="resize: none"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dateInput">Оберіть дату інтерв'ю, якщо ви приймаєте це резюме</label>
+                            <input style="max-width: 25%" id="dateInput" class="form-control" type="datetime-local"
+                                   name="interview_date">
+                        </div>
+                        <button type="submit" class="sign-up-button">Зберегти</button>
+                    </form>
+                    </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
+                </div>
+    </section>
+
+{% endblock %}
+
+{% block scripts %}
+    {#    <script src="{{ url('static', filename='js/resume.js') }}"></script>#}
+{% endblock %}

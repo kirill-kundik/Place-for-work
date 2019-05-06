@@ -40,16 +40,8 @@
             <div class="form-handler active" id="profile_previewing">
                 <div class="row">
                     <div class="col-12 col-md-4">
-                        <img src="
-
-
-
-
-
-
-
-
-                                {% if image_url is defined and image_url != None %}{{ image_url }}{% else %}{{ url('static', filename='images/utils/profile.png') }}{% endif %}"
+                        <img src="{% if image_url is defined and image_url != None %}
+{{ image_url }}{% else %}{{ url('static', filename='images/utils/profile.png') }}{% endif %}"
                              alt="profile_pic">
                         <h1>{{ name }}</h1>
                     </div>
@@ -152,7 +144,8 @@
                             <p class="small-title">З/П: {{ vacancy.salary }}</p>
                             <p class="small-title">Тип занятості: {{ vacancy.working_type }}</p>
                             Категорія: <a href="/category/{{ vacancy.category_id }}">{{ vacancy.category_name }}</a>
-                            <a style="display: block; font-size: 16px; margin-top: 15px" href="/vacancy/{{ vacancy.id }}/responses">Переглянути відгуки</a>
+                            <a style="display: block; font-size: 16px; margin-top: 15px"
+                               href="/response/{{ vacancy.id }}">Переглянути відгуки</a>
                         </div>
                     {% endfor %}
                 {% endif %}
