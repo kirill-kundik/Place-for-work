@@ -303,6 +303,15 @@ async def get_response(conn, email, vacancy_fk):
     return serialize_row(await res.fetchone())
 
 
+async def get_employer_responses(conn, email):
+    stmt = """
+    SELECT * FROM response
+    WHERE resume_fk IN (SELECT id FROM resume WHERE employer_fk = (SELECT id FROM employer WHERE email = '%s'))
+    """ % email
+    res = await conn.execute(stmt)
+    return await res.fetchall()
+
+
 async def update_employer(conn, employer_dict, email):
     stmt = models.employer \
         .update() \
