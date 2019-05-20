@@ -262,6 +262,7 @@ main .main-header {
 
 main .main-header .portal-news {
     display: block;
+    width: 100%;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
 }
@@ -275,6 +276,9 @@ main .main-header .all-news {
     font-family: 'Montserrat Bold', sans-serif;
     font-size: 12px;
     line-height: 15px;
+    text-align: center;
+    margin-right: 10px;
+    width: 300px;
     -webkit-transition: background-color .5s ease-in-out, color .5s ease-in-out;
     -moz-transition: background-color .5s ease-in-out, color .5s ease-in-out;
     -o-transition: background-color .5s ease-in-out, color .5s ease-in-out;

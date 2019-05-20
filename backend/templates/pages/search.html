@@ -1,33 +1,39 @@
 {% extends 'common/layout.html' %}
 
+{% block styles %}
+
+    <link rel="stylesheet" href="{{ url('static', filename='styles/pagination.css') }}">
+
+{% endblock %}
+
 {% block content %}
 
-    <main>
-        <div class="search-tab">
-            <div class="logo">
-                <img src="{{ url('static', filename='images/Desktop%202.png') }}" class="desktop-image">
-                <img src="{{ url('static', filename='images/image%206.png') }}" class="stepler-image">
-                <img src="{{ url('static', filename='images/image%207.png') }}" class="nozhnitsy-image">
-                <img src="{{ url('static', filename='images/image%208.png') }}" class="glasses-image">
-                <img src="{{ url('static', filename='images/image%209.png') }}" class="phone-image">
-                <img src="{{ url('static', filename='images/Image%2010.png') }}" class="plant-image">
-                <img src="{{ url('static', filename='images/Image%2011.png') }}" class="stick-image">
-                <img src="{{ url('static', filename='images/Image%2013.png') }}" class="skrepki-image">
-                <img src="{{ url('static', filename='images/Path%20857.png') }}" class="black-circle-image">
-                <div class="text-holder">
-                    <span class="main-text">Найкраще місце твоєї роботи</span>
-                    <span class="text">Простий і ефективний спосіб пошуку вакансій</span>
-                    <div class="search-bar">
-                        <div class="inputs-wrapper">
-                            <input placeholder="Введіть ключові слова (наприклад: дизайнер)"
-                                   {% if keywords != None %}value="{{ keywords }}"{% endif %} class="search-input"
-                                   id="search_input"/>
-                        </div>
-                        <a id="search_button">ЗНАЙТИ РОБОТУ</a>
+    <div class="search-tab">
+        <div class="logo">
+            <img src="{{ url('static', filename='images/Desktop%202.png') }}" class="desktop-image">
+            <img src="{{ url('static', filename='images/image%206.png') }}" class="stepler-image">
+            <img src="{{ url('static', filename='images/image%207.png') }}" class="nozhnitsy-image">
+            <img src="{{ url('static', filename='images/image%208.png') }}" class="glasses-image">
+            <img src="{{ url('static', filename='images/image%209.png') }}" class="phone-image">
+            <img src="{{ url('static', filename='images/Image%2010.png') }}" class="plant-image">
+            <img src="{{ url('static', filename='images/Image%2011.png') }}" class="stick-image">
+            <img src="{{ url('static', filename='images/Image%2013.png') }}" class="skrepki-image">
+            <img src="{{ url('static', filename='images/Path%20857.png') }}" class="black-circle-image">
+            <div class="text-holder">
+                <span class="main-text">Найкраще місце твоєї роботи</span>
+                <span class="text">Простий і ефективний спосіб пошуку вакансій</span>
+                <div class="search-bar">
+                    <div class="inputs-wrapper">
+                        <input placeholder="Введіть ключові слова (наприклад: дизайнер)"
+                               {% if keywords != None %}value="{{ keywords }}"{% endif %} class="search-input"
+                               id="search_input"/>
                     </div>
+                    <a id="search_button">ЗНАЙТИ РОБОТУ</a>
                 </div>
             </div>
         </div>
+    </div>
+    <main>
         <div class="main-header" style="margin-bottom: 35px">
             <span class="portal-news float-left"
                   style="font-size: 16px; color: #6D7989;">ВАКАНСІЇ ЗА ПОШУКОМ</span>
@@ -44,7 +50,14 @@
             {% if keywords == None %}
                 <a href="/vacancy" id="resume_create" class="sign-up-button">ПЕРЕГЛЯНУТИ ВСІ ВАКАНСІЇ</a>
             {% endif %}
+            {% set per_page = 8 %}
             {% for vacancy in vacancies %}
+                {% if loop.index0 % per_page == 0 %}
+                    {% if loop.index0 != 0 %}</div></div>{% endif %}
+                    <div id="course-page{{ loop.index0 // per_page }}"
+                         class="course-page">
+                    <div id="resume_container" style="width: 100%">
+                {% endif %}
                 <div class="vacancy-block">
                     <a class="link" href="/vacancy/{{ vacancy.id }}">{{ vacancy.position }}</a>
                     <p class="title">Опис вакансії:</p>
@@ -57,7 +70,10 @@
                     Компанія: <a href="/companies/{{ vacancy.company_id }}">{{ vacancy.company_name }}</a>
                 </div>
             {% endfor %}
-
+            </div>
+        </div>
+        <div class="pagination-holder">
+            <ul id="pagination-courses" class="pagination-sm"></ul>
         </div>
     </main>
 
@@ -71,4 +87,6 @@
             }
         });
     </script>
+    <script src="{{ url('static', filename='js/jquery.twbsPagination.min.js') }}"></script>
+    <script src="{{ url('static', filename='js/pagination.js') }}"></script>
 {% endblock %}
