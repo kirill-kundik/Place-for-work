@@ -137,7 +137,7 @@ class VacancyRouter:
                         status['interview_date'] = status['interview_date'].replace(microsecond=0).replace(second=0)
         if username:
             context = {
-                'title': '',
+                'title': vacancy[0],
                 'username': username,
                 'profile_link': ('employer' if is_employer else 'company'),
                 'employer': (True if is_employer else False),
@@ -149,7 +149,7 @@ class VacancyRouter:
             }
         else:
             context = {
-                'title': '',
+                'title': vacancy[0],
                 'vacancy': vacancy,
                 'vacancies': related_vac
             }

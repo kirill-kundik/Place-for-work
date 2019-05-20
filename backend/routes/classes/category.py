@@ -77,7 +77,7 @@ class CategoryRouter:
                              'views': new[4],
                              'image_url': new[5]}
                         )
-                    return {'title': 'News',
+                    return {'title': res_cat['name'],
                             'username': username,
                             'profile_link': ('employer' if is_employer else 'company'),
                             'category': res_cat,
@@ -107,7 +107,7 @@ class CategoryRouter:
                          'views': new[4],
                          'image_url': new[5]}
                     )
-                return {'title': 'News',
+                return {'title': res_cat['name'],
                         'category': res_cat,
                         'related_news': related_news,
                         'vacancies': related_vac}
