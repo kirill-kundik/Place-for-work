@@ -2,32 +2,32 @@
 
 {% block content %}
 
-    <main>
-        <div class="search-tab">
-            <div class="logo">
-                <img src="{{ url('static', filename='images/Desktop%202.png') }}" class="desktop-image">
-                <img src="{{ url('static', filename='images/image%206.png') }}" class="stepler-image">
-                <img src="{{ url('static', filename='images/image%207.png') }}" class="nozhnitsy-image">
-                <img src="{{ url('static', filename='images/image%208.png') }}" class="glasses-image">
-                <img src="{{ url('static', filename='images/image%209.png') }}" class="phone-image">
-                <img src="{{ url('static', filename='images/Image%2010.png') }}" class="plant-image">
-                <img src="{{ url('static', filename='images/Image%2011.png') }}" class="stick-image">
-                <img src="{{ url('static', filename='images/Image%2013.png') }}" class="skrepki-image">
-                <img src="{{ url('static', filename='images/Path%20857.png') }}" class="black-circle-image">
-                <div class="text-holder">
-                    <span class="main-text">Найкраще місце твоєї роботи</span>
-                    <span class="text">Простий і ефективний спосіб пошуку вакансій</span>
-                    <div class="search-bar">
-                        <div class="inputs-wrapper">
-                            <input placeholder="Введіть ключові слова (наприклад: дизайнер)"
-                                   {% if keywords != None %}value="{{ keywords }}"{% endif %} class="search-input"
-                                   id="search_input"/>
-                        </div>
-                        <a id="search_button">ЗНАЙТИ РОБОТУ</a>
+    <div class="search-tab">
+        <div class="logo">
+            <img src="{{ url('static', filename='images/Desktop%202.png') }}" class="desktop-image">
+            <img src="{{ url('static', filename='images/image%206.png') }}" class="stepler-image">
+            <img src="{{ url('static', filename='images/image%207.png') }}" class="nozhnitsy-image">
+            <img src="{{ url('static', filename='images/image%208.png') }}" class="glasses-image">
+            <img src="{{ url('static', filename='images/image%209.png') }}" class="phone-image">
+            <img src="{{ url('static', filename='images/Image%2010.png') }}" class="plant-image">
+            <img src="{{ url('static', filename='images/Image%2011.png') }}" class="stick-image">
+            <img src="{{ url('static', filename='images/Image%2013.png') }}" class="skrepki-image">
+            <img src="{{ url('static', filename='images/Path%20857.png') }}" class="black-circle-image">
+            <div class="text-holder">
+                <span class="main-text">Найкраще місце твоєї роботи</span>
+                <span class="text">Простий і ефективний спосіб пошуку вакансій</span>
+                <div class="search-bar">
+                    <div class="inputs-wrapper">
+                        <input placeholder="Введіть ключові слова (наприклад: дизайнер)"
+                               {% if keywords != None %}value="{{ keywords }}"{% endif %} class="search-input"
+                               id="search_input"/>
                     </div>
+                    <a id="search_button">ЗНАЙТИ РОБОТУ</a>
                 </div>
             </div>
         </div>
+    </div>
+    <main>
         <div class="main-header" style="margin-bottom: 35px">
             <span class="portal-news float-left"
                   style="font-size: 16px; color: #6D7989;">ВАКАНСІЇ ЗА ПОШУКОМ</span>
