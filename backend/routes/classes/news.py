@@ -66,7 +66,7 @@ class NewsRouter:
                              'views': new[4],
                              'image_url': new[5]}
                         )
-                    return {'title': 'News',
+                    return {'title': res_news['title'],
                             'username': username,
                             'profile_link': ('employer' if is_employer else 'company'),
                             'news': res_news,
@@ -83,7 +83,7 @@ class NewsRouter:
                          'views': new[4],
                          'image_url': new[5]}
                     )
-                return {'title': 'News',
+                return {'title': res_news['title'],
                         'news': res_news,
                         'related_news': related_news}
         except DatabaseException:
