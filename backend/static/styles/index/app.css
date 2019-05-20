@@ -919,7 +919,7 @@ img {
 #resume_container .vacancy-block {
     padding: 10px 20px;
     margin-bottom: 30px;
-    max-height: 350px;
+    /*max-height: 350px;*/
     background-color: transparent;
     -webkit-transition: background-color 500ms linear;
     -ms-transition: background-color 500ms linear;
